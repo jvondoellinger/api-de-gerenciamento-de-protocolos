@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.api.controllers;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.Infrastructure.subs.resolvers.DomainPublisherResolver;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.subs.resolvers.DomainPublisherResolver;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.commands.CreateProtocolCommand;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.mappers.CreateProtocolEventMapper;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.query.ProtocolQueryFacade;

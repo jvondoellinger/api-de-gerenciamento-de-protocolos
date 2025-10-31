@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.Infrastructure.pub;
+package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.pub;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.AddInteractionProtocolEvent;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.pub.DomainEventPublisher;

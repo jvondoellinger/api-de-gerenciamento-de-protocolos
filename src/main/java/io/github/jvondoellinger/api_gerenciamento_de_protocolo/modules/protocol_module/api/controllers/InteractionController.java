@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.api.controllers;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.Infrastructure.subs.resolvers.DomainPublisherResolver;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.subs.resolvers.DomainPublisherResolver;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.commands.AddInteractionProtocolCommand;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.mappers.AddInteractionProtocolMapper;
 import org.springframework.http.ResponseEntity;

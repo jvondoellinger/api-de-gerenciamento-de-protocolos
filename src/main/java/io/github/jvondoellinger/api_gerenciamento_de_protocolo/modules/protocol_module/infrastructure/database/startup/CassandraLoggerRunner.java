@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.Infrastructure.database.startup;
+package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.startup;
 
 import com.datastax.oss.driver.api.core.CqlSession;
 import org.springframework.boot.CommandLineRunner;
