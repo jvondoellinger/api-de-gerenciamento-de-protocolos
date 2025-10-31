@@ -20,7 +20,8 @@ public class Protocolo {
     private String description;
     private String createdBy;
 
-    private InteractionsComposition interactions;
+    private InteractionHistory interactions;
+    private Queue queue;
 
     private ProtocoloState state;
 
@@ -37,7 +38,7 @@ public class Protocolo {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.protocolNumber = ProtocolNumber.generate();
-        this.interactions = new InteractionsComposition();
+        this.interactions = new InteractionHistory();
         this.attachments = new ArrayList<>();
         this.state = new PendenteProtocoloState(new PendenteProtocoloStatus());
         id = new ProtocolDomainId();
@@ -48,7 +49,7 @@ public class Protocolo {
                      String description,
                      String createdBy,
                      ProtocoloState state,
-                     InteractionsComposition interactions,
+                     InteractionHistory interactions,
                      List<byte[]> attachments,
                      LocalDateTime createdAt,
                      LocalDateTime updatedAt) {
@@ -68,7 +69,7 @@ public class Protocolo {
         return attachments;
     }
 
-    public InteractionsComposition getInteractions() {
+    public InteractionHistory getInteractions() {
         return interactions;
     }
 
@@ -110,8 +111,10 @@ public class Protocolo {
             throw new DomainException("Adding a null interaction is not allowed");
         }
         if (Objects.isNull(interactions)) {
-            interactions = new InteractionsComposition();
+            interactions = new InteractionHistory();
         }
         interactions.addInteraction(interaction);
     }
+
+    private void init() {}
 }

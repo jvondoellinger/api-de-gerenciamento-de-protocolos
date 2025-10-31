@@ -7,6 +7,11 @@ public class Queue {
     private String area;
     private String subarea;
 
+    // * Adicionando ...
+    private String directedBy;
+    private String directedById;
+    // * ----------------
+
     public Queue(ProtocolDomainId id, String area, String subarea) {
         this.id = id;
         this.area = area;
