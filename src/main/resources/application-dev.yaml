@@ -1,0 +1,14 @@
+spring:
+  cassandra:
+    contact-points: 127.0.0.1
+    port: 9042
+    local-datacenter: datacenter1
+    keyspace-name: spring_cassandra
+    schema-action: create_if_not_exists
+  application:
+    name: "API de Gerenciamento de Protocolos"
+logging:
+  level:
+    org.springframework.data.cassandra: DEBUG
+server:
+  port: 8080
