@@ -22,7 +22,8 @@ public class InteractionHistory {
     }
 
     public List<Interaction> getInteractions() {
-        interactions.sort(Comparator.comparing(Interaction::getInteractedOn)); // Sort the interaction collection
+        var comparator = Comparator.comparing(Interaction::getInteractedOn);
+        interactions.sort(comparator); // Sort the interaction collection
         return List.copyOf(interactions); // Returns a immutable collection
     }
 }

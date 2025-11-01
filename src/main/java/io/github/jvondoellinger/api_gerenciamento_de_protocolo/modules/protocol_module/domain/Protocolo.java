@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.exception.DomainException;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolDomainId;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.status.PendenteProtocoloStatus;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.status.state.PendenteProtocoloState;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.status.state.ProtocoloState;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Protocolo {
-    private ProtocolDomainId id;
+    private DomainId id;
 
     private ProtocolNumber protocolNumber;
 
@@ -31,8 +31,10 @@ public class Protocolo {
     private LocalDateTime updatedAt;
 
     // ? Quando se cria um protocolo, somente há os dados da descrição do chamado e os dados do agente 
-    public Protocolo(String description,
+    public Protocolo(Queue queue,
+                     String description,
                      String createdBy) {
+        this.queue = queue;
         this.description = description;
         this.createdBy = createdBy;
         this.createdAt = LocalDateTime.now();
@@ -41,11 +43,12 @@ public class Protocolo {
         this.interactions = new InteractionHistory();
         this.attachments = new ArrayList<>();
         this.state = new PendenteProtocoloState(new PendenteProtocoloStatus());
-        id = new ProtocolDomainId();
+        id = new DomainId();
     }
 
-    public Protocolo(ProtocolDomainId id,
+    public Protocolo(DomainId id,
                      ProtocolNumber protocolNumber,
+                     Queue queue,
                      String description,
                      String createdBy,
                      ProtocoloState state,
@@ -55,6 +58,7 @@ public class Protocolo {
                      LocalDateTime updatedAt) {
         this.id = id;
         this.protocolNumber = protocolNumber;
+        this.queue = queue;
         this.description = description;
         this.createdBy = createdBy;
         this.interactions = interactions;
@@ -93,12 +97,16 @@ public class Protocolo {
         return state;
     }
 
-    public ProtocolDomainId getId() {
+    public DomainId getId() {
         return id;
     }
 
     public ProtocolNumber getProtocolNumber() {
         return protocolNumber;
+    }
+
+    public Queue getQueue() {
+        return queue;
     }
 
     // ? Custom ===========================================
@@ -116,5 +124,7 @@ public class Protocolo {
         interactions.addInteraction(interaction);
     }
 
-    private void init() {}
+    public void delegate(Queue delegation) {
+        this.queue = delegation;
+    }
 }

@@ -1,27 +1,27 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.commands;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolDomainId;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolNumber;
 
 public class AddInteractionProtocolCommand {
-    private ProtocolDomainId agentId;
+    private DomainId agentId;
     private String agent;
 
     private ProtocolNumber protocolNumber;
     private String text;
 
-    public AddInteractionProtocolCommand(ProtocolDomainId agentId, String agent, ProtocolNumber protocolNumber, String text) {
+    public AddInteractionProtocolCommand(DomainId agentId, String agent, ProtocolNumber protocolNumber, String text) {
         this.agentId = agentId;
         this.agent = agent;
         this.protocolNumber = protocolNumber;
         this.text = text;
     }
 
-    public ProtocolDomainId getAgentId() {
+    public DomainId getAgentId() {
         return agentId;
     }
 
-    public void setAgentId(ProtocolDomainId agentId) {
+    public void setAgentId(DomainId agentId) {
         this.agentId = agentId;
     }
 

@@ -19,10 +19,11 @@ public class InteractionController {
         this.resolver = resolver;
     }
 
-    @PostMapping("/interaction")
+    @PostMapping
     public Mono<ResponseEntity<Void>> interact(@RequestBody AddInteractionProtocolCommand command) {
         var event = AddInteractionProtocolMapper.map(command);
-        return resolver.dynamicPublish(event)
+        return resolver
+                .dynamicPublish(event)
                 .map(x -> ResponseEntity.accepted().build());
     }
 }

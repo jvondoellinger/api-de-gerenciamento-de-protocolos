@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.serialize;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Interaction;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolDomainId;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolNumber;
 import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.cassandra.core.cql.Ordering;
@@ -40,8 +40,8 @@ public class InteractionSerializable implements ObjectSerialize<Interaction> {
 
     public Interaction parse() {
         return Interaction.initialize(
-            new ProtocolDomainId(id),
-            new ProtocolDomainId(agentId),
+            new DomainId(id),
+            new DomainId(agentId),
             agent,
             ProtocolNumber.parse(protocolNumber),
             text,

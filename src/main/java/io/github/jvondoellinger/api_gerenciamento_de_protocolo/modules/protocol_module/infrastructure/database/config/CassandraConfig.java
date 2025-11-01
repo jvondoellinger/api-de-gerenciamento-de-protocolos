@@ -10,7 +10,9 @@ public class CassandraConfig {
 
     @Bean
     public CqlSessionBuilderCustomizer sessionBuilderCustomizer() {
-        return builder -> builder.withLocalDatacenter("datacenter1");
+        return builder -> builder
+                .withLocalDatacenter("datacenter1")
+                .withKeyspace("spring_cassandra");
     }
 
     public String getLocalDatacenter() {

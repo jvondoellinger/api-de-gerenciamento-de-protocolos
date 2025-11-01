@@ -1,24 +1,41 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolDomainId;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 
 public class Queue {
-    private ProtocolDomainId id;
+    private DomainId id;
     private String area;
     private String subarea;
 
     // * Adicionando ...
-    private String directedBy;
-    private String directedById;
-    // * ----------------
+    private String createdBy;
+    private DomainId createdById;
 
-    public Queue(ProtocolDomainId id, String area, String subarea) {
+
+    public Queue(String area,
+                 String subarea,
+                 String createdBy,
+                 DomainId createdById) {
+        this.id = new DomainId();
+        this.area = area;
+        this.subarea = subarea;
+        this.createdBy = createdBy;
+        this.createdById = createdById;
+    }
+
+    public Queue(DomainId id,
+                 String area,
+                 String subarea,
+                 String createdBy,
+                 DomainId createdById) {
         this.id = id;
         this.area = area;
         this.subarea = subarea;
+        this.createdBy = createdBy;
+        this.createdById = createdById;
     }
 
-    public ProtocolDomainId getId() {
+    public DomainId getId() {
         return id;
     }
 
@@ -28,5 +45,13 @@ public class Queue {
 
     public String getSubarea() {
         return subarea;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public DomainId getCreatedById() {
+        return createdById;
     }
 }

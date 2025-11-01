@@ -1,6 +1,7 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.serialize;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolDomainId;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Queue;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocolo;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.status.ProtocoloStatusResolver;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.status.state.ProtocoloStateResolver;
@@ -33,6 +34,8 @@ public class ProtocoloSerializable implements ObjectSerialize<Protocolo> {
 
     @CassandraType(type = CassandraType.Name.LIST, typeArguments = CassandraType.Name.BLOB)
     private List<byte[]> attachments;
+    @CassandraType(type = CassandraType.Name.UDT, userTypeName = "queue")
+    private UUID queueId;
 
     public ProtocoloSerializable(Protocolo protocolo) {
         id = protocolo.getId().getValue();
@@ -52,6 +55,7 @@ public class ProtocoloSerializable implements ObjectSerialize<Protocolo> {
                                  String description,
                                  String createdBy,
                                  String state,
+                                 UUID queueId,
                                  List<byte[]> attachments) {
         this.id = id;
         this.protocolNumber = protocolNumber;
@@ -61,14 +65,16 @@ public class ProtocoloSerializable implements ObjectSerialize<Protocolo> {
         this.createdBy = createdBy;
         this.state = state;
         this.attachments = attachments;
+        this.queueId = queueId;
     }
 
     public Protocolo parse() {
         var status = ProtocoloStatusResolver.resolve(state); // Dynamic method to get status
         var state = ProtocoloStateResolver.resolve(status); // Dynamic method to get state
         return new Protocolo(
-                new ProtocolDomainId(id),
+                DomainId.from(id),
                 ProtocolNumber.parse(protocolNumber),
+                null, // Como retornar....?
                 description,
                 createdBy,
                 state,
@@ -88,6 +94,7 @@ public class ProtocoloSerializable implements ObjectSerialize<Protocolo> {
                 interaction.getDescription(),
                 interaction.getCreatedBy(),
                 interaction.getState().getStatus().getValue(),
+                new QueueSerialize(interaction.getQueue()),
                 interaction.getAttachments()
         );
     }
@@ -154,5 +161,13 @@ public class ProtocoloSerializable implements ObjectSerialize<Protocolo> {
 
     public void setProtocolNumber(String protocolNumber) {
         this.protocolNumber = protocolNumber;
+    }
+
+    public QueueSerialize getQueue() {
+        return queue;
+    }
+
+    public void setQueue(QueueSerialize queue) {
+        this.queue = queue;
     }
 }

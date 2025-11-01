@@ -8,7 +8,7 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.InteractionsReadRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.filters.PaginationFilter;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.filters.ProtocolNumberFilter;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolDomainId;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import org.springframework.data.cassandra.core.ReactiveCassandraTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -47,7 +47,7 @@ public class InteractionsReadRepositoryImpl implements InteractionsReadRepositor
     }
 
     @Override
-    public Mono<Interaction> query(ProtocolDomainId id) {
+    public Mono<Interaction> query(DomainId id) {
         return repository
                 .findById(id.getValue())
                 .map(ObjectSerialize::parse);

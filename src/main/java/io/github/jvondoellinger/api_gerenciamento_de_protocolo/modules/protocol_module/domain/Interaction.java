@@ -1,15 +1,14 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolDomainId;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolNumber;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 public class Interaction {
     // ? constructors -------------------------------------
-    public Interaction(ProtocolDomainId agentId, String agent, ProtocolNumber protocolNumber, String text) {
-        this.id = new ProtocolDomainId();
+    public Interaction(DomainId agentId, String agent, ProtocolNumber protocolNumber, String text) {
+        this.id = new DomainId();
         this.agentId = agentId;
         this.agent = agent;
         this.protocolNumber = protocolNumber;
@@ -17,7 +16,7 @@ public class Interaction {
         this.interactedOn = LocalDateTime.now();
     }
 
-    public Interaction(ProtocolDomainId id, ProtocolDomainId agentId, String agent, ProtocolNumber protocolNumber, String text, LocalDateTime interactedOn) {
+    public Interaction(DomainId id, DomainId agentId, String agent, ProtocolNumber protocolNumber, String text, LocalDateTime interactedOn) {
         this.id = id;
         this.agentId = agentId;
         this.agent = agent;
@@ -27,17 +26,17 @@ public class Interaction {
     }
 
     // ? static methods -------------------------------------
-    public static Interaction create(ProtocolDomainId agentId, String agent, ProtocolNumber protocolNumber, String text) {
+    public static Interaction create(DomainId agentId, String agent, ProtocolNumber protocolNumber, String text) {
         return new Interaction(agentId, agent, protocolNumber, text);
     }
-    public static Interaction initialize(ProtocolDomainId id, ProtocolDomainId agentId, String agent, ProtocolNumber protocolNumber, String text, LocalDateTime interactedOn) {
+    public static Interaction initialize(DomainId id, DomainId agentId, String agent, ProtocolNumber protocolNumber, String text, LocalDateTime interactedOn) {
         return new Interaction(id, agentId, agent, protocolNumber, text, interactedOn);
     }
 
     // ? properties -------------------------------------
-    private ProtocolDomainId id;
+    private DomainId id;
 
-    private ProtocolDomainId agentId;
+    private DomainId agentId;
     private String agent;
 
     private ProtocolNumber protocolNumber;
@@ -47,11 +46,11 @@ public class Interaction {
     private LocalDateTime interactedOn;
 
     // ? getters -------------------------------------
-    public ProtocolDomainId getId() {
+    public DomainId getId() {
         return id;
     }
 
-    public ProtocolDomainId getAgentId() {
+    public DomainId getAgentId() {
         return agentId;
     }
 
