@@ -26,4 +26,8 @@ public class InteractionHistory {
         interactions.sort(comparator); // Sort the interaction collection
         return List.copyOf(interactions); // Returns a immutable collection
     }
+
+    public static InteractionHistory from(List<Interaction> interactions) {
+        return new InteractionHistory(interactions);
+    }
 }

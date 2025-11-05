@@ -1,6 +1,8 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.exception.DomainException;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.exception.ParsingException;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.exception.ParsingFormatException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -44,8 +46,7 @@ public class ProtocolNumber {
         // Numero aleatorio para adicionar ao protocolo
         var randomNumber = ThreadLocalRandom.current().nextLong(1, 99999);
 
-        // Timestamp formatado em string + numero aleatorio
-        return "%s%s".formatted(formated, randomNumber); // Formata e junta ambas Strings
+        return "%s%s".formatted(formated, randomNumber);
     }
 
     private void validate(String value) {
@@ -54,13 +55,15 @@ public class ProtocolNumber {
 
             // Vai validar se a entrada tem o tamanho o timestamp. Caso não tenha, é invalido.
             if (!(value.length() > timestampLength))
-                throw new DomainException("Invalid format");
+                throw new ParsingException("Invalid format");
 
             var extract = value.substring(0, timestampLength);
             LocalDateTime.parse(extract, format);
 
         } catch (DateTimeParseException exception) {
-            throw new DomainException("Protocol number isn't valid.");
+            throw new ParsingFormatException("Protocol number isn't valid.");
+        } catch (NullPointerException exception) {
+            throw new ParsingFormatException("It's not possible convert null value into a protocol number!.");
         }
     }
 

@@ -4,9 +4,13 @@ public class PaginationFilter {
     private long offset;
     private int limit;
 
-    public PaginationFilter(long offset, int limit) {
+    private PaginationFilter(long offset, int limit) {
         this.offset = offset;
         this.limit = limit;
+    }
+
+    public static PaginationFilter of(long offset, int limit) {
+        return new PaginationFilter(offset, limit);
     }
 
     public long getOffset() {

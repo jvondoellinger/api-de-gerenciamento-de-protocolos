@@ -1,14 +1,18 @@
-package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.serialize;
+package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.entity;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Queue;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import org.springframework.data.annotation.PersistenceCreator;
-import org.springframework.data.cassandra.core.mapping.UserDefinedType;
+import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.util.UUID;
 
-@UserDefinedType("queue")
-public class QueueSerialize implements ObjectSerialize<Queue> {
+@Table("queue")
+public class QueueEntity implements ObjectEntity<Queue> {
+      @PrimaryKey
       private UUID id;
       private String area;
       private String subarea;
@@ -16,18 +20,18 @@ public class QueueSerialize implements ObjectSerialize<Queue> {
       private UUID createdById;
 
       @PersistenceCreator
-      public QueueSerialize(UUID id,
-                            String area,
-                            String subarea,
-                            String createdBy,
-                            UUID createdById) {
+      public QueueEntity(UUID id,
+                         String area,
+                         String subarea,
+                         String createdBy,
+                         UUID createdById) {
             this.id = id;
             this.area = area;
             this.subarea = subarea;
             this.createdBy = createdBy;
             this.createdById = createdById;
       }
-      public QueueSerialize(Queue queue) {
+      private QueueEntity(Queue queue) {
             this.id = queue.getId().getValue();
             this.area = queue.getArea();
             this.subarea = queue.getSubarea();
@@ -43,6 +47,11 @@ public class QueueSerialize implements ObjectSerialize<Queue> {
                     createdBy,
                     DomainId.from(createdById));
       }
+
+      public static QueueEntity create(Queue queue) {
+            return new QueueEntity(queue);
+      }
+
 
       public UUID getId() {
             return id;

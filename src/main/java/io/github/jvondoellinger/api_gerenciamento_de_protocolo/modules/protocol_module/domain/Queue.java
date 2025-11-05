@@ -3,13 +3,11 @@ package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 
 public class Queue {
-    private DomainId id;
-    private String area;
-    private String subarea;
-
-    // * Adicionando ...
-    private String createdBy;
-    private DomainId createdById;
+    private final DomainId id;
+    private final String area;
+    private final String subarea;
+    private final String createdBy;
+    private final DomainId createdById;
 
 
     public Queue(String area,
@@ -53,5 +51,13 @@ public class Queue {
 
     public DomainId getCreatedById() {
         return createdById;
+    }
+
+    public boolean isComplete() {
+        return
+            (area != null) &&
+            (subarea != null) &&
+            (createdBy != null) &&
+            (createdById != null);
     }
 }

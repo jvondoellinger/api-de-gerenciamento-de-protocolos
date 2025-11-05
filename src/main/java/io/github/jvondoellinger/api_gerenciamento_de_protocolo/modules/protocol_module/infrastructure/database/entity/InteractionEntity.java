@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.serialize;
+package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.entity;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Interaction;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Table("interaction")
-public class InteractionSerializable implements ObjectSerialize<Interaction> {
+public class InteractionEntity implements ObjectEntity<Interaction> {
 
     @PrimaryKeyColumn(name = "protocolNumber", type = PrimaryKeyType.PARTITIONED)
     private String protocolNumber;
@@ -29,7 +29,7 @@ public class InteractionSerializable implements ObjectSerialize<Interaction> {
 
 
     @PersistenceCreator
-    public InteractionSerializable(UUID id, UUID agentId, String agent, String protocolNumber, String text, LocalDateTime interactedOn) {
+    public InteractionEntity(UUID id, UUID agentId, String agent, String protocolNumber, String text, LocalDateTime interactedOn) {
         this.id = id;
         this.agentId = agentId;
         this.agent = agent;
@@ -48,8 +48,8 @@ public class InteractionSerializable implements ObjectSerialize<Interaction> {
             interactedOn
         );
     }
-    public static InteractionSerializable create(Interaction interaction) {
-        return new InteractionSerializable(
+    public static InteractionEntity create(Interaction interaction) {
+        return new InteractionEntity(
                 interaction.getId().getValue(),
                 interaction.getAgentId().getValue(),
                 interaction.getAgent(),

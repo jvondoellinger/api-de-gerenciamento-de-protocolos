@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.serialize.InteractionSerializable;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.serialize.ObjectSerialize;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.entity.InteractionEntity;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.entity.ObjectEntity;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.springboot.InteractionCassandraRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.utils.CassandraQueryUtils;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Interaction;
@@ -28,15 +28,15 @@ public class InteractionsReadRepositoryImpl implements InteractionsReadRepositor
     public Flux<Interaction> query(PaginationFilter filter) {
         var request = CassandraQueryUtils.convert(filter);
         return template
-                .select(request, InteractionSerializable.class)
-                .map(ObjectSerialize::parse);
+                .select(request, InteractionEntity.class)
+                .map(ObjectEntity::parse);
     }
 
     @Override
     public Flux<Interaction> query(ProtocolNumberFilter filter) {
         return repository
                 .findByProtocolNumber(filter.getProtocolNumber().getValue())
-                .map(ObjectSerialize::parse);
+                .map(ObjectEntity::parse);
     }
 
     @Override
@@ -50,6 +50,6 @@ public class InteractionsReadRepositoryImpl implements InteractionsReadRepositor
     public Mono<Interaction> query(DomainId id) {
         return repository
                 .findById(id.getValue())
-                .map(ObjectSerialize::parse);
+                .map(ObjectEntity::parse);
     }
 }

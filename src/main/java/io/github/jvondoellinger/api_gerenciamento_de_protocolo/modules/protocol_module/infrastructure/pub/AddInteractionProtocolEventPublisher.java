@@ -7,14 +7,16 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class AddInteractionProtocolEventPublisher implements DomainEventPublisher<AddInteractionProtocolEvent> {
     private final List<DomainEventHandler<AddInteractionProtocolEvent>> handlers;
 
-    public AddInteractionProtocolEventPublisher(List<DomainEventHandler<AddInteractionProtocolEvent>> handlers) {
-        this.handlers = handlers;
+    public AddInteractionProtocolEventPublisher(DomainEventHandler<AddInteractionProtocolEvent> handler) {
+        this.handlers = new ArrayList<>(); // Inicialiando assim devido a só haver um handler (enquanto não são adicionados outros)
+        handlers.add(handler);
     }
 
     @Override

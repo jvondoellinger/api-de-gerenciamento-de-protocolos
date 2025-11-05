@@ -32,7 +32,7 @@ public class ProtocolController {
 
     @GetMapping
     public ResponseEntity<Flux<Protocolo>> get() {
-        var data = facade.query(new PaginationFilter(0, 10));
+        var data = facade.query(PaginationFilter.of(0, 10));
         return ResponseEntity.ok(data);
     }
 }

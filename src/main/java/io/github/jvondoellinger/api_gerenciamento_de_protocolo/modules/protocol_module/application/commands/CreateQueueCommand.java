@@ -2,8 +2,9 @@ package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol
 
 import java.util.UUID;
 
-public record CreateProtocolCommand(
-        String description,
+public record CreateQueueCommand(
+        String area,
+        String subarea,
         String createdBy,
-        UUID queueId) {
+        UUID createdById) {
 }

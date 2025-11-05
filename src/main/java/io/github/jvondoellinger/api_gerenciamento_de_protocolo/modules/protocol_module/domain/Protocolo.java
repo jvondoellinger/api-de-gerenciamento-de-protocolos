@@ -13,36 +13,45 @@ import java.util.List;
 import java.util.Objects;
 
 public class Protocolo {
-    private DomainId id;
+    private final DomainId id;
 
-    private ProtocolNumber protocolNumber;
+    private final ProtocolNumber protocolNumber;
 
-    private String description;
-    private String createdBy;
+    private final String description;
+    private final String createdBy;
 
-    private InteractionHistory interactions;
-    private Queue queue;
+    private final InteractionHistory interactionHistory;
 
-    private ProtocoloState state;
+    private Queue queue; // A fila pode mudar, então não deve ser final.
 
-    private List<byte[]> attachments;
+    private ProtocoloState state; // O estado pode alterar conforme o atendimento.
 
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private final List<byte[]> attachments;
+
+    private final LocalDateTime createdAt;
+    private final LocalDateTime updatedAt;
 
     // ? Quando se cria um protocolo, somente há os dados da descrição do chamado e os dados do agente 
     public Protocolo(Queue queue,
                      String description,
                      String createdBy) {
+
         this.queue = queue;
         this.description = description;
+
+        // Creator
         this.createdBy = createdBy;
+
+        // Public unique key
+        this.protocolNumber = ProtocolNumber.generate();
+
+        this.state = new PendenteProtocoloState(new PendenteProtocoloStatus());
+        this.attachments = new ArrayList<>();
+        this.interactionHistory = new InteractionHistory();
+        // Timings...
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
-        this.protocolNumber = ProtocolNumber.generate();
-        this.interactions = new InteractionHistory();
-        this.attachments = new ArrayList<>();
-        this.state = new PendenteProtocoloState(new PendenteProtocoloStatus());
+        // Private unique key
         id = new DomainId();
     }
 
@@ -52,7 +61,7 @@ public class Protocolo {
                      String description,
                      String createdBy,
                      ProtocoloState state,
-                     InteractionHistory interactions,
+                     InteractionHistory interactionHistory,
                      List<byte[]> attachments,
                      LocalDateTime createdAt,
                      LocalDateTime updatedAt) {
@@ -61,7 +70,7 @@ public class Protocolo {
         this.queue = queue;
         this.description = description;
         this.createdBy = createdBy;
-        this.interactions = interactions;
+        this.interactionHistory = interactionHistory;
         this.state = state;
         this.attachments = attachments;
         this.createdAt = createdAt;
@@ -73,8 +82,8 @@ public class Protocolo {
         return attachments;
     }
 
-    public InteractionHistory getInteractions() {
-        return interactions;
+    public InteractionHistory getInteractionHistory() {
+        return interactionHistory;
     }
 
     public String getCreatedBy() {
@@ -118,13 +127,11 @@ public class Protocolo {
         if (Objects.isNull(interaction)){
             throw new DomainException("Adding a null interaction is not allowed");
         }
-        if (Objects.isNull(interactions)) {
-            interactions = new InteractionHistory();
-        }
-        interactions.addInteraction(interaction);
+        interactionHistory.addInteraction(interaction);
     }
 
     public void delegate(Queue delegation) {
         this.queue = delegation;
     }
+
 }

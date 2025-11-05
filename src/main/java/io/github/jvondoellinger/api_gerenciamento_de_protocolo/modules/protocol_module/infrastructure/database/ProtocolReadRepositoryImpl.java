@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.serialize.ObjectSerialize;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.serialize.ProtocoloSerializable;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.entity.ObjectEntity;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.entity.ProtocoloEntity;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.springboot.ProtocolCassandraRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.utils.CassandraQueryUtils;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.filters.ProtocolNumberFilter;
@@ -31,22 +31,22 @@ public class ProtocolReadRepositoryImpl implements ProtocolReadRepository {
     public Flux<Protocolo> query(PaginationFilter filter) {
         var request = CassandraQueryUtils.convert(filter);
         return template
-                .select(request, ProtocoloSerializable.class)
-                .map(ObjectSerialize::parse);
+                .select(request, ProtocoloEntity.class)
+                .map(ObjectEntity::parse);
     }
 
     @Override
     public Mono<Protocolo> query(DomainId id) {
         return repository
                 .findById(id.getValue())
-                .map(ObjectSerialize::parse);
+                .map(ObjectEntity::parse);
     }
 
     @Override
     public Mono<Protocolo> query(ProtocolNumberFilter filter) {
         return repository
                 .findByProtocolNumber(filter.getProtocolNumber().getValue())
-                .map(ObjectSerialize::parse);
+                .map(ObjectEntity::parse);
     }
 
     @Override

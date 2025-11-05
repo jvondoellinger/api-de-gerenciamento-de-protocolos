@@ -2,7 +2,7 @@ package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.subs.resolvers.DomainPublisherResolver;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.commands.AddInteractionProtocolCommand;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.mappers.AddInteractionProtocolMapper;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.mappers.AddInteractionProtocolEventMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +21,7 @@ public class InteractionController {
 
     @PostMapping
     public Mono<ResponseEntity<Void>> interact(@RequestBody AddInteractionProtocolCommand command) {
-        var event = AddInteractionProtocolMapper.map(command);
+        var event = AddInteractionProtocolEventMapper.map(command);
         return resolver
                 .dynamicPublish(event)
                 .map(x -> ResponseEntity.accepted().build());

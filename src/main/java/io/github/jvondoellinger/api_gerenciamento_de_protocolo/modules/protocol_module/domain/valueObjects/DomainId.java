@@ -1,5 +1,8 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects;
 
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.exception.ParsingException;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.exception.ParsingFormatException;
+
 import java.util.UUID;
 
 public class DomainId {
@@ -19,5 +22,14 @@ public class DomainId {
 
     public static DomainId from(UUID uuid) {
         return new DomainId(uuid);
+    }
+    public static DomainId from(String value) {
+        try {
+            System.out.println("Fodasse"+value);
+            var uuid = UUID.fromString(value);
+            return new DomainId(uuid);
+        } catch (RuntimeException e) {
+            throw new ParsingException("Isn't possible convert the value on DomainId value, because it's not valid value for conversion!");
+        }
     }
 }

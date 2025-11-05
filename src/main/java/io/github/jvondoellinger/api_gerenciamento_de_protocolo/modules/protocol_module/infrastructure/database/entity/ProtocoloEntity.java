@@ -1,4 +1,4 @@
-package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.serialize;
+package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.entity;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Queue;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
@@ -19,7 +19,7 @@ import java.util.UUID;
 
 
 @Table("protocolo")
-public class ProtocoloSerializable implements ObjectSerialize<Protocolo> {
+public class ProtocoloEntity implements ObjectEntity<Protocolo> {
     @PrimaryKeyColumn(name = "id", type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING)
     private UUID id;
     @PrimaryKeyColumn(name = "protocolNumber", type = PrimaryKeyType.PARTITIONED)
@@ -32,12 +32,12 @@ public class ProtocoloSerializable implements ObjectSerialize<Protocolo> {
     private String createdBy;
     private String state;
 
-    @CassandraType(type = CassandraType.Name.LIST, typeArguments = CassandraType.Name.BLOB)
-    private List<byte[]> attachments;
-    @CassandraType(type = CassandraType.Name.UDT, userTypeName = "queue")
     private UUID queueId;
 
-    public ProtocoloSerializable(Protocolo protocolo) {
+    @CassandraType(type = CassandraType.Name.LIST, typeArguments = CassandraType.Name.BLOB)
+    private List<byte[]> attachments;
+
+    public ProtocoloEntity(Protocolo protocolo) {
         id = protocolo.getId().getValue();
         createdAt = protocolo.getCreatedAt();
         updatedAt = protocolo.getUpdatedAt();
@@ -48,15 +48,15 @@ public class ProtocoloSerializable implements ObjectSerialize<Protocolo> {
     }
 
     @PersistenceCreator
-    public ProtocoloSerializable(UUID id,
-                                 String protocolNumber,
-                                 LocalDateTime createdAt,
-                                 LocalDateTime updatedAt,
-                                 String description,
-                                 String createdBy,
-                                 String state,
-                                 UUID queueId,
-                                 List<byte[]> attachments) {
+    public ProtocoloEntity(UUID id,
+                           String protocolNumber,
+                           LocalDateTime createdAt,
+                           LocalDateTime updatedAt,
+                           String description,
+                           String createdBy,
+                           String state,
+                           UUID queueId,
+                           List<byte[]> attachments) {
         this.id = id;
         this.protocolNumber = protocolNumber;
         this.createdAt = createdAt;
@@ -71,10 +71,11 @@ public class ProtocoloSerializable implements ObjectSerialize<Protocolo> {
     public Protocolo parse() {
         var status = ProtocoloStatusResolver.resolve(state); // Dynamic method to get status
         var state = ProtocoloStateResolver.resolve(status); // Dynamic method to get state
+        var queue = new Queue(DomainId.from(queueId), null, null, null, null); // ! Como retornar....?
         return new Protocolo(
                 DomainId.from(id),
                 ProtocolNumber.parse(protocolNumber),
-                null, // Como retornar....?
+                queue,
                 description,
                 createdBy,
                 state,
@@ -85,8 +86,8 @@ public class ProtocoloSerializable implements ObjectSerialize<Protocolo> {
         );
     }
 
-    public static ProtocoloSerializable create(Protocolo interaction) {
-        return new ProtocoloSerializable(
+    public static ProtocoloEntity create(Protocolo interaction) {
+        return new ProtocoloEntity(
             interaction.getId().getValue(),
                 interaction.getProtocolNumber().getValue(),
                 interaction.getCreatedAt(),
@@ -94,7 +95,7 @@ public class ProtocoloSerializable implements ObjectSerialize<Protocolo> {
                 interaction.getDescription(),
                 interaction.getCreatedBy(),
                 interaction.getState().getStatus().getValue(),
-                new QueueSerialize(interaction.getQueue()),
+                interaction.getQueue().getId().getValue(),
                 interaction.getAttachments()
         );
     }
@@ -163,11 +164,11 @@ public class ProtocoloSerializable implements ObjectSerialize<Protocolo> {
         this.protocolNumber = protocolNumber;
     }
 
-    public QueueSerialize getQueue() {
-        return queue;
+    public UUID getQueueId() {
+        return queueId;
     }
 
-    public void setQueue(QueueSerialize queue) {
-        this.queue = queue;
+    public void setQueueId(UUID queueId) {
+        this.queueId = queueId;
     }
 }
