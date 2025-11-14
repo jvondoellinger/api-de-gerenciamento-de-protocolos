@@ -4,11 +4,11 @@ import org.springframework.boot.autoconfigure.cassandra.CqlSessionBuilderCustomi
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
+//@Configuration
 public class CassandraConfig {
     private String localDatacenter;
 
-    @Bean
+    //@Bean
     public CqlSessionBuilderCustomizer sessionBuilderCustomizer() {
         return builder -> builder
                 .withLocalDatacenter("datacenter1")

@@ -5,9 +5,9 @@ import reactor.core.publisher.Mono;
 
 public interface ConditionRule<T> {
       T getValue();
+
       /**
        * @param message Mensagem de erro, caso a condição não seja atendida
        */
       ConditionRule<T> withMessage(String message);
-
 }

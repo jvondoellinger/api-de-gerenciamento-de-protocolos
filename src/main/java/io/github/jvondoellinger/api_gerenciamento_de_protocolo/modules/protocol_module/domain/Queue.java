@@ -9,7 +9,6 @@ public class Queue {
     private final String createdBy;
     private final DomainId createdById;
 
-
     public Queue(String area,
                  String subarea,
                  String createdBy,
@@ -53,11 +52,14 @@ public class Queue {
         return createdById;
     }
 
-    public boolean isComplete() {
-        return
-            (area != null) &&
-            (subarea != null) &&
-            (createdBy != null) &&
-            (createdById != null);
+    @Override
+    public String toString() {
+        return "Queue{" +
+                "createdBy='" + createdBy + '\'' +
+                ", id=" + id +
+                ", area='" + area + '\'' +
+                ", subarea='" + subarea + '\'' +
+                ", createdById=" + createdById +
+                '}';
     }
 }

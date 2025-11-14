@@ -1,31 +1,32 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.validations;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocolo;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.exception.ValidationException;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.annotiation.ImplementsAfter;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.validations.interfaces.ConditionRule;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.validations.interfaces.ConditionValidator;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.validations.interfaces.Conditions;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.validations.interfaces.RuleConditionBuilder;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.entity.ProtocoloEntity;
-import reactor.core.publisher.Mono;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.validations.interfaces.PropertyRuleBuilder;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.validations.interfaces.RuleBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
-public class ReactiveValidator<T> implements ConditionValidator<T> {
+@ImplementsAfter
+public class ReactiveValidator<T> {
+
       private final List<ConditionRule<T>> rules = new ArrayList<>();
-      private final List<RuleConditionBuilder<T, ?>> conditions = new ArrayList<>();
 
-      public <R> Conditions<T> ruleFor(RuleConditionBuilder<T, R> condition) {
-            conditions.add(condition);
-            var rule = new ConditionRuleImpl<T>();
-            return new ConditionsImpl<T>();
+      public <R> RuleBuilder<T> ruleFor(PropertyRuleBuilder<T, R> condition) {
+
+            // Depois, criar um rule builder para juntar os fragmentos
+            return null;
       }
 
+      void teste() {
+            var a = new ReactiveValidator<Protocolo>();
 
-      @Override
-      public Mono<Void> evaluate(T value) throws ValidationException {
-            return null;
+            a.ruleFor(Protocolo::getId)
+                    .addValidator(null)
+                    .withMessage("")
+                    .build()
+                    .evaluate(null);
       }
 }
