@@ -86,17 +86,17 @@ public class ProtocoloEntity implements ObjectEntity<Protocolo> {
         );
     }
 
-    public static ProtocoloEntity create(Protocolo interaction) {
+    public static ProtocoloEntity create(Protocolo protocolo) {
         return new ProtocoloEntity(
-            interaction.getId().getValue(),
-                interaction.getProtocolNumber().getValue(),
-                interaction.getCreatedAt(),
-                interaction.getUpdatedAt(),
-                interaction.getDescription(),
-                interaction.getCreatedBy(),
-                interaction.getState().getStatus().getValue(),
-                interaction.getQueue().getId().getValue(),
-                interaction.getAttachments()
+            protocolo.getId().getValue(),
+                protocolo.getProtocolNumber().getValue(),
+                protocolo.getCreatedAt(),
+                protocolo.getUpdatedAt(),
+                protocolo.getDescription(),
+                protocolo.getCreatedBy(),
+                protocolo.getState().getStatus().getValue(),
+                protocolo.getQueue().getId().getValue(),
+                protocolo.getAttachments()
         );
     }
 

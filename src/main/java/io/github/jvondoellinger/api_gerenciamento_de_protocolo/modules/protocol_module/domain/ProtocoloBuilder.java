@@ -1,23 +1,26 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain;
 
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.exception.BuildingException;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.status.state.ProtocoloState;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolNumber;
+import io.micrometer.common.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public final class ProtocoloBuilder {
-      private DomainId id;
-      private ProtocolNumber protocolNumber;
+      private DomainId id = new DomainId();
+      private ProtocolNumber protocolNumber = ProtocolNumber.generate();
       private String description;
       private String createdBy;
       private InteractionHistory interactions;
       private Queue queue;
       private ProtocoloState state;
       private List<byte[]> attachments;
-      private LocalDateTime createdAt;
-      private LocalDateTime updatedAt;
+      private LocalDateTime createdAt = LocalDateTime.now();
+      private LocalDateTime updatedAt = LocalDateTime.now();
 
       private ProtocoloBuilder() {
       }
@@ -77,6 +80,12 @@ public final class ProtocoloBuilder {
       }
 
       public Protocolo build() {
+            if (description == null) {
+                  throw new BuildingException("'Description' cannot be null.");
+            }
+            if (createdBy == null) {
+                  throw new BuildingException("'CreatedBy' cannot be null.");
+            }
             return new Protocolo(id,
                     protocolNumber,
                     queue,

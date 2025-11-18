@@ -1,8 +1,7 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.policy;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.permission.CreateProtocolPermission;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.permission.Permission;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.permission.Permissions;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.CreateProtocolPermission;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.Permission;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import reactor.core.publisher.Mono;
 

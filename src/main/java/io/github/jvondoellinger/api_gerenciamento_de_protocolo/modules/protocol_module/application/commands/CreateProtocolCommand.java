@@ -5,5 +5,6 @@ import java.util.UUID;
 public record CreateProtocolCommand(
         String description,
         String createdBy,
+        String userId,
         UUID queueId) {
 }
