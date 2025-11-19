@@ -5,7 +5,7 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Queue;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.QueuesReadRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.filters.PaginationFilter;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.subs.resolvers.DomainPublisherResolver;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.subs.resolvers.DomainDynamicPublisher;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -14,9 +14,9 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/queues")
 public class QueuesController {
       private final QueuesReadRepository readRepository;
-      private final DomainPublisherResolver resolver;
+      private final DomainDynamicPublisher resolver;
 
-      public QueuesController(QueuesReadRepository readRepository, DomainPublisherResolver resolver) {
+      public QueuesController(QueuesReadRepository readRepository, DomainDynamicPublisher resolver) {
             this.readRepository = readRepository;
             this.resolver = resolver;
       }     
@@ -30,7 +30,7 @@ public class QueuesController {
       public Mono<Void> create(@RequestBody CreateQueueCommand command) {
             var event = CreateQueueEventMapper.map(command);
             return resolver
-                    .dynamicPublish(event)
+                    .publish(event)
                     .doOnError(x -> System.out.println(x.getMessage()));
       }
 }

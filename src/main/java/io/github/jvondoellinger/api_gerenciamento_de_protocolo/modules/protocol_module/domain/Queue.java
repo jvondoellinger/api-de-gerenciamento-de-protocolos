@@ -9,6 +9,14 @@ public class Queue {
     private final String createdBy;
     private final DomainId createdById;
 
+    public Queue(DomainId id) {
+        this.id = id;
+        this.area = null;
+        this.subarea = null;
+        this.createdBy = null;
+        this.createdById = null;
+    }
+
     public Queue(String area,
                  String subarea,
                  String createdBy,
@@ -50,6 +58,10 @@ public class Queue {
 
     public DomainId getCreatedById() {
         return createdById;
+    }
+
+    public static Queue createWithIdOnly(DomainId id) {
+        return new Queue(id);
     }
 
     @Override

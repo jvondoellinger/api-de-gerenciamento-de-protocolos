@@ -53,7 +53,7 @@ public class UserProtocolPermissionRelationshipEntity implements ObjectEntity<Us
                     .toList();
             var entity = new UserProtocolPermissionRelationshipEntity(
                     relationship.getId().getValue(),
-                    relationship.getUserId(),
+                    relationship.getUserId().getValue().toString(),
                     permissions,
                     relationship.getAddedAt(),
                     relationship.getModifiedAt(),
@@ -70,7 +70,7 @@ public class UserProtocolPermissionRelationshipEntity implements ObjectEntity<Us
                      .toList();
             return new UserProtocolPermissionRelationship(
                     DomainId.from(id),
-                    userId,
+                    DomainId.from(userId),
                     permissionObjs,
                     addedAt,
                     modifiedAt

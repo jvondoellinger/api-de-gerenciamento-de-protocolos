@@ -16,6 +16,7 @@ public class DomainId {
         this.value = value;
     }
 
+
     public UUID getValue() {
         return value;
     }
@@ -25,11 +26,10 @@ public class DomainId {
     }
     public static DomainId from(String value) {
         try {
-            System.out.println("Fodasse"+value);
             var uuid = UUID.fromString(value);
             return new DomainId(uuid);
         } catch (RuntimeException e) {
-            throw new ParsingException("Isn't possible convert the value on DomainId value, because it's not valid value for conversion!");
+            throw new ParsingException("Isn't possible convert the value on DomainId value, because it's not valid value to conversion!");
         }
     }
 }

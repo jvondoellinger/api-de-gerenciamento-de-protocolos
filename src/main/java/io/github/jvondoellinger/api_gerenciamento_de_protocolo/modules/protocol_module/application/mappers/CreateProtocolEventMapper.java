@@ -13,8 +13,9 @@ public class CreateProtocolEventMapper {
     public static CreateProtocolEvent map(CreateProtocolCommand command) {
         var queueId = DomainId.from(command.queueId());
         var userId = DomainId.from(command.userId());
+        var queue = Queue.createWithIdOnly(queueId);
         var protocolo = new Protocolo(
-                null,
+                queue,
                 command.description(),
                 command.createdBy()
         );

@@ -7,7 +7,6 @@ public class CreateProtocolEvent extends UserActivityEvent {
     private final Protocolo protocolo;
     private final DomainId queueId;
 
-
     public CreateProtocolEvent(Protocolo protocolo, DomainId queueId, DomainId userId) {
         super(userId);
         this.protocolo = protocolo;

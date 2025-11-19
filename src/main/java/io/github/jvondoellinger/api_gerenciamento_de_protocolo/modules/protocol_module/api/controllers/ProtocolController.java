@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.api.controllers;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.subs.resolvers.DomainPublisherResolver;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.subs.resolvers.DomainDynamicPublisher;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.commands.CreateProtocolCommand;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.mappers.CreateProtocolEventMapper;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.query.ProtocolQueryFacade;
@@ -14,10 +14,9 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/api/protocolo")
 public class ProtocolController {
-    //private final DomainEventPublisher<CreateProtocolEvent> publisher;
     private final ProtocolQueryFacade facade;
-    private final DomainPublisherResolver resolver;
-    public ProtocolController(ProtocolQueryFacade facade, DomainPublisherResolver resolver) {
+    private final DomainDynamicPublisher resolver;
+    public ProtocolController(ProtocolQueryFacade facade, DomainDynamicPublisher resolver) {
         this.resolver = resolver;
         this.facade = facade;
     }
@@ -26,7 +25,7 @@ public class ProtocolController {
     public Mono<ResponseEntity<Void>> create(@RequestBody CreateProtocolCommand command) {
         var event = CreateProtocolEventMapper.map(command);
         return resolver
-                .dynamicPublish(event)
+                .publish(event)
                 .map(x -> ResponseEntity.accepted().build());
     }
 

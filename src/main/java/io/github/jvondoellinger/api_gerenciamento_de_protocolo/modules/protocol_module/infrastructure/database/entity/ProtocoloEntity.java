@@ -71,7 +71,8 @@ public class ProtocoloEntity implements ObjectEntity<Protocolo> {
     public Protocolo parse() {
         var status = ProtocoloStatusResolver.resolve(state); // Dynamic method to get status
         var state = ProtocoloStateResolver.resolve(status); // Dynamic method to get state
-        var queue = new Queue(DomainId.from(queueId), null, null, null, null); // ! Como retornar....?
+        var queue = Queue.createWithIdOnly(DomainId.from(queueId));
+
         return new Protocolo(
                 DomainId.from(id),
                 ProtocolNumber.parse(protocolNumber),

@@ -10,7 +10,7 @@ public abstract class UserActivityEvent extends DomainEvent {
 
       private final DomainId userId;
 
-      public DomainId getUserId() {
+      public final DomainId getUserId() {
             return userId;
       }
 }

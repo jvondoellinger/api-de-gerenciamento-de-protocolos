@@ -10,14 +10,14 @@ import java.util.Objects;
 public class UserProtocolPermissionRelationship {
       private DomainId id;
 
-      private String userId;
+      private DomainId userId;
       private List<Permission> permissions;
 
       private LocalDateTime addedAt;
       private LocalDateTime modifiedAt;
 
       public UserProtocolPermissionRelationship(DomainId id,
-                                                String userId,
+                                                DomainId userId,
                                                 List<Permission> permissions,
                                                 LocalDateTime addedAt,
                                                 LocalDateTime modifiedAt) {
@@ -28,12 +28,15 @@ public class UserProtocolPermissionRelationship {
             this.modifiedAt = modifiedAt;
       }
 
-      private UserProtocolPermissionRelationship(String userId, List<Permission> permissions) {
+      private UserProtocolPermissionRelationship(DomainId userId, List<Permission> permissions) {
+            this.id = new DomainId();
             this.userId = userId;
             this.permissions = permissions;
+            this.addedAt = LocalDateTime.now();
+            this.modifiedAt = LocalDateTime.now();
       }
 
-      public static UserProtocolPermissionRelationship create(String userId, List<Permission> permission) {
+      public static UserProtocolPermissionRelationship create(DomainId userId, List<Permission> permission) {
             return new UserProtocolPermissionRelationship(userId, permission);
       }
 
@@ -61,7 +64,7 @@ public class UserProtocolPermissionRelationship {
             return id;
       }
 
-      public String getUserId() {
+      public DomainId getUserId() {
             return userId;
       }
 
