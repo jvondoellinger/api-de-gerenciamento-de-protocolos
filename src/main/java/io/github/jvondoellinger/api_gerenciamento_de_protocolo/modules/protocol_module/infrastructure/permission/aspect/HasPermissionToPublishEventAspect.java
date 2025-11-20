@@ -1,28 +1,24 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.aspect;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.UserActivityEvent;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.annotation.HasPermission;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.checker.PermissionChecker;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.annotation.HasPermissionToPublishEvent;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.checker.PublishPermissionChecker;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.exceptions.EventNotActivatedByUserException;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.exceptions.MissingPermissionException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.reactivestreams.Publisher;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @Aspect
 @Component
-public class HasPermissionAspect {
-      private final PermissionChecker checker;
-      public HasPermissionAspect(PermissionChecker checker) {
+public class HasPermissionToPublishEventAspect {
+      private final PublishPermissionChecker checker;
+      public HasPermissionToPublishEventAspect(PublishPermissionChecker checker) {
             this.checker = checker;
       }
 
@@ -31,8 +27,8 @@ public class HasPermissionAspect {
             * @exception MissingPermissionException Trará essa exception quando não houver permissões suficientes para aquela ação
             * @return Retorna o mesmo tipo que foi-lhe entregue, desde que também seja um tipo reativo
        */
-      @Around("@annotation(hasPermission)")
-      public Object checkPermissions(ProceedingJoinPoint pjp, HasPermission hasPermission) throws Throwable {
+      @Around("@annotation(permission)")
+      public Object checkPermissions(ProceedingJoinPoint pjp, HasPermissionToPublishEvent permission) throws Throwable {
             var method = pjp.proceed();
 
             throwIfNotReactive(method); // Caso não seja um tipo reativo (Mono ou Flux) dá uma exception
@@ -42,7 +38,7 @@ public class HasPermissionAspect {
             var event = getEvent(args);
 
             var check = checker
-                    .hasPermission(hasPermission.value(), event.getUserId())
+                    .hasPermission(permission.value(), event.getUserId())
                     .doOnNext(this::throwIfNotAllowed)
                     .then();
 

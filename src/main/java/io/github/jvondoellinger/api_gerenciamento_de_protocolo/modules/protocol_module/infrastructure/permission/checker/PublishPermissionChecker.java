@@ -1,10 +1,10 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.checker;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.Permissions;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.enums.PublishPermissions;
 import reactor.core.publisher.Mono;
 
-public interface PermissionChecker {
+public interface PublishPermissionChecker {
 
       /**
        * @param permission Permissão à ser verificada
@@ -12,5 +12,5 @@ public interface PermissionChecker {
        * @return Retorna o protocolo ajustada à permissão do usuario.
       **/
 
-      Mono<Boolean> hasPermission(Permissions permission, DomainId userId);
+      Mono<Boolean> hasPermission(PublishPermissions permission, DomainId userId);
 }

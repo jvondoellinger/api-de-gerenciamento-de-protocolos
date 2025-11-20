@@ -5,11 +5,15 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 public class ProtocolNumberFilter {
     private ProtocolNumber protocolNumber;
 
-    public ProtocolNumberFilter(ProtocolNumber protocolNumber) {
+    private ProtocolNumberFilter(ProtocolNumber protocolNumber) {
         this.protocolNumber = protocolNumber;
     }
 
     public ProtocolNumber getProtocolNumber() {
         return protocolNumber;
+    }
+
+    public static ProtocolNumberFilter create(ProtocolNumber protocolNumber) {
+        return new ProtocolNumberFilter(protocolNumber);
     }
 }

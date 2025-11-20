@@ -1,9 +1,10 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.api.controllers;
 
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.query.ProtocolQueryRequest;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.subs.resolvers.DomainDynamicPublisher;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.commands.CreateProtocolCommand;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.mappers.CreateProtocolEventMapper;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.query.ProtocolQueryFacade;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.facade.ProtocolQueryFacade;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.filters.PaginationFilter;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocolo;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,9 @@ public class ProtocolController {
     }
 
     @GetMapping
-    public ResponseEntity<Flux<Protocolo>> get() {
-        var data = facade.query(PaginationFilter.of(0, 10));
+    public ResponseEntity<Flux<Protocolo>> get(@RequestBody ProtocolQueryRequest request) {
+        var filter = PaginationFilter.of(0, 10);
+        var data = facade.query(filter, null);
         return ResponseEntity.ok(data);
     }
 }
