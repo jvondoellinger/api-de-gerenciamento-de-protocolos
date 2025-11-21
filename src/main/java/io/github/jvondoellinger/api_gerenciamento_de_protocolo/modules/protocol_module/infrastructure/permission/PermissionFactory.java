@@ -3,7 +3,8 @@ package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.exception.DomainException;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.impl.CreateProtocolPermission;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.impl.InteractProtocolPermission;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.impl.ViewProtocolPermission;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.impl.ReadProtocolPermission;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.impl.ReadSensitiveProtocolPermission;
 
 import java.util.List;
 
@@ -11,8 +12,10 @@ public class PermissionFactory {
       private static final List<Permission> instances = List.of(
               new CreateProtocolPermission(),
               new InteractProtocolPermission(),
-              new ViewProtocolPermission()
+              new ReadProtocolPermission(),
+              new ReadSensitiveProtocolPermission()
       );
+
       private PermissionFactory() {}
 
       public static Permission getInstance(String permission) {

@@ -1,15 +1,12 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.api.controllers;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.query.ProtocolQueryRequest;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.query.ProtocolQueryByProtocolNumberRequest;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.subs.resolvers.DomainDynamicPublisher;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.commands.CreateProtocolCommand;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.mappers.CreateProtocolEventMapper;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.facade.ProtocolQueryFacade;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.filters.PaginationFilter;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocolo;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
@@ -31,9 +28,12 @@ public class ProtocolController {
     }
 
     @GetMapping
-    public ResponseEntity<Flux<Protocolo>> get(@RequestBody ProtocolQueryRequest request) {
-        var filter = PaginationFilter.of(0, 10);
-        var data = facade.query(filter, null);
-        return ResponseEntity.ok(data);
+    public Mono<ResponseEntity<?>> get(@RequestParam(required = true) String protocolNumber,
+                                       @RequestParam(required = true) String userId) {
+        var request = new ProtocolQueryByProtocolNumberRequest(protocolNumber, userId);
+
+        var data = facade.query(request);
+
+        return data.map(ResponseEntity::ok);
     }
 }

@@ -23,7 +23,7 @@ public class AddInteractionProtocolEventHandler implements DomainEventHandler<Ad
     public Mono<Void> handle(AddInteractionProtocolEvent event) {
         var interaction = event.getInteraction();
         return readRepository
-                .exists(new ProtocolNumberFilter(interaction.getProtocolNumber()))
+                .exists(ProtocolNumberFilter.create(interaction.getProtocolNumber()))
                 .flatMap(exists -> {
                     if (!exists)
                         throw new DomainException("Any protocol contains this number");

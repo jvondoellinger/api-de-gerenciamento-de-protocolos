@@ -60,6 +60,16 @@ public class UserProtocolPermissionRelationship {
             this.permissions = permissions;
       }
 
+      public boolean containsPermission(Permission permission) {
+            var equal = permissions
+                    .stream()
+                    .filter(x -> x.getName().equalsIgnoreCase(permission.getName()))
+                    .findFirst()
+                    .orElse(null);
+
+            return equal != null;
+      }
+
       public DomainId getId() {
             return id;
       }
