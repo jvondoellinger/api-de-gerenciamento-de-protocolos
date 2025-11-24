@@ -4,11 +4,9 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.status.state.ProtocoloState;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolNumber;
-import io.micrometer.common.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 public final class ProtocoloBuilder {
       private DomainId id = new DomainId();
@@ -79,14 +77,14 @@ public final class ProtocoloBuilder {
             return this;
       }
 
-      public Protocolo build() {
+      public Protocol build() {
             if (description == null) {
                   throw new BuildingException("'Description' cannot be null.");
             }
             if (createdBy == null) {
                   throw new BuildingException("'CreatedBy' cannot be null.");
             }
-            return new Protocolo(id,
+            return new Protocol(id,
                     protocolNumber,
                     queue,
                     description,

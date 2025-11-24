@@ -1,8 +1,8 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.entity;
 
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocol;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Queue;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocolo;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.status.ProtocoloStatusResolver;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.status.state.ProtocoloStateResolver;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolNumber;
@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.UUID;
 
 
-@Table("protocolo")
-public class ProtocoloEntity implements ObjectEntity<Protocolo> {
+@Table("protocol")
+public class ProtocoloEntity implements ObjectEntity<Protocol> {
     @PrimaryKeyColumn(name = "id", type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING)
     private UUID id;
     @PrimaryKeyColumn(name = "protocolNumber", type = PrimaryKeyType.PARTITIONED)
@@ -37,14 +37,14 @@ public class ProtocoloEntity implements ObjectEntity<Protocolo> {
     @CassandraType(type = CassandraType.Name.LIST, typeArguments = CassandraType.Name.BLOB)
     private List<byte[]> attachments;
 
-    public ProtocoloEntity(Protocolo protocolo) {
-        id = protocolo.getId().getValue();
-        createdAt = protocolo.getCreatedAt();
-        updatedAt = protocolo.getUpdatedAt();
-        description = protocolo.getDescription();
-        createdBy = protocolo.getCreatedBy();
-        state = protocolo.getState().getStatus().getValue();
-        attachments = protocolo.getAttachments();
+    public ProtocoloEntity(Protocol protocol) {
+        id = protocol.getId().getValue();
+        createdAt = protocol.getCreatedAt();
+        updatedAt = protocol.getUpdatedAt();
+        description = protocol.getDescription();
+        createdBy = protocol.getCreatedBy();
+        state = protocol.getState().getStatus().getValue();
+        attachments = protocol.getAttachments();
     }
 
     @PersistenceCreator
@@ -68,12 +68,12 @@ public class ProtocoloEntity implements ObjectEntity<Protocolo> {
         this.queueId = queueId;
     }
 
-    public Protocolo parse() {
+    public Protocol parse() {
         var status = ProtocoloStatusResolver.resolve(state); // Dynamic method to get status
         var state = ProtocoloStateResolver.resolve(status); // Dynamic method to get state
         var queue = Queue.createWithIdOnly(DomainId.from(queueId));
 
-        return new Protocolo(
+        return new Protocol(
                 DomainId.from(id),
                 ProtocolNumber.parse(protocolNumber),
                 queue,
@@ -87,17 +87,17 @@ public class ProtocoloEntity implements ObjectEntity<Protocolo> {
         );
     }
 
-    public static ProtocoloEntity create(Protocolo protocolo) {
+    public static ProtocoloEntity create(Protocol protocol) {
         return new ProtocoloEntity(
-            protocolo.getId().getValue(),
-                protocolo.getProtocolNumber().getValue(),
-                protocolo.getCreatedAt(),
-                protocolo.getUpdatedAt(),
-                protocolo.getDescription(),
-                protocolo.getCreatedBy(),
-                protocolo.getState().getStatus().getValue(),
-                protocolo.getQueue().getId().getValue(),
-                protocolo.getAttachments()
+            protocol.getId().getValue(),
+                protocol.getProtocolNumber().getValue(),
+                protocol.getCreatedAt(),
+                protocol.getUpdatedAt(),
+                protocol.getDescription(),
+                protocol.getCreatedBy(),
+                protocol.getState().getStatus().getValue(),
+                protocol.getQueue().getId().getValue(),
+                protocol.getAttachments()
         );
     }
 

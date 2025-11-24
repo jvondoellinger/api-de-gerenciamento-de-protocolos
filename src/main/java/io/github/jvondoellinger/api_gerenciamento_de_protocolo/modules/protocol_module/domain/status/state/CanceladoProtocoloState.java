@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.status.state;
 
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocol;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.exception.DomainException;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocolo;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.status.CanceladoProtocoloStatus;
 
 public class CanceladoProtocoloState extends ProtocoloState {
@@ -10,17 +10,17 @@ public class CanceladoProtocoloState extends ProtocoloState {
     }
 
     @Override
-    public void setPendenteState(Protocolo protocolo) {
-        throw new DomainException("Não é possivel reabrir um protocolo cancelado!");
+    public void setPendenteState(Protocol protocol) {
+        throw new DomainException("Não é possivel reabrir um protocol cancelado!");
     }
 
     @Override
-    public void setCanceladoState(Protocolo protocolo) {
-        throw new DomainException("Não é possivel cancelar um protocolo já cancelado!");
+    public void setCanceladoState(Protocol protocol) {
+        throw new DomainException("Não é possivel cancelar um protocol já cancelado!");
     }
 
     @Override
-    public void setSolucionadoState(Protocolo protocolo) {
-        throw new DomainException("Não é possivel marcar como solucionado um protocolo cancelado!");
+    public void setSolucionadoState(Protocol protocol) {
+        throw new DomainException("Não é possivel marcar como solucionado um protocol cancelado!");
     }
 }

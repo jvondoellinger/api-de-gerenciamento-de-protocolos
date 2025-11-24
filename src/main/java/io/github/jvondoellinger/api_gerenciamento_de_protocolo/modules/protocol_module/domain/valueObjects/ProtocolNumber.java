@@ -43,7 +43,7 @@ public class ProtocolNumber {
 
         var formated = now.format(format); // Capturando o timestamp no formato: Ano Mes Dia Hora Minuto Segundo Milissegundos
 
-        // Numero aleatorio para adicionar ao protocolo
+        // Numero aleatorio para adicionar ao protocol
         var randomNumber = ThreadLocalRandom.current().nextLong(1, 99999);
 
         return "%s%s".formatted(formated, randomNumber);

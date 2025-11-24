@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Protocolo {
+public class Protocol {
     private final DomainId id;
 
     private final ProtocolNumber protocolNumber;
@@ -31,10 +31,10 @@ public class Protocolo {
     private final LocalDateTime createdAt;
     private final LocalDateTime updatedAt;
 
-    // ? Quando se cria um protocolo, somente há os dados da descrição do chamado e os dados do agente 
-    public Protocolo(Queue queue,
-                     String description,
-                     String createdBy) {
+    // ? Quando se cria um protocol, somente há os dados da descrição do chamado e os dados do agente
+    public Protocol(Queue queue,
+                    String description,
+                    String createdBy) {
 
         this.queue = queue;
         this.description = description;
@@ -55,16 +55,16 @@ public class Protocolo {
         id = new DomainId();
     }
 
-    public Protocolo(DomainId id,
-                     ProtocolNumber protocolNumber,
-                     Queue queue,
-                     String description,
-                     String createdBy,
-                     ProtocoloState state,
-                     InteractionHistory interactionHistory,
-                     List<byte[]> attachments,
-                     LocalDateTime createdAt,
-                     LocalDateTime updatedAt) {
+    public Protocol(DomainId id,
+                    ProtocolNumber protocolNumber,
+                    Queue queue,
+                    String description,
+                    String createdBy,
+                    ProtocoloState state,
+                    InteractionHistory interactionHistory,
+                    List<byte[]> attachments,
+                    LocalDateTime createdAt,
+                    LocalDateTime updatedAt) {
         this.id = id;
         this.protocolNumber = protocolNumber;
         this.queue = queue;

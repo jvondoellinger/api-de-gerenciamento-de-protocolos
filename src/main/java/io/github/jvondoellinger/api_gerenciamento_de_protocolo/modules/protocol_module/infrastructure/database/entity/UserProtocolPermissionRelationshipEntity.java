@@ -14,6 +14,15 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+/*
+* Criar uma tabela de profiles para guardar permissões de forma dinamica, ex:
+* Analista - READ::UNSENSITIVE, INTERACT::INSENSITIVE, WRITE::CREATE, DELEGATE::SELFQUEUE
+*
+* Deixar as permissões como hard coded
+* **/
+
+
+
 @Table("user_protocol_permission_relationship")
 public class UserProtocolPermissionRelationshipEntity implements ObjectEntity<UserProtocolPermissionRelationship> {
       @PersistenceCreator
@@ -43,7 +52,7 @@ public class UserProtocolPermissionRelationshipEntity implements ObjectEntity<Us
       private LocalDateTime modifiedAt;
       private boolean isDeleted;
       /**
-            *@apiNote Cria uma entidade de relacionamento entre Usuario e Protocolo. OBS: isDeleted SEMPRE vem false
+            *@apiNote Cria uma entidade de relacionamento entre Usuario e Protocol. OBS: isDeleted SEMPRE vem false
        */
       public static UserProtocolPermissionRelationshipEntity create(UserProtocolPermissionRelationship relationship) {
             var permissions = relationship
@@ -51,15 +60,15 @@ public class UserProtocolPermissionRelationshipEntity implements ObjectEntity<Us
                     .stream()
                     .map(Permission::getName)
                     .toList();
-            var entity = new UserProtocolPermissionRelationshipEntity(
-                    relationship.getId().getValue(),
-                    relationship.getUserId().getValue().toString(),
-                    permissions,
-                    relationship.getAddedAt(),
-                    relationship.getModifiedAt(),
-                    false // Se está sendo criada agora, não há como estar deletada
-            );
-            return entity;
+		 // Se está sendo criada agora, não há como estar deletada
+		 return new UserProtocolPermissionRelationshipEntity(
+			    relationship.getId().getValue(),
+			    relationship.getUserId().getValue().toString(),
+			    permissions,
+			    relationship.getAddedAt(),
+			    relationship.getModifiedAt(),
+			    false // Se está sendo criada agora, não há como estar deletada
+		 );
       }
 
       @Override

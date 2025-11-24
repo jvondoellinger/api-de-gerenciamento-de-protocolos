@@ -1,9 +1,8 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.strategy;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocolo;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocol;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.QueuesReadRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.strategy.ProtocolValidation;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.exception.DomainException;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.exceptions.ProtocoloValidationException;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -19,8 +18,8 @@ public class VerifyQueueBeforeSave implements ProtocolValidation {
       }
 
       @Override
-      public Mono<Void> validate(Protocolo protocolo) {
-            var id = protocolo.getQueue().getId();
+      public Mono<Void> validate(Protocol protocol) {
+            var id = protocol.getQueue().getId();
 
             if (Objects.isNull(id)) {
                   throw new ProtocoloValidationException("It is not possible to save a protocol without queue destination");

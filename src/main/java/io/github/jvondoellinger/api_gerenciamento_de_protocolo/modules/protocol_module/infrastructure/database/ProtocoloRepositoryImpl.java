@@ -1,10 +1,10 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database;
 
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocol;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.entity.ObjectEntity;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.entity.ProtocoloEntity;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.data.ProtocolCassandraRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.ProtocolRepository;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocolo;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -17,16 +17,16 @@ public class ProtocoloRepositoryImpl implements ProtocolRepository {
     }
 
     @Override
-    public Mono<Protocolo> save(Protocolo protocolo) {
+    public Mono<Protocol> save(Protocol protocol) {
         return repository
-                .save(ProtocoloEntity.create(protocolo))
+                .save(ProtocoloEntity.create(protocol))
                 .map(ObjectEntity::parse);
     }
 
     @Override
-    public Mono<Protocolo> update(Protocolo protocolo) {
+    public Mono<Protocol> update(Protocol protocol) {
         return repository
-                .save(ProtocoloEntity.create(protocolo))
+                .save(ProtocoloEntity.create(protocol))
                 .map(ObjectEntity::parse);
     }
 }

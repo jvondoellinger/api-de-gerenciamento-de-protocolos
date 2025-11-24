@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.composite;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocolo;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocol;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.strategy.ProtocolValidation;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -19,10 +19,10 @@ public class ProtocolValidationComposite implements ProtocolValidation {
       }
 
       @Override
-      public Mono<Void> validate(Protocolo protocolo) {
+      public Mono<Void> validate(Protocol protocol) {
             return Mono.fromRunnable(() -> {
                   for (var validator : validations) {
-                        validator.validate(protocolo);
+                        validator.validate(protocol);
                   }
             });
       }

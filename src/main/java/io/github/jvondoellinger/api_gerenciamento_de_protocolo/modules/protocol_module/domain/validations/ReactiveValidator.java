@@ -1,6 +1,6 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.validations;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocolo;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocol;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.annotiation.ImplementsAfter;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.validations.interfaces.ConditionRule;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.validations.interfaces.PropertyRuleBuilder;
@@ -21,9 +21,9 @@ public class ReactiveValidator<T> {
       }
 
       void teste() {
-            var a = new ReactiveValidator<Protocolo>();
+            var a = new ReactiveValidator<Protocol>();
 
-            a.ruleFor(Protocolo::getId)
+            a.ruleFor(Protocol::getId)
                     .addValidator(null)
                     .withMessage("")
                     .build()

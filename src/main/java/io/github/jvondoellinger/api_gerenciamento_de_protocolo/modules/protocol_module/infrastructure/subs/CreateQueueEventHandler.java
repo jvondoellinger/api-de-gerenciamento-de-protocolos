@@ -25,6 +25,6 @@ public class CreateQueueEventHandler implements DomainEventHandler<CreateQueueEv
     public Mono<Void> handle(CreateQueueEvent event) {
         return repository
                 .save(event.getQueue()) // Save entity on repository
-                .then(); // Transform Mono<Protocolo> to Mono<Void>
+                .then(); // Transform Mono<Protocol> to Mono<Void>
     }
 }

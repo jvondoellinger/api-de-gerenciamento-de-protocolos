@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database;
 
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocol;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.entity.ObjectEntity;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.entity.ProtocoloEntity;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.data.ProtocolCassandraRepository;
@@ -8,7 +9,6 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.ProtocolReadRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.filters.PaginationFilter;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocolo;
 import org.springframework.data.cassandra.core.ReactiveCassandraTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -28,7 +28,7 @@ public class ProtocolReadRepositoryImpl implements ProtocolReadRepository {
     }
 
     @Override
-    public Flux<Protocolo> query(PaginationFilter filter) {
+    public Flux<Protocol> query(PaginationFilter filter) {
         var request = CassandraQueryUtils.convert(filter);
         return template
                 .select(request, ProtocoloEntity.class)
@@ -36,14 +36,14 @@ public class ProtocolReadRepositoryImpl implements ProtocolReadRepository {
     }
 
     @Override
-    public Mono<Protocolo> query(DomainId id) {
+    public Mono<Protocol> query(DomainId id) {
         return repository
                 .findById(id.getValue())
                 .map(ObjectEntity::parse);
     }
 
     @Override
-    public Mono<Protocolo> query(ProtocolNumberFilter filter) {
+    public Mono<Protocol> query(ProtocolNumberFilter filter) {
         return repository
                 .findByProtocolNumber(filter.getProtocolNumber().getValue())
                 .map(ObjectEntity::parse);
