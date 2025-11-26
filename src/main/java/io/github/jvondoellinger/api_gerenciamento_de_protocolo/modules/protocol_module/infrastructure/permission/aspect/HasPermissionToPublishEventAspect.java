@@ -1,10 +1,10 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.aspect;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.UserActivityEvent;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.PermissionFactory;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.annotation.HasPermissionToPublishEvent;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.annotation.HasPermission;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.checker.PermissionChecker;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.exceptions.MissingPermissionException;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.exception.MissingPermissionException;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.resolvers.PermissionsResolver;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.util.MethodArgumentUtil;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.util.ReactiveObjectUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -18,11 +18,14 @@ public class HasPermissionToPublishEventAspect {
       private final PermissionChecker checker;
       private final ReactiveObjectUtil reactiveObjectUtil;
       private final MethodArgumentUtil argumentUtil;
-      public HasPermissionToPublishEventAspect(PermissionChecker checker, ReactiveObjectUtil reactiveObjectUtil, MethodArgumentUtil argumentUtil) {
+      private final PermissionsResolver resolver;
+
+      public HasPermissionToPublishEventAspect(PermissionChecker checker, ReactiveObjectUtil reactiveObjectUtil, MethodArgumentUtil argumentUtil, PermissionsResolver resolver) {
             this.checker = checker;
             this.reactiveObjectUtil = reactiveObjectUtil;
             this.argumentUtil = argumentUtil;
-      }
+            this.resolver = resolver;
+	 }
 
       /**
             * @exception IllegalArgumentException Trará essa exception quando o retorno do metodo não for um tipo reativo
@@ -30,17 +33,30 @@ public class HasPermissionToPublishEventAspect {
             * @return Retorna o mesmo tipo que foi-lhe entregue, desde que também seja um tipo reativo
        */
       @Around("@annotation(ann)")
-      public Object checkPermissions(ProceedingJoinPoint pjp, HasPermissionToPublishEvent ann) throws Throwable {
+      public Object checkPermissions(ProceedingJoinPoint pjp, HasPermission ann) throws Throwable {
+            // Fields
             var method = pjp.proceed();
-
             reactiveObjectUtil.throwIfNotReactive(method);
 
+            // Get method parameters
             var args = pjp.getArgs();
-            var event = argumentUtil.getRequest(args, UserActivityEvent.class, "Missing userId to activate this event");
 
-            var permission = PermissionFactory.getInstance(ann.value().name());
+
+
+            // Get event by parameters
+            var event = argumentUtil.getRequest(args,
+                    UserActivityEvent.class,
+                    "Missing userId to activate this event");
+
+            // Get userId by event
+            var userId = event.getUserId();
+
+            // Resolve permission by event
+            var permissions = resolver.resolve(event);
+
+            // Create Reactive object to compare the required permissions
             var check = checker
-                    .hasPermission(permission, event.getUserId())
+                    .permittedOrThrow(permissions, userId)
                     .doOnNext(this::throwIfNotAllowed);
 
             return reactiveObjectUtil.resolveReactiveObject(check, method);

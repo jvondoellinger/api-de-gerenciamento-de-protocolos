@@ -8,8 +8,6 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.QueuesReadRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.filters.ProtocolNumberFilter;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.ProtocolNumber;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.annotation.HasPermissionToQuery;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.enums.ReadPermissions;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -39,7 +37,6 @@ public class ProtocolQueryFacadeImpl implements ProtocolQueryFacade {
     // Assim, a proxy se passa pelo facade, verifica as permissões e segue o fluxo
 
     @Override
-    @HasPermissionToQuery(ReadPermissions.READ)
     public Mono<Protocol> query(ProtocolQueryByProtocolNumberRequest request) {
           // Filters
           var pn = ProtocolNumber.parse(request.protocolNumber());

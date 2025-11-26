@@ -5,7 +5,6 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.requests.ProtocolQueryByProtocolNumberRequest;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocol;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.contracts.UserProtocolRelationshipRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.checker.PermissionChecker;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -14,7 +13,6 @@ import reactor.core.publisher.Mono;
 public class PermissionProtocolQueryProxy implements ProtocolQueryFacade {
       private final ProtocolQueryFacadeImpl next;
       private final PermissionChecker checker;
-      private UserProtocolRelationshipRepository repository;
 
       public PermissionProtocolQueryProxy(ProtocolQueryFacadeImpl next, PermissionChecker checker) {
             this.next = next;

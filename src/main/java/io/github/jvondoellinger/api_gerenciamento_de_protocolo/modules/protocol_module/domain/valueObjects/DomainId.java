@@ -6,7 +6,7 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 import java.util.UUID;
 
 public class DomainId {
-    private UUID value;
+    private final UUID value;
 
     public DomainId() {
         this.value = UUID.randomUUID();
@@ -31,5 +31,10 @@ public class DomainId {
         } catch (RuntimeException e) {
             throw new ParsingException("Isn't possible convert the value on DomainId value, because it's not valid value to conversion!");
         }
+    }
+
+    @Override
+    public String toString() {
+        return getValue().toString();
     }
 }

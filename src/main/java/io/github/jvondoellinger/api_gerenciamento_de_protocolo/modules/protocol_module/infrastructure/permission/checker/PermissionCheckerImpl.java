@@ -1,44 +1,63 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.checker;
 
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.UserProfile;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.annotiation.ImplementsAfter;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.UserProfileReadRepository;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.profiles.permissions.Permissions;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.UserProtocolPermissionRelationship;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.contracts.UserProtocolRelationshipRepository;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.Permission;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.Permissions;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.profiles.permissions.Permission;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.exception.MissingPermissionException;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
+@ImplementsAfter
 public class PermissionCheckerImpl implements PermissionChecker {
-      private final UserProtocolRelationshipRepository repository;
+      private final UserProfileReadRepository repository;
 
-      public PermissionCheckerImpl(UserProtocolRelationshipRepository repository) {
+      public PermissionCheckerImpl(UserProfileReadRepository repository) {
             this.repository = repository;
       }
 
       @Override
       public Mono<Boolean> hasPermission(Permission permission, DomainId userId) {
             return repository
-                    .findRelationships(userId)
-                    .filter(x -> x.containsPermission(permission))
-                    .hasElements();
+                    .queryByUserId(userId)
+                    .map(x -> compare(x, permission));
+
       }
 
       @Override
       public Mono<Boolean> hasPermission(Permissions permissions, DomainId userId) {
             return repository
-                    .findRelationships(userId)
-                    .filter(rs -> containsPermissionsOnRelationship(rs, permissions))
-                    .hasElements();
+                    .queryByUserId(userId)
+                    .map(x -> compare(x, permissions));
       }
 
-      // Util
-      private boolean containsPermissionsOnRelationship(UserProtocolPermissionRelationship relationship, Permissions permissions) {
-            return !permissions // Invert o boolean retornado
+      @Override
+      public Mono<Boolean> permittedOrThrow(Permission permission, DomainId userId) throws MissingPermissionException {
+            return repository
+                    .queryByUserId(userId)
+                    .map(x -> compare(x, permission));
+      }
+
+      @Override
+      public Mono<Boolean> permittedOrThrow(Permissions permissions, DomainId userId) throws MissingPermissionException {
+            return repository
+                    .queryByUserId(userId)
+                    .map(x -> compare(x, permissions));
+      }
+
+      private boolean compare(UserProfile profile, Permission permission) {
+            return profile
+                    .getProfile()
                     .getPermissions()
-                    .stream()
-                    .filter(relationship::containsPermission) // Seleciona somente as permissoes que possuem na relationship
-                    .toList()
-                    .isEmpty();
+                    .contains(permission);
+      }
+      private boolean compare(UserProfile profile, Permissions permissions) {
+            return profile
+                    .getProfile()
+                    .getPermissions()
+                    .equals(permissions);
       }
 }

@@ -3,13 +3,13 @@ package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocol;
 
 public class CreatedProtocolEvent extends DomainEvent {
-    private Protocol protocol;
+    private final Protocol protocol;
 
     public CreatedProtocolEvent(Protocol protocol) {
         this.protocol = protocol;
     }
 
-    public Protocol getProtocolo() {
+    public Protocol getProtocol() {
         return protocol;
     }
 }

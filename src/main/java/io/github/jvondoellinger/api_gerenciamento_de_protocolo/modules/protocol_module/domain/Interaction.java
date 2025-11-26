@@ -7,21 +7,21 @@ import java.time.LocalDateTime;
 
 public class Interaction {
     // ? constructors -------------------------------------
-    public Interaction(DomainId agentId, String agent, ProtocolNumber protocolNumber, String text) {
+    public Interaction(DomainId userId, String user, ProtocolNumber protocolNumber, String description) {
         this.id = new DomainId();
-        this.agentId = agentId;
-        this.agent = agent;
+        this.userId = userId;
+        this.user = user;
         this.protocolNumber = protocolNumber;
-        this.text = text;
+        this.description = description;
         this.interactedOn = LocalDateTime.now();
     }
 
-    public Interaction(DomainId id, DomainId agentId, String agent, ProtocolNumber protocolNumber, String text, LocalDateTime interactedOn) {
+    public Interaction(DomainId id, DomainId userId, String user, ProtocolNumber protocolNumber, String description, LocalDateTime interactedOn) {
         this.id = id;
-        this.agentId = agentId;
-        this.agent = agent;
+        this.userId = userId;
+        this.user = user;
         this.protocolNumber = protocolNumber;
-        this.text = text;
+        this.description = description;
         this.interactedOn = interactedOn;
     }
 
@@ -36,12 +36,12 @@ public class Interaction {
     // ? properties -------------------------------------
     private DomainId id;
 
-    private DomainId agentId;
-    private String agent;
+    private DomainId userId;
+    private String user;
 
     private ProtocolNumber protocolNumber;
 
-    private String text;
+    private String description;
 
     private LocalDateTime interactedOn;
 
@@ -50,20 +50,20 @@ public class Interaction {
         return id;
     }
 
-    public DomainId getAgentId() {
-        return agentId;
+    public DomainId getUserId() {
+        return userId;
     }
 
-    public String getAgent() {
-        return agent;
+    public String getUser() {
+        return user;
     }
 
     public ProtocolNumber getProtocolNumber() {
         return protocolNumber;
     }
 
-    public String getText() {
-        return text;
+    public String getDescription() {
+        return description;
     }
 
     public LocalDateTime getInteractedOn() {

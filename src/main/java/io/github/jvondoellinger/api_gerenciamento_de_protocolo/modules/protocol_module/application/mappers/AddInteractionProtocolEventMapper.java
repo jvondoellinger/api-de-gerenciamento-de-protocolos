@@ -10,14 +10,21 @@ public class AddInteractionProtocolEventMapper {
     private AddInteractionProtocolEventMapper() {}
 
     public static AddInteractionProtocolEvent map(AddInteractionProtocolCommand command) {
-        var agentId = DomainId.from(command.agentId().value());
+        // Fields
+        var userId = DomainId.from(command.userId().value());
+        var user = command.user();
+        var description = command.text();
         var protocolNumber = ProtocolNumber.parse(command.protocolNumber().value());
 
+        // Interaction
         var interaction = new Interaction(
-                agentId,
-                command.agent(),
-                protocolNumber,
-                command.text());
+            userId,
+            user,
+            protocolNumber,
+            description
+        );
+
+        // Event
         return new AddInteractionProtocolEvent(interaction);
     }
 }
