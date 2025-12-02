@@ -11,4 +11,6 @@ public interface QueueReadRepository {
       Mono<Queue> query(DomainId id);
 
       Mono<Boolean> exists(DomainId id);
+
+
 }

@@ -30,7 +30,7 @@ public class DynamicEventValidator {
 			throw new UnresolvedServiceException("Have any validator to this type: %s.".formatted(event.getClass().toGenericString()));
 		}
 
-		var castingValidator = (EventValidator<T>) validator; // Para tirar o conflito de tipagem
+		var castingValidator = (EventValidator<T>) validator;
 
 		return castingValidator.validate(event);
 	}

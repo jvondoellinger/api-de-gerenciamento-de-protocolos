@@ -1,5 +1,6 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.events.validators;
 
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.annotiation.ImplementsAfter;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.QueueReadRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.CreateQueueEvent;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,9 @@ public class CreateQueueEventValidator implements EventValidator<CreateQueueEven
 	}
 
 	@Override
+	@ImplementsAfter
 	public Mono<CreateQueueEvent> validate(CreateQueueEvent event) {
-		return null;
+		return Mono.just(event);
 	}
 
 	@Override

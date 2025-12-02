@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
+
 @Repository
 public class QueueReadRepositoryImpl implements QueueReadRepository {
       private final QueueCassandraRepository cassandraRepository;
@@ -32,15 +34,15 @@ public class QueueReadRepositoryImpl implements QueueReadRepository {
       }
 
       @Override
-      public Mono<Queue> query(DomainId id) {
+      public Mono<Queue> query(DomainId filter) {
+            var id = filter.getValue();
             return cassandraRepository
-                    .findById(id.getValue())  // id.getValue returns UUID
+                    .findById(id)
                     .map(ObjectEntity::parse);
       }
 
       @Override
       public Mono<Boolean> exists(DomainId id) {
-            return cassandraRepository
-                    .existsById(id.getValue());
+            return cassandraRepository.existsById(id.getValue());
       }
 }
