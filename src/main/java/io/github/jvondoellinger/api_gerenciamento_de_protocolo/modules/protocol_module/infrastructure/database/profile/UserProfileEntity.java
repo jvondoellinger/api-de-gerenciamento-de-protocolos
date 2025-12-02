@@ -33,7 +33,7 @@ public class UserProfileEntity implements ObjectEntity<UserProfile> {
 	@PrimaryKeyColumn(name = "userId", type = PrimaryKeyType.PARTITIONED, ordinal = 0)
 	private String userId;
 
-	@PrimaryKeyColumn(name = "profileName", type = PrimaryKeyType.PARTITIONED, ordinal = 1)
+	@PrimaryKeyColumn(name = "profileName", type = PrimaryKeyType.CLUSTERED, ordinal = 1)
 	private String profileName;
 
 	@CassandraType(type = CassandraType.Name.SET, typeArguments = CassandraType.Name.TEXT)

@@ -9,7 +9,8 @@ import java.util.Objects;
 public class MethodArgumentUtil {
       private static final String defaultError = "Missing data to get arguments";
 
-      public  <T> T getRequest(Object[] args, Class<T> clazz, String errorMessage) {
+      @SuppressWarnings("unchecked")
+      public  <T> T getParameter(Object[] args, Class<T> clazz, String errorMessage) {
             var error= Objects.requireNonNullElse(errorMessage, defaultError);
 
             return Arrays

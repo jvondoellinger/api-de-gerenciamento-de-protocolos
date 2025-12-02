@@ -3,6 +3,7 @@ package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocol;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.strategy.ProtocolValidation;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -20,10 +21,9 @@ public class ProtocolValidationComposite implements ProtocolValidation {
 
       @Override
       public Mono<Void> validate(Protocol protocol) {
-            return Mono.fromRunnable(() -> {
-                  for (var validator : validations) {
-                        validator.validate(protocol);
-                  }
-            });
+            return Flux
+                    .fromIterable(validations)
+                    .flatMap(x -> x.validate(protocol))
+                    .then();
       }
 }

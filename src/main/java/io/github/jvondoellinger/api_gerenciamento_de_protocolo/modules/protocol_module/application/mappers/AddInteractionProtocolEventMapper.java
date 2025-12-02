@@ -11,7 +11,7 @@ public class AddInteractionProtocolEventMapper {
 
     public static AddInteractionProtocolEvent map(AddInteractionProtocolCommand command) {
         // Fields
-        var userId = DomainId.from(command.userId().value());
+        var userId = DomainId.from(command.userId());
         var user = command.user();
         var description = command.text();
         var protocolNumber = ProtocolNumber.parse(command.protocolNumber().value());

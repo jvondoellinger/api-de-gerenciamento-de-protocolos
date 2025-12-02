@@ -34,22 +34,30 @@ public class Permissions {
 			   .map(Permission::getName)
 			   .toList();
 	}
-	public List<Permission> getPermissions() {
+	public List<Permission> getList() {
 		return List.copyOf(permissions);
 	}
 	public boolean contains(String permission) {
-		return permissions
+		return this.permissions
 			   .stream()
 			   .anyMatch(x -> x.getName().equals(permission));
 	}
 	public boolean contains(Permission permission) {
-		return permissions
+		return this.permissions
 			   .stream()
 			   .anyMatch(x -> x.getName().equals(permission.getName()));
 	}
 
+	public boolean contains(Permissions permissions) {
+		return permissions // The sane name
+			   .getList()
+			   .stream()
+			   .allMatch(this::contains);
+	}
+
+
 	public <T extends Permission> boolean containsType(Class<T> clazz) {
-		return permissions
+		return this.permissions
 			   .stream()
 			   .anyMatch(clazz::isInstance);
 	}
@@ -58,7 +66,7 @@ public class Permissions {
 	public boolean equals(Object object) {
 		if (object == null || getClass() != object.getClass()) return false;
 		Permissions that = (Permissions) object;
-		return Objects.equals(permissions, that.permissions);
+		return contains(that);
 	}
 
 	@Override

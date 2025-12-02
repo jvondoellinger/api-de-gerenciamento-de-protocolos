@@ -3,6 +3,7 @@ package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.AddInteractionProtocolEvent;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.pub.DomainEventPublisher;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.sub.DomainEventHandler;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.events.validators.proxy.EventValidatorProxy;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.annotation.HasPermission;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -22,6 +23,7 @@ public class AddInteractionProtocolEventPublisher implements DomainEventPublishe
 
     @Override
     @HasPermission
+    @EventValidatorProxy
     public Mono<Void> publish(AddInteractionProtocolEvent event) {
         return Flux.fromIterable(handlers)
                 .parallel()

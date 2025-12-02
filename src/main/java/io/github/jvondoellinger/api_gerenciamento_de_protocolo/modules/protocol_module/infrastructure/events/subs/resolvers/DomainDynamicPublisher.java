@@ -2,6 +2,7 @@ package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.DomainEvent;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.pub.DomainEventPublisher;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.exceptions.UnresolvedServiceException;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -27,6 +28,6 @@ public class DomainDynamicPublisher {
                 //noinspection unchecked
                 return (DomainEventPublisher<TEvent>) publisher;
         }
-        throw new RuntimeException("Don't have any publisher for type: %s".formatted(eventClass.getName()));
+        throw new UnresolvedServiceException("Don't have any publisher for type: %s".formatted(eventClass.getName()));
     }
 }

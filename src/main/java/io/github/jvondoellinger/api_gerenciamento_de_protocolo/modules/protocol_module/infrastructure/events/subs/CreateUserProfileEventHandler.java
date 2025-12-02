@@ -3,6 +3,7 @@ package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.UserProfileWriteRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.sub.DomainEventHandler;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.CreateUserProfileEvent;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.events.validators.proxy.EventValidatorProxy;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -15,6 +16,7 @@ public class CreateUserProfileEventHandler implements DomainEventHandler<CreateU
       }
 
       @Override
+      @EventValidatorProxy
       public Mono<Void> handle(CreateUserProfileEvent event) {
             var profile = event.getProfile();
             return repository.save(profile);

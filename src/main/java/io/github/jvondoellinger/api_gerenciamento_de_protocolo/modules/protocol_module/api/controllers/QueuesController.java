@@ -3,7 +3,7 @@ package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.commands.CreateQueueCommand;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.mappers.CreateQueueEventMapper;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Queue;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.QueuesReadRepository;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.QueueReadRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.filters.PaginationFilter;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.events.subs.resolvers.DomainDynamicPublisher;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +13,10 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("/api/queues")
 public class QueuesController {
-      private final QueuesReadRepository readRepository;
+      private final QueueReadRepository readRepository;
       private final DomainDynamicPublisher resolver;
 
-      public QueuesController(QueuesReadRepository readRepository, DomainDynamicPublisher resolver) {
+      public QueuesController(QueueReadRepository readRepository, DomainDynamicPublisher resolver) {
             this.readRepository = readRepository;
             this.resolver = resolver;
       }     

@@ -44,7 +44,7 @@ public class HasPermissionToPublishEventAspect {
 
 
             // Get event by parameters
-            var event = argumentUtil.getRequest(args,
+            var event = argumentUtil.getParameter(args,
                     UserActivityEvent.class,
                     "Missing userId to activate this event");
 

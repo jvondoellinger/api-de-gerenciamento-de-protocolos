@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.queue.strategy;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocol;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.QueuesReadRepository;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.QueueReadRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.strategy.ProtocolValidation;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.protocol.exceptions.ProtocoloValidationException;
 import org.springframework.stereotype.Service;
@@ -11,9 +11,9 @@ import java.util.Objects;
 
 @Service
 public class VerifyQueueBeforeSave implements ProtocolValidation {
-      private final QueuesReadRepository readRepository;
+      private final QueueReadRepository readRepository;
 
-      public VerifyQueueBeforeSave(QueuesReadRepository readRepository) {
+      public VerifyQueueBeforeSave(QueueReadRepository readRepository) {
             this.readRepository = readRepository;
       }
 

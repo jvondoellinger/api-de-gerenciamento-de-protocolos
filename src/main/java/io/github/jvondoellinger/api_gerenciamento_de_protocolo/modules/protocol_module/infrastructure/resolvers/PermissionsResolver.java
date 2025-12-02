@@ -19,7 +19,7 @@ public class PermissionsResolver {
 	public Permissions resolve(UserActivityEvent obj) {
 		var list = strategies
 			   .stream()
-			   .map(x -> x.resolve(obj) )
+			   .map(x -> x.resolve(obj))
 			   .filter(x -> !Objects.isNull(x))
 			   .toList();
 		return Permissions.create(list);

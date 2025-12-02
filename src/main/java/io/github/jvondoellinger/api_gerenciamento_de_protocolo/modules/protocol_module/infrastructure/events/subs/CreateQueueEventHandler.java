@@ -3,6 +3,7 @@ package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.QueuesWriteRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.CreateQueueEvent;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.sub.DomainEventHandler;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.events.validators.proxy.EventValidatorProxy;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -15,6 +16,7 @@ public class CreateQueueEventHandler implements DomainEventHandler<CreateQueueEv
     }
 
     @Override
+    @EventValidatorProxy
     public Mono<Void> handle(CreateQueueEvent event) {
         return repository
                 .save(event.getQueue()) // Save entity on repository

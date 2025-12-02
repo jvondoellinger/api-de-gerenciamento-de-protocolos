@@ -6,7 +6,7 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public interface QueuesReadRepository {
+public interface QueueReadRepository {
       Flux<Queue> query(PaginationFilter filter);
       Mono<Queue> query(DomainId id);
 

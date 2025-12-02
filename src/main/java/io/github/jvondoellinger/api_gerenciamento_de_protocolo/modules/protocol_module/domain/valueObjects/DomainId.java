@@ -29,6 +29,7 @@ public class DomainId {
             var uuid = UUID.fromString(value);
             return new DomainId(uuid);
         } catch (RuntimeException e) {
+            System.out.println(value);
             throw new ParsingException("Isn't possible convert the value on DomainId value, because it's not valid value to conversion!");
         }
     }
