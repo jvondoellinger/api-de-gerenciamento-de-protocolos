@@ -5,6 +5,6 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 public record DelegateSealedProtocolPermission(String department) implements Permission {
 	@Override
 	public String getName() {
-		return "write::protocol::delegate_%s".formatted(department);
+		return "protocol::delegate::department::%s".formatted(department);
 	}
 }

@@ -5,6 +5,6 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 public record UpdateQueuePermission() implements Permission {
 	@Override
 	public String getName() {
-		return "write::queue::modify";
+		return "queue::modify";
 	}
 }

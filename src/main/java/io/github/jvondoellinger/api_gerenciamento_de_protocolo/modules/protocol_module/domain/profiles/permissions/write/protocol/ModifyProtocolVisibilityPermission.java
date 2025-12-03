@@ -5,6 +5,6 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 public record ModifyProtocolVisibilityPermission() implements Permission {
 	@Override
 	public String getName() {
-		return "write::protocol::visibility";
+		return "protocol::modify::visibility";
 	}
 }

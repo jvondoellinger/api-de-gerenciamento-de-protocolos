@@ -5,6 +5,6 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 public record ReadMetadataProtocolPermission() implements Permission {
 	@Override
 	public String getName() {
-		return "read::protocol::metadata";
+		return "protocol::metadata::read";
 	}
 }

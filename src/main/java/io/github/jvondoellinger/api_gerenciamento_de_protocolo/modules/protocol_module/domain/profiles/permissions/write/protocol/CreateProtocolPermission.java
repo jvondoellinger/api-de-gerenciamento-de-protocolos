@@ -5,6 +5,6 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 public record CreateProtocolPermission() implements Permission {
       @Override
       public String getName() {
-            return "write::protocol::create";
+            return "protocol::create";
       }
 }

@@ -24,10 +24,6 @@ public class Permissions {
 		return new Permissions(permissions);
 	}
 
-
-
-
-
 	public List<String> getListString() {
 		return permissions
 			   .stream()

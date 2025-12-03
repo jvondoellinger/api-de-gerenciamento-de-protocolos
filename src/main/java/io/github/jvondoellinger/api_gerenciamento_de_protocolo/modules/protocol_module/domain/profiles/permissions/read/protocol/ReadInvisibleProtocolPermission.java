@@ -5,6 +5,6 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 public record ReadInvisibleProtocolPermission() implements Permission {
 	@Override
 	public String getName() {
-		return "read::protocol::invisible";
+		return "protocol::invisible::read";
 	}
 }

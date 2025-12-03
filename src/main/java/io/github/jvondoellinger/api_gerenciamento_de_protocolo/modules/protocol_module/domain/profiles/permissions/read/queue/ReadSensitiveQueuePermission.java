@@ -5,6 +5,6 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 public record ReadSensitiveQueuePermission() implements Permission {
 	@Override
 	public String getName() {
-		return "read::queue::sensitive";
+		return "queue::sensitive:read";
 	}
 }
