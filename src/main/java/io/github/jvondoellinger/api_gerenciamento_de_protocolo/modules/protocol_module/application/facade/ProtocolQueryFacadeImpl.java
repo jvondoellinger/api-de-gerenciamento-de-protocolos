@@ -3,7 +3,6 @@ package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.mounter.ProtocolMounterHelper;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.application.requests.ProtocolQueryByProtocolNumberRequest;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.Protocol;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.InteractionsReadRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.ProtocolReadRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.QueueReadRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.filters.ProtocolNumberFilter;
@@ -16,16 +15,13 @@ import java.time.Duration;
 @Service
 public class ProtocolQueryFacadeImpl implements ProtocolQueryFacade {
     private final ProtocolReadRepository protocolReadRepository;
-    private final InteractionsReadRepository interactionsReadRepository;
     private final QueueReadRepository queueReadRepository;
     private final ProtocolMounterHelper mounterHelper;
 
       public ProtocolQueryFacadeImpl(ProtocolReadRepository protocolReadRepository,
-                                    InteractionsReadRepository interactionsReadRepository,
                                     QueueReadRepository queueReadRepository,
                                     ProtocolMounterHelper mounterHelper) {
         this.protocolReadRepository = protocolReadRepository;
-        this.interactionsReadRepository = interactionsReadRepository;
         this.queueReadRepository = queueReadRepository;
         this.mounterHelper = mounterHelper;
       }
@@ -47,10 +43,9 @@ public class ProtocolQueryFacadeImpl implements ProtocolQueryFacade {
 
           // Monos
           var protocolMono = protocolReadRepository.query(filter).cache(ttl);
-          var interactionsMono = interactionsReadRepository.query(filter).collectList();
           var queueMono = protocolMono.flatMap(x -> queueReadRepository.query(x.getQueue().getId()));
 
           // Mounting and returning complete protocol
-          return mounterHelper.mount(protocolMono, queueMono, interactionsMono);
+          return mounterHelper.mount(protocolMono, queueMono);
     }
 }

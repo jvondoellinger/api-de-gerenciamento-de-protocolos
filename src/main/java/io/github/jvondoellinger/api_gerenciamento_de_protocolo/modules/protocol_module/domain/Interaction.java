@@ -7,65 +7,47 @@ import java.time.LocalDateTime;
 
 public class Interaction {
     // ? constructors -------------------------------------
-    public Interaction(DomainId userId, String user, ProtocolNumber protocolNumber, String description) {
-        this.id = new DomainId();
+    public Interaction(DomainId userId, String user, String description) {
         this.userId = userId;
         this.user = user;
-        this.protocolNumber = protocolNumber;
         this.description = description;
         this.interactedOn = LocalDateTime.now();
     }
 
-    public Interaction(DomainId id, DomainId userId, String user, ProtocolNumber protocolNumber, String description, LocalDateTime interactedOn) {
-        this.id = id;
+    public Interaction(DomainId userId,
+				   String user,
+				   String description,
+				   LocalDateTime interactedOn) {
         this.userId = userId;
         this.user = user;
-        this.protocolNumber = protocolNumber;
         this.description = description;
         this.interactedOn = interactedOn;
     }
 
     // ? static methods -------------------------------------
-    public static Interaction create(DomainId agentId, String agent, ProtocolNumber protocolNumber, String text) {
-        return new Interaction(agentId, agent, protocolNumber, text);
+    public static Interaction create(DomainId agentId, String agent, String text) {
+        return new Interaction(agentId, agent, text);
     }
-    public static Interaction initialize(DomainId id, DomainId agentId, String agent, ProtocolNumber protocolNumber, String text, LocalDateTime interactedOn) {
-        return new Interaction(id, agentId, agent, protocolNumber, text, interactedOn);
+    public static Interaction initialize(DomainId agentId, String agent, String text, LocalDateTime interactedOn) {
+        return new Interaction(agentId, agent, text, interactedOn);
     }
 
     // ? properties -------------------------------------
-    private DomainId id;
-
-    private DomainId userId;
-    private String user;
-
-    private ProtocolNumber protocolNumber;
-
-    private String description;
-
-    private LocalDateTime interactedOn;
+    private final DomainId userId;
+    private final String user;
+    private final String description;
+    private final LocalDateTime interactedOn;
 
     // ? getters -------------------------------------
-    public DomainId getId() {
-        return id;
-    }
-
     public DomainId getUserId() {
         return userId;
     }
-
     public String getUser() {
         return user;
     }
-
-    public ProtocolNumber getProtocolNumber() {
-        return protocolNumber;
-    }
-
     public String getDescription() {
         return description;
     }
-
     public LocalDateTime getInteractedOn() {
         return interactedOn;
     }

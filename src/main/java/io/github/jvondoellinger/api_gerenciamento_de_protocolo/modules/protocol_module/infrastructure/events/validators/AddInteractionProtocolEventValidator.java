@@ -22,14 +22,7 @@ public class AddInteractionProtocolEventValidator implements EventValidator<AddI
 	@Override
 	public Mono<AddInteractionProtocolEvent> validate(AddInteractionProtocolEvent event) {
 
-		var protocolNumber = event.getInteraction().getProtocolNumber();
-		var filter = ProtocolNumberFilter.create(protocolNumber);
-
-		return readRepository
-			   .exists(filter)
-			   .filter(Boolean::booleanValue)
-			   .switchIfEmpty(Mono.error( new DomainException("Any protocol contains this number")))
-			   .thenReturn(event);
+		return Mono.just(event);
 	}
 
 	@Override

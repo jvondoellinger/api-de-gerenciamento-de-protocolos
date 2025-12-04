@@ -20,11 +20,10 @@ public class AddInteractionProtocolEventMapper {
         var interaction = new Interaction(
             userId,
             user,
-            protocolNumber,
             description
         );
 
         // Event
-        return new AddInteractionProtocolEvent(interaction);
+        return new AddInteractionProtocolEvent(interaction, protocolNumber);
     }
 }

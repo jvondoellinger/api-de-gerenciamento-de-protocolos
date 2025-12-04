@@ -1,6 +1,6 @@
 spring:
   cassandra:
-    contact-points: 127.0.0.1
+    contact-point: 127.0.0.1
     port: 9042
     local-datacenter: datacenter1
     keyspace-name: spring_cassandra
@@ -12,3 +12,4 @@ logging:
     org.springframework.data.cassandra: DEBUG
 server:
   port: 8080
+

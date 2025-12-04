@@ -1,13 +1,12 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.data;
 
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.interactions.InteractionEntity;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.protocol.InteractionColumn;
 import org.springframework.data.cassandra.repository.ReactiveCassandraRepository;
 import org.springframework.stereotype.Repository;
-import reactor.core.publisher.Flux;
 
 import java.util.UUID;
 
 @Repository
-public interface InteractionCassandraRepository extends ReactiveCassandraRepository<InteractionEntity, UUID> {
-    Flux<InteractionEntity> findByProtocolNumber(String protocolNumber);
+public interface InteractionCassandraRepository extends ReactiveCassandraRepository<InteractionColumn, UUID> {
+    //Flux<InteractionColumn> findByProtocolNumber(String protocolNumber);
 }
