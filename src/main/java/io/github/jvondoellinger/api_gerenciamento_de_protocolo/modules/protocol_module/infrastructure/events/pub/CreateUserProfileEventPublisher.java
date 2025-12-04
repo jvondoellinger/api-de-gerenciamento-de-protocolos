@@ -17,7 +17,6 @@ public class CreateUserProfileEventPublisher implements DomainEventPublisher<Cre
       }
 
       @Override
-      @HasPermission
       @EventValidatorProxy
       public Mono<Void> publish(CreateUserProfileEvent event) {
             return handler.handle(event);

@@ -27,7 +27,8 @@ public class DynamicEventValidator {
 		var validator = validators.get(event.getClass());
 
 		if (validator == null) {
-			throw new UnresolvedServiceException("Have any validator to this type: %s.".formatted(event.getClass().toGenericString()));
+			//throw new UnresolvedServiceException("Have any validator to this type: %s.".formatted(event.getClass().toGenericString()));
+			return Mono.empty();
 		}
 
 		var castingValidator = (EventValidator<T>) validator;

@@ -27,6 +27,7 @@ public class ProtocolMounterHelper {
                     queue,
                     incomplete.getDescription(),
                     incomplete.getCreatedBy(),
+				incomplete.getCreatedById(),
                     incomplete.getState(),
                     incomplete.getInteractionHistory(),
                     incomplete.getAttachments(),

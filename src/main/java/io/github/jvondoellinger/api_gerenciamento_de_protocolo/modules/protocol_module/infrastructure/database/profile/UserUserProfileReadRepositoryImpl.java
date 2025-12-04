@@ -6,6 +6,7 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.data.UserProfileCassandraRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.ObjectEntity;
 import org.springframework.stereotype.Repository;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Repository
@@ -35,6 +36,7 @@ public class UserUserProfileReadRepositoryImpl implements UserProfileReadReposit
 		// Querying...
 		return repository
 			   .findByUserId(strId)
-			   .map(ObjectEntity::parse);
+			   .map(ObjectEntity::parse)
+			   .singleOrEmpty();
 	}
 }

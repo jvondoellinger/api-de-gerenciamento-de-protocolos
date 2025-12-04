@@ -5,19 +5,13 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 
 public class CreateProtocolEvent extends UserActivityEvent {
     private final Protocol protocol;
-    private final DomainId queueId;
 
-    public CreateProtocolEvent(Protocol protocol, DomainId queueId, DomainId userId) {
-        super(userId);
+    public CreateProtocolEvent(Protocol protocol) {
+        super(protocol.getCreatedById());
         this.protocol = protocol;
-        this.queueId = queueId;
     }
 
     public Protocol getProtocolo() {
         return protocol;
-    }
-
-    public DomainId getQueueId() {
-        return queueId;
     }
 }

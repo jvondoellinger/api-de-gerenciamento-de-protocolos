@@ -67,6 +67,7 @@ public class ProtocolEntity implements ObjectEntity<Protocol> {
 					  LocalDateTime updatedAt,
 					  String description,
 					  String createdByUser,
+					  String createdByUserId,
 					  String state,
 					  UUID queueId,
 					  List<byte[]> attachments) {
@@ -77,6 +78,7 @@ public class ProtocolEntity implements ObjectEntity<Protocol> {
 		this.updatedAt = updatedAt;
 		this.description = description;
 		this.createdByUser = createdByUser;
+		this.createdByUserId = createdByUserId;
 		this.state = state;
 		this.attachments = attachments;
 		this.queueId = queueId;
@@ -99,6 +101,7 @@ public class ProtocolEntity implements ObjectEntity<Protocol> {
 			   queue,
 			   description,
 			   createdByUser,
+			   DomainId.from(createdByUserId),
 			   state,
 			   InteractionHistory.from(interactions),
 			   attachments,
@@ -123,6 +126,7 @@ public class ProtocolEntity implements ObjectEntity<Protocol> {
 			   protocol.getUpdatedAt(),
 			   protocol.getDescription(),
 			   protocol.getCreatedBy(),
+			   protocol.getCreatedById().toString(),
 			   protocol.getState().getStatus().getValue(),
 			   protocol.getQueue().getId().getValue(),
 			   protocol.getAttachments()

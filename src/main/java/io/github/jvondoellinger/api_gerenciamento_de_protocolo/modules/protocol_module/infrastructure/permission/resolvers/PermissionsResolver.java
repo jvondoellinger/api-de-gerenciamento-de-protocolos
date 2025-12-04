@@ -1,8 +1,8 @@
-package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.resolvers;
+package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.resolvers;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.UserActivityEvent;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.profiles.permissions.Permissions;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.resolvers.strategy.EventPermissionResolver;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.strategy.EventPermissionResolver;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

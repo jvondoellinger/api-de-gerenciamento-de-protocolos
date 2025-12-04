@@ -4,7 +4,7 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.annotation.HasPermission;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.checker.PermissionChecker;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.exception.MissingPermissionException;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.resolvers.PermissionsResolver;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.resolvers.PermissionsResolver;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.util.MethodArgumentUtil;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.util.ReactiveObjectUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -41,29 +41,17 @@ public class HasPermissionToPublishEventAspect {
             // Get method parameters
             var args = pjp.getArgs();
 
-
-
             // Get event by parameters
             var event = argumentUtil.getParameter(args,
                     UserActivityEvent.class,
-                    "Missing userId to activate this event");
+                    "This method does not contain a user-triggered event.");
 
-            // Get userId by event
+            // Checking...
             var userId = event.getUserId();
-
-            // Resolve permission by event
             var permissions = resolver.resolve(event);
-
-            // Create Reactive object to compare the required permissions
-            var check = checker
-                    .permittedOrThrow(permissions, userId)
-                    .doOnNext(this::throwIfNotAllowed);
+            var check = checker.permittedOrThrow(permissions, userId);
 
             return reactiveObjectUtil.resolveReactiveObject(check, method);
       }
 
-      private void throwIfNotAllowed(Boolean allowed) {
-            if (!allowed)
-                  throw new MissingPermissionException("Missing permission to do this.");
-      }
 }

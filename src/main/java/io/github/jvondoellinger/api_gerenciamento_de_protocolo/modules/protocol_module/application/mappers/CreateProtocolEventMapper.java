@@ -7,17 +7,22 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 
 public class CreateProtocolEventMapper {
-    private CreateProtocolEventMapper() {}
+	private CreateProtocolEventMapper() {
+	}
 
-    public static CreateProtocolEvent map(CreateProtocolCommand command) {
-        var queueId = DomainId.from(command.queueId());
-        var userId = DomainId.from(command.userId());
-        var queue = Queue.createWithIdOnly(queueId);
-        var protocolo = new Protocol(
-                queue,
-                command.description(),
-                command.createdBy()
-        );
-        return new CreateProtocolEvent(protocolo, queueId, userId);
-    }
+	public static CreateProtocolEvent map(CreateProtocolCommand command) {
+		var description = command.description();
+		var queueId = DomainId.from(command.queueId());
+		var queue = Queue.createWithIdOnly(queueId);
+		var createdBy = command.createdBy();
+		var userId = DomainId.from(command.userId());
+
+		var protocolo = new Protocol(
+			   queue,
+			   description,
+			   createdBy,
+			   userId
+		);
+		return new CreateProtocolEvent(protocolo);
+	}
 }

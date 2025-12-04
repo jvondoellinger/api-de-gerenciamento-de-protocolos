@@ -17,6 +17,6 @@ public interface PermissionChecker {
       Mono<Boolean> hasPermission(Permission permission, DomainId userId);
       Mono<Boolean> hasPermission(Permissions permissions, DomainId userId);
 
-      Mono<Boolean> permittedOrThrow(Permission permission, DomainId userId) throws MissingPermissionException;
-      Mono<Boolean> permittedOrThrow(Permissions permissions, DomainId userId) throws MissingPermissionException;
+      Mono<Void> permittedOrThrow(Permission permission, DomainId userId) throws MissingPermissionException;
+      Mono<Void> permittedOrThrow(Permissions permissions, DomainId userId) throws MissingPermissionException;
 }
