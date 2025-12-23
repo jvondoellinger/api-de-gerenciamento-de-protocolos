@@ -1,6 +1,5 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.events.validators;
 
-import com.datastax.oss.driver.api.core.servererrors.AlreadyExistsException;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.UserProfileReadRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.CreateUserProfileEvent;
 import org.springframework.stereotype.Service;

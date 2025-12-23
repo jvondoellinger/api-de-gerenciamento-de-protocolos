@@ -5,7 +5,7 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.profiles.permissions.Permissions;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.profiles.permissions.Permission;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.database.exception.AnyResultOnQueryException;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.persistence.database.exception.AnyResultOnQueryException;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.permission.exception.MissingPermissionException;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;

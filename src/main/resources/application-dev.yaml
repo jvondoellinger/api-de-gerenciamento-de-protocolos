@@ -12,4 +12,11 @@ logging:
     org.springframework.data.cassandra: DEBUG
 server:
   port: 8080
+aws:
+  s3:
+    endpoint: http://localhost:4566
+    region: us-east-1
+    access-key: test
+    secret-key: test
+
 
