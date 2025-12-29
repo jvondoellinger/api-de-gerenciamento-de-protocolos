@@ -10,6 +10,7 @@ import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.math.BigInteger;
 import java.time.Duration;
 
 @Service
@@ -37,7 +38,6 @@ public class ProtocolQueryFacadeImpl implements ProtocolQueryFacade {
           // Filters
           var pn = ProtocolNumber.parse(request.protocolNumber());
           var filter = ProtocolNumberFilter.create(pn);
-
           // TTL (time to live) para evitar de caching por tempo indefinido
           var ttl = Duration.ofSeconds(15); // TTL
 

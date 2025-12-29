@@ -11,7 +11,9 @@ import software.amazon.awssdk.core.async.AsyncRequestBody;
 import software.amazon.awssdk.core.async.AsyncResponseTransformer;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.S3Object;
 
 import java.nio.ByteBuffer;
 import java.time.Duration;
@@ -52,5 +54,15 @@ public class S3StorageService implements StorageService {
 			   )
 			   .flatMapMany(Flux::from)
 			   .timeout(timeout);
+	}
+
+	@Override
+	public Flux<S3Object> searchPaths(String bucket, String prefix) {
+		var request = ListObjectsV2Request.builder()
+			   .bucket(bucket)
+			   .prefix(prefix)
+			   .build();
+		return Mono.fromFuture(client.listObjectsV2(request))
+			   .flatMapMany(response -> Flux.fromIterable(response.contents()));
 	}
 }

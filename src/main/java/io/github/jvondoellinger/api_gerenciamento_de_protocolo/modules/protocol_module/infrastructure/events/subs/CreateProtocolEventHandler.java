@@ -1,7 +1,7 @@
 package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.events.subs;
 
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.CreateProtocolEvent;
-import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.sub.DomainEventHandler;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.events.sub.EventHandler;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.ProtocolWriteRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.composite.ProtocolValidationComposite;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.events.validators.proxy.EventValidatorProxy;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
-public class CreateProtocolEventHandler implements DomainEventHandler<CreateProtocolEvent> {
+public class CreateProtocolEventHandler implements EventHandler<CreateProtocolEvent> {
     private final ProtocolWriteRepository repository;
     private final ProtocolValidationComposite composite;
 
