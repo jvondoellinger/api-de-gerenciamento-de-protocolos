@@ -5,5 +5,4 @@ public final class EnvironmentProfiles {
 
 	public static final String DEVELOPING = "dev";
 	public static final String PRODUCTION = "prod";
-
 }

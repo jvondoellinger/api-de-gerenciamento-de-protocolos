@@ -15,38 +15,28 @@ public class S3Properties {
 	private String accessKey;
 	private String secretKey;
 
-
-
 	public String getRegion() {
 		return region;
 	}
-
 	public URI getEndpoint() {
 		return endpoint;
 	}
-
 	public String getAccessKey() {
 		return accessKey;
 	}
-
 	public String getSecretKey() {
 		return secretKey;
 	}
 
-
-
 	public void setRegion(String region) {
 		this.region = region;
 	}
-
 	public void setEndpoint(URI endpoint) {
 		this.endpoint = endpoint;
 	}
-
 	public void setAccessKey(String accessKey) {
 		this.accessKey = accessKey;
 	}
-
 	public void setSecretKey(String secretKey) {
 		this.secretKey = secretKey;
 	}

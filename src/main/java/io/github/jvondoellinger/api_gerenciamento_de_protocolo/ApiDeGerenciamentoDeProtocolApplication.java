@@ -8,10 +8,10 @@ import org.springframework.data.cassandra.repository.config.EnableReactiveCassan
 @SpringBootApplication
 @EnableReactiveCassandraRepositories
 @EnableConfigurationProperties
-public class ApiDeGerenciamentoDeProtocolosApplication {
+public class ApiDeGerenciamentoDeProtocolApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApiDeGerenciamentoDeProtocolosApplication.class, args);
+		SpringApplication.run(ApiDeGerenciamentoDeProtocolApplication.class, args);
 	}
 
 }

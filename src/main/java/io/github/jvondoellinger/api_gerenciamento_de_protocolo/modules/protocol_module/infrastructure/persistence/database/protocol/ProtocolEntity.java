@@ -221,4 +221,12 @@ public class ProtocolEntity implements ObjectEntity<Protocol> {
 	public void setAttachments(List<byte[]> attachments) {
 		this.attachments = attachments;
 	}
+
+	public String getCreatedByUserId() {
+		return createdByUserId;
+	}
+
+	public void setCreatedByUserId(String createdByUserId) {
+		this.createdByUserId = createdByUserId;
+	}
 }

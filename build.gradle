@@ -23,6 +23,8 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+    // Logging logback
+    implementation 'ch.qos.logback:logback-classic:1.5.13'
 
     // SDK AWS v2
     implementation platform("software.amazon.awssdk:bom:2.25.62")

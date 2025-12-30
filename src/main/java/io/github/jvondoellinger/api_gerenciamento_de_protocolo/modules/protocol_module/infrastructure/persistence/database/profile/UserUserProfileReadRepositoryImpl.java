@@ -3,13 +3,17 @@ package io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.contracts.persistence.UserProfileReadRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.valueObjects.DomainId;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.domain.UserProfile;
+import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.helper.ReactiveLog;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.persistence.database.data.UserProfileCassandraRepository;
 import io.github.jvondoellinger.api_gerenciamento_de_protocolo.modules.protocol_module.infrastructure.persistence.database.ObjectEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;
 
 @Repository
 public class UserUserProfileReadRepositoryImpl implements UserProfileReadRepository {
+	private static final Logger log = LoggerFactory.getLogger(UserUserProfileReadRepositoryImpl.class);
 	private final UserProfileCassandraRepository repository;
 
 	public UserUserProfileReadRepositoryImpl(UserProfileCassandraRepository repository) {
@@ -24,7 +28,9 @@ public class UserUserProfileReadRepositoryImpl implements UserProfileReadReposit
 		// Querying...
 		return repository
 			   .findById(strId)
-			   .map(ObjectEntity::parse);
+			   .map(ObjectEntity::parse)
+			   .doOnEach(ReactiveLog.onNext(log, "action=query_profile id={} status=completed", strId))
+			   .doOnEach(ReactiveLog.onError(log, "action=query_profile id={} status=error", strId));
 	}
 
 	@Override
@@ -36,6 +42,8 @@ public class UserUserProfileReadRepositoryImpl implements UserProfileReadReposit
 		return repository
 			   .findByUserId(strId)
 			   .map(ObjectEntity::parse)
-			   .singleOrEmpty();
+			   .singleOrEmpty()
+			   .doOnEach(ReactiveLog.onNext(log, "action=query_profile id={} status=completed", strId))
+			   .doOnEach(ReactiveLog.onError(log, "action=query_profile id={} status=error", strId));
 	}
 }
