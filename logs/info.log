@@ -113,3 +113,5 @@
 2025-12-30 03:36:39 INFO  [s0-io-3] i.g.j.a.m.p.i.p.d.q.QueueReadRepositoryImpl - action=exists_queue queueId=cdf34aaa-1c86-44a6-babe-ce3706077bd5 status=completed
 2025-12-30 03:36:39 INFO  [s0-io-3] i.g.j.a.m.p.i.p.d.p.ProtocolWriteRepositoryImpl - action=create_protocol protocol=25123003363912458741 userId=e4d0a9cc-0c26-4a82-af7d-75044d8c0047 status=completed
 2025-12-30 03:37:35 INFO  [sdk-async-response-1-1] i.g.j.a.m.p.i.p.f.t.LocalStackS3TestStorageService - action=upload_attachment bucket=attachments key=25121611282343315272/1767076655782.png length=228177 status=completed
+2025-12-30 03:57:32 INFO  [SpringApplicationShutdownHook] o.s.b.w.e.netty.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-12-30 03:57:32 INFO  [netty-shutdown] o.s.b.w.e.netty.GracefulShutdown - Graceful shutdown complete
