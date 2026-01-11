@@ -1,6 +1,6 @@
 package com.github.jvondoellinger.agp_protocol.domain.shared;
 
-public sealed class QueryFilter {
+public class QueryFilter {
 	private final int size;
 	private final int page;
 

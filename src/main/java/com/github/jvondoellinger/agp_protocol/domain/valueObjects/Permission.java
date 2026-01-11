@@ -2,7 +2,7 @@ package com.github.jvondoellinger.agp_protocol.domain.valueObjects;
 
 import com.github.jvondoellinger.agp_protocol.domain.DomainException;
 
-public sealed class Permission {
+public class Permission {
 	private final String code;
 
 	private Permission(String code) {

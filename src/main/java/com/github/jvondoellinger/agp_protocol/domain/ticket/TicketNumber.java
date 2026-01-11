@@ -21,4 +21,9 @@ public class TicketNumber {
 	public static TicketNumber create() {
 		return new TicketNumber();
 	}
+
+	@Override
+	public String toString() {
+		return value;
+	}
 }
