@@ -2,6 +2,6 @@ spring:
   application:
     name: agp-protocol
   datasource:
-    url: jdbc:mysql://localhost:3306/agp_protocol
+    url: jdbc:mysql://localhost:3306/agp_protocol?createDatabaseIfNotExist=true
     username: root
     password:

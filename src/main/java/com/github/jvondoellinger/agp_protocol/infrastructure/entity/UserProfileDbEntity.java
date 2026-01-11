@@ -2,10 +2,9 @@ package com.github.jvondoellinger.agp_protocol.infrastructure.entity;
 
 import com.github.jvondoellinger.agp_protocol.domain.DomainId;
 import com.github.jvondoellinger.agp_protocol.domain.profile.UserProfile;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -13,9 +12,11 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tb_user_profile")
+@Getter
+@Setter
 public class UserProfileDbEntity implements DbEntity<UserProfile> {
 	@Id
-	public DomainId userId;
+	public String userId;
 
 	@ManyToOne
 	public AccessProfileDbEntity accessProfile;
@@ -26,7 +27,7 @@ public class UserProfileDbEntity implements DbEntity<UserProfile> {
 	public LocalDateTime updatedAt;
 
 	public UserProfileDbEntity(UserProfile user) {
-		this.userId = user.getDomainId();
+		this.userId = user.getDomainId().toString();
 		this.accessProfile = new AccessProfileDbEntity(user.getAccessProfile());
 		this.createdAt = user.getCreatedAt();
 		this.updatedAt = user.getUpdatedAt();
@@ -35,36 +36,10 @@ public class UserProfileDbEntity implements DbEntity<UserProfile> {
 	@Override
 	public UserProfile toDomainEntity() {
 		return new UserProfile(
-			   userId,
+			   DomainId.parse(userId),
 			   accessProfile.toDomainEntity(),
 			   createdAt,
 			   updatedAt
 		);
-	}
-
-	public DomainId getUserId() {
-		return userId;
-	}
-	public AccessProfileDbEntity getAccessProfile() {
-		return accessProfile;
-	}
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-	public LocalDateTime getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUserId(DomainId userId) {
-		this.userId = userId;
-	}
-	public void setAccessProfile(AccessProfileDbEntity accessProfile) {
-		this.accessProfile = accessProfile;
-	}
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-	public void setUpdatedAt(LocalDateTime updatedAt) {
-		this.updatedAt = updatedAt;
 	}
 }

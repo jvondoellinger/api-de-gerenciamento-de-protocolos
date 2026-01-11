@@ -1,5 +1,7 @@
 package com.github.jvondoellinger.agp_protocol.infrastructure.entity;
 
+import com.github.jvondoellinger.agp_protocol.adapters.outbound.converter.TicketNumberConverter;
+import com.github.jvondoellinger.agp_protocol.domain.interaction.Interaction;
 import com.github.jvondoellinger.agp_protocol.domain.interaction.InteractionsHistory;
 import com.github.jvondoellinger.agp_protocol.domain.mention.Mentions;
 import com.github.jvondoellinger.agp_protocol.domain.ticket.Ticket;
@@ -11,6 +13,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.text.AttributedString;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +24,14 @@ import java.util.List;
 @Setter
 public class TicketDbEntity implements DbEntity<Ticket> {
 	@Id
-	private TicketNumber number;
+	private String number;
 
 	private String title;
-	private InteractionsHistory history;
+
+	@Column(name = "interactions")
+	@ManyToMany
+	private List<InteractionDbEntity> history;
+
 	private LocalDateTime deadline;
 
 	@ManyToOne
@@ -49,9 +56,12 @@ public class TicketDbEntity implements DbEntity<Ticket> {
 			   .map(UserProfileDbEntity::new)
 			   .toList();
 
-		this.number = ticket.number();
+		this.number = ticket.number().toString();
 		this.title = ticket.title();
-		this.history = ticket.history();
+		this.history = (new ArrayList<>(ticket.history().readonlyList()))
+			   .stream()
+			   .map(InteractionDbEntity::new)
+			   .toList();
 		this.deadline = ticket.deadline();
 		this.mentions = mentions;
 		this.openedBy = new UserProfileDbEntity(ticket.openedBy());
@@ -63,10 +73,13 @@ public class TicketDbEntity implements DbEntity<Ticket> {
 	@Override
 	public Ticket toDomainEntity() {
 		var mentionsEntity = mentions.stream().map(DbEntity::toDomainEntity).toList();
+		var interactions = history.stream().map(DbEntity::toDomainEntity).toList();
+		var historyEntity = new InteractionsHistory(interactions);
+
 		return new Ticket(
-			   number,
+			   TicketNumber.parse(number),
 			   title,
-			   history,
+			   historyEntity,
 			   queue.toDomainEntity(),
 			   new Mentions(mentionsEntity),
 			   deadline,

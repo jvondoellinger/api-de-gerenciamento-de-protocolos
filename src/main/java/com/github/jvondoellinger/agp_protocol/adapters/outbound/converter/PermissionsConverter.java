@@ -28,6 +28,8 @@ public class PermissionsConverter implements AttributeConverter<Permissions, Str
 	}
 
 	public Permissions deserialize(String serialized) {
+		if (serialized == null || serialized.isBlank()) return new Permissions();
+
 		String[] values = serialized.split(";");
 		Permissions permissions = new Permissions();
 
