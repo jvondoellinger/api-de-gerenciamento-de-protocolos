@@ -1,14 +1,16 @@
 package com.github.jvondoellinger.agp_protocol.application.queue;
 
+import com.github.jvondoellinger.agp_protocol.application.DomainIdDTO;
+
 import java.time.LocalDateTime;
 
 public record CreateQueueResponseDTO(
-	   String id,
+	   DomainIdDTO id,
 	   String area,
 	   String subarea,
-	   String createdById,
+	   DomainIdDTO createdById,
 	   LocalDateTime createdAt,
-	   String lastUpdatedById,
+	   DomainIdDTO lastUpdatedById,
 	   LocalDateTime lastUpdatedAt
 ) {
 }

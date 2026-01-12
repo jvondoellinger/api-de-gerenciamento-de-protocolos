@@ -16,10 +16,10 @@ public class TicketUseCasesImpl implements TicketUseCases {
 
 	@Override
 	public CreateTicketResponseDTO create(CreateTicketRequestDTO createTicketRequestDTO) {
-		var mappedTicket = mapper.map(createTicketRequestDTO);
+		var mappedTicket = mapper.mapToEntity(createTicketRequestDTO);
 		var ticket = repository.save(mappedTicket);
 
 		// Map and return de response
-		return mapper.map(ticket);
+		return mapper.mapToResponse(ticket);
 	}
 }

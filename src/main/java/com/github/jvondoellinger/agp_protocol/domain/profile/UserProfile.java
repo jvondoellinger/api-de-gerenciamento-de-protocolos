@@ -18,18 +18,22 @@ public class UserProfile {
 		this.updatedAt = updatedAt;
 	}
 
+	public UserProfile(AccessProfile accessProfile) {
+		this.domainId = DomainId.create();
+		this.accessProfile = accessProfile;
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt = null;
+	}
+
 	public DomainId getDomainId() {
 		return domainId;
 	}
-
 	public AccessProfile getAccessProfile() {
 		return accessProfile;
 	}
-
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
-
 	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}

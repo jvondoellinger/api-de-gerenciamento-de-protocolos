@@ -34,7 +34,7 @@ public class AccessProfileDbEntity implements DbEntity<AccessProfile>{
 	private LocalDateTime updatedAt;
 
 	public AccessProfileDbEntity(AccessProfile profile) {
-		this.domainId = profile.getId().value();
+		this.domainId = profile.getDomainId().value();
 		this.name = profile.getName();
 		this.permissions = profile.getPermissions();
 

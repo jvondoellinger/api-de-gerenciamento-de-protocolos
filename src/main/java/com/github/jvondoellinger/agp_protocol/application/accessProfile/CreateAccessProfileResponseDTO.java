@@ -1,4 +1,14 @@
 package com.github.jvondoellinger.agp_protocol.application.accessProfile;
 
-public record CreateAccessProfileResponseDTO() {
+import com.github.jvondoellinger.agp_protocol.application.DomainIdDTO;
+
+import java.time.LocalDateTime;
+
+public record CreateAccessProfileResponseDTO(
+	   DomainIdDTO id,
+	   String name,
+	   PermissionsDTO permissionsDTO,
+	   LocalDateTime createdAt,
+	   LocalDateTime updatedAt
+) {
 }

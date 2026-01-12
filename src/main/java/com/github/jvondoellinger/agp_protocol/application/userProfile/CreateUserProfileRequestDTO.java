@@ -1,4 +1,8 @@
 package com.github.jvondoellinger.agp_protocol.application.userProfile;
 
-public record CreateUserProfileRequestDTO() {
+import com.github.jvondoellinger.agp_protocol.application.DomainIdDTO;
+
+public record CreateUserProfileRequestDTO(
+	   DomainIdDTO accessProfileId
+) {
 }

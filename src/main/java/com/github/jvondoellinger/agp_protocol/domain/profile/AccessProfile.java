@@ -6,44 +6,40 @@ import com.github.jvondoellinger.agp_protocol.domain.valueObjects.Permissions;
 import java.time.LocalDateTime;
 
 public class AccessProfile {
-	private final DomainId id;
+	private final DomainId domainId;
 	private final String name;
 	private final Permissions permissions;
 	private final LocalDateTime createdAt;
 	private final LocalDateTime updatedAt;
 
-	public AccessProfile(DomainId id, String name, Permissions permissions, LocalDateTime createdAt, LocalDateTime updatedAt) {
-		this.id = id;
+	public AccessProfile(DomainId domainId, String name, Permissions permissions, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		this.domainId = domainId;
 		this.name = name;
 		this.permissions = permissions;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
 
-	public AccessProfile(String name, Permissions permissions, LocalDateTime createdAt, LocalDateTime updatedAt) {
-		this.id = DomainId.create();
+	public AccessProfile(String name, Permissions permissions) {
+		this.domainId = DomainId.create();
 		this.name = name;
 		this.permissions = permissions;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt = null;
 	}
 
-	public DomainId getId() {
-		return id;
+	public DomainId getDomainId() {
+		return domainId;
 	}
-
 	public String getName() {
 		return name;
 	}
-
 	public Permissions getPermissions() {
 		return permissions;
 	}
-
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
-
 	public LocalDateTime getUpdatedAt() {
 		return updatedAt;
 	}

@@ -37,7 +37,7 @@ public class QueueDbEntity implements DbEntity<Queue> {
 		this.domainId = queue.getDomainId().toString();
 		this.area = queue.getArea();
 		this.subarea = queue.getSubarea();
-		this.createdBy = new UserProfileDbEntity(queue.getCreatedById());
+		this.createdBy = new UserProfileDbEntity(queue.getCreatedBy());
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = LocalDateTime.now();
 		this.lastUpdatedBy = new UserProfileDbEntity(queue.getLastUpdatedBy());
