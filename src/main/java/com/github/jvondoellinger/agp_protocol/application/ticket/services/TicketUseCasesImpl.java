@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class TicketUseCasesImpl implements TicketUseCases {
 	private final TicketRepository repository;
 	private final TicketMapper mapper;
+
 	@Override
 	public CreateTicketResponseDTO create(CreateTicketRequestDTO createTicketRequestDTO) {
 		var mappedTicket = mapper.map(createTicketRequestDTO);
