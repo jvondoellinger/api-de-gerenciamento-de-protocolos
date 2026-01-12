@@ -8,9 +8,13 @@ public class DomainId {
 	private DomainId() {
 		gen();
 	}
+	private DomainId(String id) {
+		this.id = id;
+	}
 
 	public static DomainId parse(String value) {
-		return null;
+		var uuid = UUID.fromString(value);
+		return new DomainId(uuid.toString());
 	}
 
 	public static DomainId create() {

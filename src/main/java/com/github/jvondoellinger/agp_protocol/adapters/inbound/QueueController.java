@@ -5,6 +5,7 @@ import com.github.jvondoellinger.agp_protocol.application.queue.CreateQueueRespo
 import com.github.jvondoellinger.agp_protocol.application.queue.useCases.QueueUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ public class QueueController {
 	private final QueueUseCase useCase;
 
 	@PostMapping
-	public CreateQueueResponseDTO create(CreateQueueRequestDTO requestDTO) {
+	public CreateQueueResponseDTO create(@RequestBody CreateQueueRequestDTO requestDTO) {
 		return useCase.create(requestDTO);
 	}
 }

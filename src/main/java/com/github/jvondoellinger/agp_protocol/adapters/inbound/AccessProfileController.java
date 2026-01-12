@@ -5,6 +5,7 @@ import com.github.jvondoellinger.agp_protocol.application.accessProfile.CreateAc
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.useCases.AccessProfileUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ public class AccessProfileController {
 	private final AccessProfileUseCase useCase;
 
 	@PostMapping
-	public CreateAccessProfileResponseDTO create(CreateAccessProfileRequestDTO requestDTO) {
+	public CreateAccessProfileResponseDTO create(@RequestBody CreateAccessProfileRequestDTO requestDTO) {
 		return useCase.create(requestDTO);
 	}
 }

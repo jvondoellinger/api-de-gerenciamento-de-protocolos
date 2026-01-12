@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.PersistenceCreator;
 
 import java.time.LocalDateTime;
 
@@ -33,6 +34,7 @@ public class QueueDbEntity implements DbEntity<Queue> {
 	@ManyToOne
 	private UserProfileDbEntity lastUpdatedBy;
 
+	protected QueueDbEntity() {}
 	public QueueDbEntity(Queue queue) {
 		this.domainId = queue.getDomainId().toString();
 		this.area = queue.getArea();
@@ -41,6 +43,17 @@ public class QueueDbEntity implements DbEntity<Queue> {
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = LocalDateTime.now();
 		this.lastUpdatedBy = new UserProfileDbEntity(queue.getLastUpdatedBy());
+	}
+
+	@PersistenceCreator
+	public QueueDbEntity(String domainId, String area, String subarea, UserProfileDbEntity createdBy, LocalDateTime createdAt, LocalDateTime updatedAt, UserProfileDbEntity lastUpdatedBy) {
+		this.domainId = domainId;
+		this.area = area;
+		this.subarea = subarea;
+		this.createdBy = createdBy;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+		this.lastUpdatedBy = lastUpdatedBy;
 	}
 
 	@Override

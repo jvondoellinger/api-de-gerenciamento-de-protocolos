@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.PersistenceCreator;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +19,7 @@ public class UserProfileDbEntity implements DbEntity<UserProfile> {
 	@Id
 	public String userId;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	public AccessProfileDbEntity accessProfile;
 
 	@CreationTimestamp
@@ -32,6 +33,16 @@ public class UserProfileDbEntity implements DbEntity<UserProfile> {
 		this.createdAt = user.getCreatedAt();
 		this.updatedAt = user.getUpdatedAt();
 	}
+
+	@PersistenceCreator
+	public UserProfileDbEntity(String userId, AccessProfileDbEntity accessProfile, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		this.userId = userId;
+		this.accessProfile = accessProfile;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+
+	protected UserProfileDbEntity() {}
 
 	@Override
 	public UserProfile toDomainEntity() {

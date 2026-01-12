@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.PersistenceCreator;
 
 import java.time.LocalDateTime;
 
@@ -32,6 +33,17 @@ public class InteractionDbEntity implements DbEntity<Interaction> {
 		this.interactedBy = new UserProfileDbEntity(interaction.getInteractedBy());
 		this.interactedOn = interaction.getInteractedOn();
 	}
+
+	@PersistenceCreator
+	public InteractionDbEntity(String domainId, String text, boolean visible, UserProfileDbEntity interactedBy, LocalDateTime interactedOn) {
+		this.domainId = domainId;
+		this.text = text;
+		this.visible = visible;
+		this.interactedBy = interactedBy;
+		this.interactedOn = interactedOn;
+	}
+
+	protected InteractionDbEntity() {}
 
 	@Override
 	public Interaction toDomainEntity() {

@@ -4,14 +4,12 @@ import com.github.jvondoellinger.agp_protocol.adapters.outbound.converter.Permis
 import com.github.jvondoellinger.agp_protocol.domain.DomainId;
 import com.github.jvondoellinger.agp_protocol.domain.profile.AccessProfile;
 import com.github.jvondoellinger.agp_protocol.domain.valueObjects.Permissions;
-import jakarta.persistence.Convert;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.PersistenceCreator;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +21,7 @@ public class AccessProfileDbEntity implements DbEntity<AccessProfile>{
 	@Id
 	private String domainId;
 
+	@Column(unique = true)
 	private String name;
 
 	@Convert(converter = PermissionsConverter.class)
@@ -42,8 +41,20 @@ public class AccessProfileDbEntity implements DbEntity<AccessProfile>{
 		this.updatedAt = LocalDateTime.now();
 	}
 
+	@PersistenceCreator
+	public AccessProfileDbEntity(String domainId, String name, Permissions permissions, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		this.domainId = domainId;
+		this.name = name;
+		this.permissions = permissions;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
+	}
+
+	protected AccessProfileDbEntity() {}
+
 	@Override
 	public AccessProfile toDomainEntity() {
+		System.out.println(domainId + " Teste");
 		return new AccessProfile(
 			   DomainId.parse(domainId),
 			   name,

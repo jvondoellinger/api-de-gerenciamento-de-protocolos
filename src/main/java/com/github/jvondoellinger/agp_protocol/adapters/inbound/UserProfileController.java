@@ -5,6 +5,7 @@ import com.github.jvondoellinger.agp_protocol.application.userProfile.CreateUser
 import com.github.jvondoellinger.agp_protocol.application.userProfile.useCases.UserProfileUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,7 @@ public class UserProfileController {
 	private final UserProfileUseCase useCase;
 
 	@PostMapping
-	public CreateUserProfileResponseDTO create(CreateUserProfileRequestDTO requestDTO) {
+	public CreateUserProfileResponseDTO create(@RequestBody CreateUserProfileRequestDTO requestDTO) {
 		return useCase.create(requestDTO);
 	}
 }

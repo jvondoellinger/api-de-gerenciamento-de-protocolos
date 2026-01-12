@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.PersistenceCreator;
 
 import java.text.AttributedString;
 import java.time.LocalDateTime;
@@ -50,6 +51,20 @@ public class TicketDbEntity implements DbEntity<Ticket> {
 	@ManyToOne
 	private UserProfileDbEntity lastUpdatedBy;
 
+	@PersistenceCreator
+	public TicketDbEntity(String number, String title, List<InteractionDbEntity> history, LocalDateTime deadline, QueueDbEntity queue, List<UserProfileDbEntity> mentions, LocalDateTime openedOn, UserProfileDbEntity openedBy, LocalDateTime lastUpdatedOn, UserProfileDbEntity lastUpdatedBy) {
+		this.number = number;
+		this.title = title;
+		this.history = history;
+		this.deadline = deadline;
+		this.queue = queue;
+		this.mentions = mentions;
+		this.openedOn = openedOn;
+		this.openedBy = openedBy;
+		this.lastUpdatedOn = lastUpdatedOn;
+		this.lastUpdatedBy = lastUpdatedBy;
+	}
+
 	public TicketDbEntity(Ticket ticket) {
 		var mentions = (new ArrayList<>(ticket.mentions().readonlyList()))
 			   .stream()
@@ -69,6 +84,8 @@ public class TicketDbEntity implements DbEntity<Ticket> {
 		this.lastUpdatedBy = new UserProfileDbEntity(ticket.lastUpdatedBy());
 		this.lastUpdatedOn = ticket.lastUpdatedOn();
 	}
+
+	protected TicketDbEntity() {}
 
 	@Override
 	public Ticket toDomainEntity() {
