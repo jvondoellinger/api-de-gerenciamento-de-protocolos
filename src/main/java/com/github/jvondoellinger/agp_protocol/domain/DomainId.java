@@ -4,6 +4,9 @@ import java.util.UUID;
 
 public class DomainId {
 	private String id;
+	private void gen() {
+		this.id = UUID.randomUUID().toString();
+	}
 
 	private DomainId() {
 		gen();
@@ -12,17 +15,13 @@ public class DomainId {
 		this.id = id;
 	}
 
+
 	public static DomainId parse(String value) {
 		var uuid = UUID.fromString(value);
 		return new DomainId(uuid.toString());
 	}
-
 	public static DomainId create() {
 		return new DomainId();
-	}
-
-	private void gen() {
-		this.id = UUID.randomUUID().toString();
 	}
 
 	public String value() {

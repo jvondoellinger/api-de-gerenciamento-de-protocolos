@@ -9,6 +9,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.PersistenceCreator;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_interaction")
@@ -30,7 +32,7 @@ public class InteractionDbEntity implements DbEntity<Interaction> {
 		this.domainId = interaction.getId().toString();
 		this.text = interaction.getText();
 		this.visible = interaction.isVisible();
-		this.interactedBy = new UserProfileDbEntity(interaction.getInteractedBy());
+		this.interactedBy = UserProfileDbEntity.foreignKey(interaction.getInteractedBy().getDomainId().value());
 		this.interactedOn = interaction.getInteractedOn();
 	}
 
@@ -54,5 +56,24 @@ public class InteractionDbEntity implements DbEntity<Interaction> {
 			   interactedBy.toDomainEntity(),
 			   interactedOn
 		);
+	}
+
+	public static InteractionDbEntity foreignKey(String id) {
+		var interactionDbEntity = new InteractionDbEntity();
+		interactionDbEntity.setDomainId(id);
+		return interactionDbEntity;
+	}
+
+	public static List<InteractionDbEntity> foreignKey(List<String> ids) {
+		var interactions = new ArrayList<InteractionDbEntity>();
+
+		InteractionDbEntity interactionDbEntity;
+
+		for (var id : ids) {
+			interactionDbEntity = new InteractionDbEntity();
+			interactionDbEntity.setDomainId(id);
+		}
+
+		return interactions;
 	}
 }

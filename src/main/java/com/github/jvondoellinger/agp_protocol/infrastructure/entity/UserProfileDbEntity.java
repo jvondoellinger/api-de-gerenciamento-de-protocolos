@@ -25,11 +25,12 @@ public class UserProfileDbEntity implements DbEntity<UserProfile> {
 	@CreationTimestamp
 	public LocalDateTime createdAt;
 	@UpdateTimestamp
+	@Column(nullable = true)
 	public LocalDateTime updatedAt;
 
 	public UserProfileDbEntity(UserProfile user) {
 		this.userId = user.getDomainId().toString();
-		this.accessProfile = new AccessProfileDbEntity(user.getAccessProfile());
+		this.accessProfile = AccessProfileDbEntity.foreignKey(user.getAccessProfile().getDomainId().value());
 		this.createdAt = user.getCreatedAt();
 		this.updatedAt = user.getUpdatedAt();
 	}
@@ -52,5 +53,11 @@ public class UserProfileDbEntity implements DbEntity<UserProfile> {
 			   createdAt,
 			   updatedAt
 		);
+	}
+
+	public static UserProfileDbEntity foreignKey(String id) {
+		var userProfileDbEntity = new UserProfileDbEntity();
+		userProfileDbEntity.setUserId(id);
+		return userProfileDbEntity;
 	}
 }

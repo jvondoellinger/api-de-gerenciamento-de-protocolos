@@ -22,16 +22,17 @@ public class QueueDbEntity implements DbEntity<Queue> {
 	private String area;
 	private String subarea;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private UserProfileDbEntity createdBy;
 
 	@CreationTimestamp
 	private LocalDateTime createdAt;
 
 	@UpdateTimestamp
+	@Column(nullable = true)
 	private LocalDateTime updatedAt;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private UserProfileDbEntity lastUpdatedBy;
 
 	protected QueueDbEntity() {}
@@ -39,10 +40,12 @@ public class QueueDbEntity implements DbEntity<Queue> {
 		this.domainId = queue.getDomainId().toString();
 		this.area = queue.getArea();
 		this.subarea = queue.getSubarea();
-		this.createdBy = new UserProfileDbEntity(queue.getCreatedBy());
+		this.createdBy = UserProfileDbEntity.foreignKey(queue.getCreatedBy().getDomainId().value());
 		this.createdAt = LocalDateTime.now();
-		this.updatedAt = LocalDateTime.now();
-		this.lastUpdatedBy = new UserProfileDbEntity(queue.getLastUpdatedBy());
+		this.updatedAt = queue.getUpdatedAt();
+		this.lastUpdatedBy = queue.getLastUpdatedBy() == null ?
+			   null : UserProfileDbEntity.foreignKey(queue.getLastUpdatedBy().getDomainId().value());
+
 	}
 
 	@PersistenceCreator
@@ -65,7 +68,13 @@ public class QueueDbEntity implements DbEntity<Queue> {
 			   createdBy.toDomainEntity(),
 			   createdAt,
 			   updatedAt,
-			   lastUpdatedBy.toDomainEntity()
+			   lastUpdatedBy == null ? null : lastUpdatedBy.toDomainEntity()
 		);
+	}
+
+	public static QueueDbEntity foreignKey(String id) {
+		var queueDbEntity = new QueueDbEntity();
+		queueDbEntity.setDomainId(id);
+		return queueDbEntity;
 	}
 }

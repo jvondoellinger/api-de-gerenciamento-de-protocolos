@@ -29,7 +29,9 @@ public class AccessProfileDbEntity implements DbEntity<AccessProfile>{
 
 	@CreationTimestamp
 	private LocalDateTime createdAt;
+
 	@UpdateTimestamp
+	@Column(nullable = true)
 	private LocalDateTime updatedAt;
 
 	public AccessProfileDbEntity(AccessProfile profile) {
@@ -62,5 +64,11 @@ public class AccessProfileDbEntity implements DbEntity<AccessProfile>{
 			   createdAt,
 			   updatedAt
 		);
+	}
+
+	public static AccessProfileDbEntity foreignKey(String id) {
+		var accessProfileDbEntity = new AccessProfileDbEntity();
+		accessProfileDbEntity.setDomainId(id);
+		return accessProfileDbEntity;
 	}
 }

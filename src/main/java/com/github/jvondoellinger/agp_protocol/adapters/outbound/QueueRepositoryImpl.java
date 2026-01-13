@@ -20,6 +20,7 @@ public class QueueRepositoryImpl implements QueueRepository {
 
 	@Override
 	public Queue save(Queue entity) {
+		System.out.println("Teste " + entity.getDomainId().value());
 		return JpaCrudsBridge.save(jpaQueueRepository, new QueueDbEntity(entity), DbEntity::toDomainEntity);
 	}
 

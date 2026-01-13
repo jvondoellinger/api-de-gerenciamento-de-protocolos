@@ -29,7 +29,7 @@ public class TicketMapper implements Mapper<Ticket, CreateTicketRequestDTO, Crea
 		var history = new InteractionsHistory();
 		var mentionsIds = createTicketRequestDTO.mentions().userIds()
 			   .stream()
-			   .map(this::userProfileIdOnly)
+			   .map(x -> userProfileIdOnly(x.value()))
 			   .toList();
 		var queue = queueIdOnly(createTicketRequestDTO.queueId().id().value());
 		var mentions = new Mentions(mentionsIds);
@@ -49,6 +49,7 @@ public class TicketMapper implements Mapper<Ticket, CreateTicketRequestDTO, Crea
 		var mentions = new ArrayList<>(ticket.mentions().readonlyList())
 			   .stream()
 			   .map(x -> x.getDomainId().value())
+			   .map(DomainIdDTO::new)
 			   .toList();
 
 		var queueIdDto = new QueueIdDTO(new DomainIdDTO(ticket.queue().getDomainId().value()));

@@ -23,7 +23,8 @@ public class QueueMapper implements Mapper<Queue, CreateQueueRequestDTO, CreateQ
 	public CreateQueueResponseDTO mapToResponse(Queue queue) {
 		var id = new DomainIdDTO(queue.getDomainId().value());
 		var createdById = new DomainIdDTO(queue.getCreatedBy().getDomainId().value());
-		var updatedById = new DomainIdDTO(queue.getLastUpdatedBy().getDomainId().value());
+		var updatedById = queue.getLastUpdatedBy() == null ?
+			   null : new DomainIdDTO(queue.getLastUpdatedBy().getDomainId().value());
 		return new CreateQueueResponseDTO(
 			   id,
 			   queue.getArea(),

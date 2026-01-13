@@ -47,6 +47,7 @@ public class TicketDbEntity implements DbEntity<Ticket> {
 	private UserProfileDbEntity openedBy;
 
 	@UpdateTimestamp
+	@Column(nullable = true)
 	private LocalDateTime lastUpdatedOn;
 	@ManyToOne
 	private UserProfileDbEntity lastUpdatedBy;
@@ -68,20 +69,23 @@ public class TicketDbEntity implements DbEntity<Ticket> {
 	public TicketDbEntity(Ticket ticket) {
 		var mentions = (new ArrayList<>(ticket.mentions().readonlyList()))
 			   .stream()
-			   .map(UserProfileDbEntity::new)
+			   .map(u -> u.getDomainId().value())
+			   .map(UserProfileDbEntity::foreignKey)
+			   .toList();
+		this.history = (new ArrayList<>(ticket.history().readonlyList()))
+			   .stream()
+			   .map(i -> i.getId().value())
+			   .map(InteractionDbEntity::foreignKey)
 			   .toList();
 
 		this.number = ticket.number().toString();
 		this.title = ticket.title();
-		this.history = (new ArrayList<>(ticket.history().readonlyList()))
-			   .stream()
-			   .map(InteractionDbEntity::new)
-			   .toList();
 		this.deadline = ticket.deadline();
 		this.mentions = mentions;
-		this.openedBy = new UserProfileDbEntity(ticket.openedBy());
+		this.openedBy = UserProfileDbEntity.foreignKey(ticket.openedBy().getDomainId().value());
 		this.openedOn = ticket.openedOn();
-		this.lastUpdatedBy = new UserProfileDbEntity(ticket.lastUpdatedBy());
+		this.lastUpdatedBy = ticket.lastUpdatedBy() == null ?
+			   null : UserProfileDbEntity.foreignKey(ticket.queue().getLastUpdatedBy().getDomainId().value());
 		this.lastUpdatedOn = ticket.lastUpdatedOn();
 	}
 
