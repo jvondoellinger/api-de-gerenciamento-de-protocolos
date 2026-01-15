@@ -6,6 +6,7 @@ import com.github.jvondoellinger.agp_protocol.domain.queue.QueueRepository;
 import com.github.jvondoellinger.agp_protocol.domain.shared.QueryFilter;
 import com.github.jvondoellinger.agp_protocol.infrastructure.entity.DbEntity;
 import com.github.jvondoellinger.agp_protocol.infrastructure.entity.QueueDbEntity;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,7 +21,6 @@ public class QueueRepositoryImpl implements QueueRepository {
 
 	@Override
 	public Queue save(Queue entity) {
-		System.out.println("Teste " + entity.getDomainId().value());
 		return JpaCrudsBridge.save(jpaQueueRepository, new QueueDbEntity(entity), DbEntity::toDomainEntity);
 	}
 

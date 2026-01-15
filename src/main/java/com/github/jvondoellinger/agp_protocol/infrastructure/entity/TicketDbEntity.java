@@ -35,7 +35,7 @@ public class TicketDbEntity implements DbEntity<Ticket> {
 
 	private LocalDateTime deadline;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	private QueueDbEntity queue;
 
 	@ManyToMany
@@ -77,7 +77,7 @@ public class TicketDbEntity implements DbEntity<Ticket> {
 			   .map(i -> i.getId().value())
 			   .map(InteractionDbEntity::foreignKey)
 			   .toList();
-
+		this.queue = QueueDbEntity.foreignKey(ticket.queue().getDomainId().value());
 		this.number = ticket.number().toString();
 		this.title = ticket.title();
 		this.deadline = ticket.deadline();
@@ -106,7 +106,7 @@ public class TicketDbEntity implements DbEntity<Ticket> {
 			   deadline,
 			   openedBy.toDomainEntity(),
 			   openedOn,
-			   lastUpdatedBy.toDomainEntity(),
+			   lastUpdatedBy == null ? null : lastUpdatedBy.toDomainEntity(),
 			   lastUpdatedOn
 		);
 	}

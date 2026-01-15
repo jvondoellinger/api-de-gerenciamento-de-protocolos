@@ -55,7 +55,7 @@ public class TicketMapper implements Mapper<Ticket, CreateTicketRequestDTO, Crea
 		var queueIdDto = new QueueIdDTO(new DomainIdDTO(ticket.queue().getDomainId().value()));
 		var mentionsDto = new MentionsDTO(mentions);
 		var openedBy = new DomainIdDTO(ticket.openedBy().getDomainId().value());
-		var lastUpdatedBy = new DomainIdDTO(ticket.lastUpdatedBy().getDomainId().value());
+		var lastUpdatedBy = ticket.lastUpdatedBy() == null ? null : new DomainIdDTO(ticket.lastUpdatedBy().getDomainId().value());
 
 		return new CreateTicketResponseDTO(
 			   ticket.number().toString(),

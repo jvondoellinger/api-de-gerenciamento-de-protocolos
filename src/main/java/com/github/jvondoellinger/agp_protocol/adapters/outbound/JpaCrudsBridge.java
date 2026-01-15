@@ -2,6 +2,7 @@ package com.github.jvondoellinger.agp_protocol.adapters.outbound;
 
 import com.github.jvondoellinger.agp_protocol.domain.shared.QueryFilter;
 import com.github.jvondoellinger.agp_protocol.infrastructure.entity.DbEntity;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.function.Function;
 
 @Service
+@Log4j2
 public class JpaCrudsBridge {
 	private JpaCrudsBridge() {}
 
