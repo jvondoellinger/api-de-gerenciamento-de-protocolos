@@ -22,9 +22,9 @@ public class QueueMapper implements Mapper<Queue, CreateQueueRequestDTO, CreateQ
 	@Override
 	public CreateQueueResponseDTO mapToResponse(Queue queue) {
 		var id = new DomainIdDTO(queue.getDomainId().value());
-		var createdById = new DomainIdDTO(queue.getCreatedBy().getDomainId().value());
+		var createdById = new DomainIdDTO(queue.getCreatedBy().getUserId().value());
 		var updatedById = queue.getLastUpdatedBy() == null ?
-			   null : new DomainIdDTO(queue.getLastUpdatedBy().getDomainId().value());
+			   null : new DomainIdDTO(queue.getLastUpdatedBy().getUserId().value());
 		return new CreateQueueResponseDTO(
 			   id,
 			   queue.getArea(),

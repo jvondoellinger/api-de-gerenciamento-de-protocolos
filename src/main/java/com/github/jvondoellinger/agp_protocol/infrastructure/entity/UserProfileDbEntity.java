@@ -29,7 +29,7 @@ public class UserProfileDbEntity implements DbEntity<UserProfile> {
 	public LocalDateTime updatedAt;
 
 	public UserProfileDbEntity(UserProfile user) {
-		this.userId = user.getDomainId().toString();
+		this.userId = user.getUserId().toString();
 		this.accessProfile = AccessProfileDbEntity.foreignKey(user.getAccessProfile().getDomainId().value());
 		this.createdAt = user.getCreatedAt();
 		this.updatedAt = user.getUpdatedAt();

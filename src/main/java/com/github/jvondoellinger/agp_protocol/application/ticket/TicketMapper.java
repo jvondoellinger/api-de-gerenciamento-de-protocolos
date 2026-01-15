@@ -12,10 +12,12 @@ import com.github.jvondoellinger.agp_protocol.domain.ticket.Ticket;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TicketMapper implements Mapper<Ticket, CreateTicketRequestDTO, CreateTicketResponseDTO> {
-	public TicketMapper() {}
+	public TicketMapper() {
+	}
 
 	/**
 	 *
@@ -46,22 +48,16 @@ public class TicketMapper implements Mapper<Ticket, CreateTicketRequestDTO, Crea
 
 	@Override
 	public CreateTicketResponseDTO mapToResponse(Ticket ticket) {
-		var mentions = new ArrayList<>(ticket.mentions().readonlyList())
-			   .stream()
-			   .map(x -> x.getDomainId().value())
-			   .map(DomainIdDTO::new)
-			   .toList();
-
-		var queueIdDto = new QueueIdDTO(new DomainIdDTO(ticket.queue().getDomainId().value()));
-		var mentionsDto = new MentionsDTO(mentions);
-		var openedBy = new DomainIdDTO(ticket.openedBy().getDomainId().value());
-		var lastUpdatedBy = ticket.lastUpdatedBy() == null ? null : new DomainIdDTO(ticket.lastUpdatedBy().getDomainId().value());
+		var mentions = mapMentions(ticket.mentions());
+		var queueIdDto = mapQueueId(ticket.queue().getDomainId());
+		var openedBy = new DomainIdDTO(ticket.openedBy().getUserId().value());
+		var lastUpdatedBy = mapLastUpdatedBy(ticket.lastUpdatedBy());
 
 		return new CreateTicketResponseDTO(
 			   ticket.number().toString(),
 			   ticket.title(),
 			   queueIdDto,
-			   mentionsDto,
+			   mentions,
 			   ticket.deadline(),
 			   openedBy,
 			   ticket.openedOn(),
@@ -70,13 +66,62 @@ public class TicketMapper implements Mapper<Ticket, CreateTicketRequestDTO, Crea
 		);
 	}
 
+	public List<QueryTicketResponseDTO> mapToResponse(List<Ticket> tickets) {
+		if (tickets == null || tickets.isEmpty()) {
+			return new ArrayList<>(0);
+		}
+
+		return tickets
+			   .stream()
+			   .map(ticket -> {
+				   var mentions = mapMentions(ticket.mentions());
+				   var queueIdDto = mapQueueId(ticket.queue().getDomainId());
+				   var openedBy = new DomainIdDTO(ticket.openedBy().getUserId().value());
+				   var lastUpdatedBy = mapLastUpdatedBy(ticket.lastUpdatedBy());
+
+				   return new QueryTicketResponseDTO(
+						 ticket.number().toString(),
+						 ticket.title(),
+						 queueIdDto,
+						 mentions,
+						 ticket.deadline(),
+						 openedBy,
+						 ticket.openedOn(),
+						 lastUpdatedBy,
+						 ticket.lastUpdatedOn()
+				   );
+			   })
+			   .toList();
+	}
+
+	private DomainIdDTO mapLastUpdatedBy(UserProfile profile) {
+		return profile == null ? null : mapId(profile.getUserId());
+	}
+
+	private DomainIdDTO mapId(DomainId id) {
+		return new DomainIdDTO(id.value());
+	}
+
+	private QueueIdDTO mapQueueId(DomainId id) {
+		return new QueueIdDTO(mapId(id));
+	}
+
+	private MentionsDTO mapMentions(Mentions mentions) {
+		var userIds = new ArrayList<>(mentions.readonlyList())
+			   .stream()
+			   .map(x -> x.getUserId().value())
+			   .map(DomainIdDTO::new)
+			   .toList();
+		return new MentionsDTO(userIds);
+	}
+
 	private UserProfile userProfileIdOnly(String id) {
 		return new UserProfile(DomainId.parse(id), null, null, null);
 	}
 
 	private Queue queueIdOnly(String queueId) {
 		return new Queue(
-			DomainId.parse(queueId),
+			   DomainId.parse(queueId),
 			   null,
 			   null,
 			   null,

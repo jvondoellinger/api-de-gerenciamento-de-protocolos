@@ -32,7 +32,7 @@ public class InteractionDbEntity implements DbEntity<Interaction> {
 		this.domainId = interaction.getId().toString();
 		this.text = interaction.getText();
 		this.visible = interaction.isVisible();
-		this.interactedBy = UserProfileDbEntity.foreignKey(interaction.getInteractedBy().getDomainId().value());
+		this.interactedBy = UserProfileDbEntity.foreignKey(interaction.getInteractedBy().getUserId().value());
 		this.interactedOn = interaction.getInteractedOn();
 	}
 

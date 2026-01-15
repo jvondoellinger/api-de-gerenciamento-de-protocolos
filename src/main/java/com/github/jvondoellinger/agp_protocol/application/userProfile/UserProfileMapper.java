@@ -20,7 +20,7 @@ public class UserProfileMapper implements Mapper<UserProfile, CreateUserProfileR
 
 	@Override
 	public CreateUserProfileResponseDTO mapToResponse(UserProfile userProfile) {
-		var domainDtoId = new DomainIdDTO(userProfile.getDomainId().value());
+		var domainDtoId = new DomainIdDTO(userProfile.getUserId().value());
 		var accessProfileId = new DomainIdDTO(userProfile.getAccessProfile().getDomainId().value());
 
 		return new CreateUserProfileResponseDTO(

@@ -1,20 +1,16 @@
 package com.github.jvondoellinger.agp_protocol.infrastructure.entity;
 
-import com.github.jvondoellinger.agp_protocol.adapters.outbound.converter.TicketNumberConverter;
-import com.github.jvondoellinger.agp_protocol.domain.interaction.Interaction;
 import com.github.jvondoellinger.agp_protocol.domain.interaction.InteractionsHistory;
 import com.github.jvondoellinger.agp_protocol.domain.mention.Mentions;
 import com.github.jvondoellinger.agp_protocol.domain.ticket.Ticket;
 import com.github.jvondoellinger.agp_protocol.domain.ticket.TicketNumber;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.PersistenceCreator;
 
-import java.text.AttributedString;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +31,7 @@ public class TicketDbEntity implements DbEntity<Ticket> {
 
 	private LocalDateTime deadline;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	private QueueDbEntity queue;
 
 	@ManyToMany
@@ -69,7 +65,7 @@ public class TicketDbEntity implements DbEntity<Ticket> {
 	public TicketDbEntity(Ticket ticket) {
 		var mentions = (new ArrayList<>(ticket.mentions().readonlyList()))
 			   .stream()
-			   .map(u -> u.getDomainId().value())
+			   .map(u -> u.getUserId().value())
 			   .map(UserProfileDbEntity::foreignKey)
 			   .toList();
 		this.history = (new ArrayList<>(ticket.history().readonlyList()))
@@ -82,10 +78,10 @@ public class TicketDbEntity implements DbEntity<Ticket> {
 		this.title = ticket.title();
 		this.deadline = ticket.deadline();
 		this.mentions = mentions;
-		this.openedBy = UserProfileDbEntity.foreignKey(ticket.openedBy().getDomainId().value());
+		this.openedBy = UserProfileDbEntity.foreignKey(ticket.openedBy().getUserId().value());
 		this.openedOn = ticket.openedOn();
 		this.lastUpdatedBy = ticket.lastUpdatedBy() == null ?
-			   null : UserProfileDbEntity.foreignKey(ticket.queue().getLastUpdatedBy().getDomainId().value());
+			   null : UserProfileDbEntity.foreignKey(ticket.queue().getLastUpdatedBy().getUserId().value());
 		this.lastUpdatedOn = ticket.lastUpdatedOn();
 	}
 

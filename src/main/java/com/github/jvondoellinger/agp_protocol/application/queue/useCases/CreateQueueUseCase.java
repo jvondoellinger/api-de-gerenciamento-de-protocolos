@@ -4,5 +4,5 @@ import com.github.jvondoellinger.agp_protocol.application.queue.CreateQueueReque
 import com.github.jvondoellinger.agp_protocol.application.queue.CreateQueueResponseDTO;
 import com.github.jvondoellinger.agp_protocol.application.shared.UseCase;
 
-public interface QueueUseCase extends UseCase<CreateQueueRequestDTO, CreateQueueResponseDTO> {
+public interface CreateQueueUseCase extends UseCase<CreateQueueRequestDTO, CreateQueueResponseDTO> {
 }

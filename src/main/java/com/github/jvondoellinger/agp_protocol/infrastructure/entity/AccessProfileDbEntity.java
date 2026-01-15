@@ -56,7 +56,6 @@ public class AccessProfileDbEntity implements DbEntity<AccessProfile>{
 
 	@Override
 	public AccessProfile toDomainEntity() {
-		System.out.println(domainId + " Teste");
 		return new AccessProfile(
 			   DomainId.parse(domainId),
 			   name,

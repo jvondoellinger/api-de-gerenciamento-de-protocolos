@@ -40,11 +40,11 @@ public class QueueDbEntity implements DbEntity<Queue> {
 		this.domainId = queue.getDomainId().toString();
 		this.area = queue.getArea();
 		this.subarea = queue.getSubarea();
-		this.createdBy = UserProfileDbEntity.foreignKey(queue.getCreatedBy().getDomainId().value());
+		this.createdBy = UserProfileDbEntity.foreignKey(queue.getCreatedBy().getUserId().value());
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = queue.getUpdatedAt();
 		this.lastUpdatedBy = queue.getLastUpdatedBy() == null ?
-			   null : UserProfileDbEntity.foreignKey(queue.getLastUpdatedBy().getDomainId().value());
+			   null : UserProfileDbEntity.foreignKey(queue.getLastUpdatedBy().getUserId().value());
 
 	}
 

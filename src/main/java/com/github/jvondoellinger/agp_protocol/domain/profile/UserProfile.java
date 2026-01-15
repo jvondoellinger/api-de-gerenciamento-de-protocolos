@@ -5,28 +5,28 @@ import com.github.jvondoellinger.agp_protocol.domain.DomainId;
 import java.time.LocalDateTime;
 
 public class UserProfile {
-	private final DomainId domainId;
+	private final DomainId userId;
 	private final AccessProfile accessProfile;
 
 	private final LocalDateTime createdAt;
 	private final LocalDateTime updatedAt;
 
-	public UserProfile(DomainId domainId, AccessProfile accessProfile, LocalDateTime createdAt, LocalDateTime updatedAt) {
-		this.domainId = domainId;
+	public UserProfile(DomainId userId, AccessProfile accessProfile, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		this.userId = userId;
 		this.accessProfile = accessProfile;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
 
 	public UserProfile(AccessProfile accessProfile) {
-		this.domainId = DomainId.create();
+		this.userId = DomainId.create();
 		this.accessProfile = accessProfile;
 		this.createdAt = LocalDateTime.now();
 		this.updatedAt = null;
 	}
 
-	public DomainId getDomainId() {
-		return domainId;
+	public DomainId getUserId() {
+		return userId;
 	}
 	public AccessProfile getAccessProfile() {
 		return accessProfile;
