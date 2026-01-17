@@ -1,8 +1,9 @@
 package com.github.jvondoellinger.agp_protocol.application.ticket;
 
-import com.github.jvondoellinger.agp_protocol.application.DomainIdDTO;
-import com.github.jvondoellinger.agp_protocol.application.MentionsDTO;
-import com.github.jvondoellinger.agp_protocol.application.ticket.valueObjects.QueueIdDTO;
+import com.github.jvondoellinger.agp_protocol.application.shared.id.DomainIdDTO;
+import com.github.jvondoellinger.agp_protocol.application.shared.id.UserProfileIdDTO;
+import com.github.jvondoellinger.agp_protocol.application.ticket.valueObjects.MentionsDTO;
+import com.github.jvondoellinger.agp_protocol.application.shared.id.QueueIdDTO;
 
 import java.time.LocalDateTime;
 
@@ -12,9 +13,9 @@ public record CreateTicketResponseDTO(
 	   QueueIdDTO queueId,
 	   MentionsDTO mentions,
 	   LocalDateTime deadline,
-	   DomainIdDTO openedBy,
+	   UserProfileIdDTO openedBy,
 	   LocalDateTime openedOn,
-	   DomainIdDTO lastUpdatedBy,
+	   UserProfileIdDTO lastUpdatedBy,
 	   LocalDateTime lastUpdatedOn
 	   ) {
 }

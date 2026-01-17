@@ -16,8 +16,8 @@ public class CreateAccessProfileCommandUseCaseImpl implements CreateAccessProfil
 
 	@Override
 	public CreateAccessProfileResponseDTO execute(CreateAccessProfileRequestDTO createAccessProfileRequestDTO) {
-		var mappedEntity = mapper.mapToEntity(createAccessProfileRequestDTO);
+		var mappedEntity = mapper.from(createAccessProfileRequestDTO);
 		var savedEntity = repository.save(mappedEntity);
-		return mapper.mapToResponse(savedEntity);
+		return mapper.toCreateResponse(savedEntity);
 	}
 }

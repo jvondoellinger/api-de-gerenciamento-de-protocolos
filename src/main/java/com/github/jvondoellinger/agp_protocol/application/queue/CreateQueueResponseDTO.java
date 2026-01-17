@@ -1,6 +1,6 @@
 package com.github.jvondoellinger.agp_protocol.application.queue;
 
-import com.github.jvondoellinger.agp_protocol.application.DomainIdDTO;
+import com.github.jvondoellinger.agp_protocol.application.shared.id.DomainIdDTO;
 
 import java.time.LocalDateTime;
 

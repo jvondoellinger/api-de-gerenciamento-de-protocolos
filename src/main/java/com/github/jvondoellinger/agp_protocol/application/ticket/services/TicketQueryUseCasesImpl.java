@@ -1,9 +1,9 @@
 package com.github.jvondoellinger.agp_protocol.application.ticket.services;
 
-import com.github.jvondoellinger.agp_protocol.application.DomainIdDTO;
+import com.github.jvondoellinger.agp_protocol.application.shared.id.DomainIdDTO;
 import com.github.jvondoellinger.agp_protocol.application.ticket.TicketQueryResponseDTO;
 import com.github.jvondoellinger.agp_protocol.application.ticket.mappers.TicketMapper;
-import com.github.jvondoellinger.agp_protocol.application.ticket.useCases.QueryTicketUseCases;
+import com.github.jvondoellinger.agp_protocol.application.ticket.useCases.TicketQueryUseCases;
 import com.github.jvondoellinger.agp_protocol.domain.DomainId;
 import com.github.jvondoellinger.agp_protocol.domain.shared.QueryFilter;
 import com.github.jvondoellinger.agp_protocol.domain.ticket.TicketRepository;
@@ -14,7 +14,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class QueryTicketUseCasesImpl implements QueryTicketUseCases {
+public class TicketQueryUseCasesImpl implements TicketQueryUseCases {
 	private final TicketRepository repository;
 	private final TicketMapper mapper;
 

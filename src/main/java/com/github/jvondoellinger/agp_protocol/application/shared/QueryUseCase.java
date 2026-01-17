@@ -1,6 +1,6 @@
 package com.github.jvondoellinger.agp_protocol.application.shared;
 
-import com.github.jvondoellinger.agp_protocol.application.DomainIdDTO;
+import com.github.jvondoellinger.agp_protocol.application.shared.id.DomainIdDTO;
 import com.github.jvondoellinger.agp_protocol.domain.shared.QueryFilter;
 
 import java.util.List;
