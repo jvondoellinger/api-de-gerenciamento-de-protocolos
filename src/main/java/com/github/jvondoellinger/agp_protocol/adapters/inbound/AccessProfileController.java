@@ -2,7 +2,7 @@ package com.github.jvondoellinger.agp_protocol.adapters.inbound;
 
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.CreateAccessProfileRequestDTO;
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.CreateAccessProfileResponseDTO;
-import com.github.jvondoellinger.agp_protocol.application.accessProfile.useCases.CreateAccessProfileUseCase;
+import com.github.jvondoellinger.agp_protocol.application.accessProfile.useCases.CreateAccessProfileCommandUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/access-profile")
 @AllArgsConstructor
 public class AccessProfileController {
-	private final CreateAccessProfileUseCase useCase;
+	private final CreateAccessProfileCommandUseCase useCase;
 
 	@PostMapping
 	public CreateAccessProfileResponseDTO create(@RequestBody CreateAccessProfileRequestDTO requestDTO) {

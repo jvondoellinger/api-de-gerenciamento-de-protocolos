@@ -2,7 +2,7 @@ package com.github.jvondoellinger.agp_protocol.application.accessProfile.useCase
 
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.CreateAccessProfileRequestDTO;
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.CreateAccessProfileResponseDTO;
-import com.github.jvondoellinger.agp_protocol.application.shared.UseCase;
+import com.github.jvondoellinger.agp_protocol.application.shared.CommandUseCase;
 
-public interface CreateAccessProfileUseCase extends UseCase<CreateAccessProfileRequestDTO, CreateAccessProfileResponseDTO> {
+public interface CreateAccessProfileCommandUseCase extends CommandUseCase<CreateAccessProfileRequestDTO, CreateAccessProfileResponseDTO> {
 }

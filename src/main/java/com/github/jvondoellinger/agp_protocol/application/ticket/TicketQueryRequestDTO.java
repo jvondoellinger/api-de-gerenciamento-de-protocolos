@@ -1,4 +1,4 @@
 package com.github.jvondoellinger.agp_protocol.application.ticket;
 
-public record QueryTicketRequestDTO() {
+public record TicketQueryRequestDTO() {
 }

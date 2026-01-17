@@ -1,9 +1,10 @@
 package com.github.jvondoellinger.agp_protocol.application.ticket.services;
 
-import com.github.jvondoellinger.agp_protocol.application.ticket.QueryTicketRequestDTO;
-import com.github.jvondoellinger.agp_protocol.application.ticket.QueryTicketResponseDTO;
-import com.github.jvondoellinger.agp_protocol.application.ticket.TicketMapper;
+import com.github.jvondoellinger.agp_protocol.application.DomainIdDTO;
+import com.github.jvondoellinger.agp_protocol.application.ticket.TicketQueryResponseDTO;
+import com.github.jvondoellinger.agp_protocol.application.ticket.mappers.TicketMapper;
 import com.github.jvondoellinger.agp_protocol.application.ticket.useCases.QueryTicketUseCases;
+import com.github.jvondoellinger.agp_protocol.domain.DomainId;
 import com.github.jvondoellinger.agp_protocol.domain.shared.QueryFilter;
 import com.github.jvondoellinger.agp_protocol.domain.ticket.TicketRepository;
 import lombok.AllArgsConstructor;
@@ -16,9 +17,16 @@ import java.util.List;
 public class QueryTicketUseCasesImpl implements QueryTicketUseCases {
 	private final TicketRepository repository;
 	private final TicketMapper mapper;
+
 	@Override
-	public List<QueryTicketResponseDTO> execute(QueryTicketRequestDTO queryTicketRequestDTO) {
+	public TicketQueryResponseDTO queryById(DomainIdDTO domainIdDTO) {
+		var result = repository.queryById(DomainId.parse(domainIdDTO.value()));
+		return mapper.toQueryResponse(result);
+	}
+
+	@Override
+	public List<TicketQueryResponseDTO> queryByPagination(QueryFilter filter) {
 		var result = repository.query(QueryFilter.of(100, 0));
-		return mapper.mapToResponse(result);
+		return mapper.toQueryCollectionResponse(result).responses();
 	}
 }

@@ -1,11 +1,7 @@
 package com.github.jvondoellinger.agp_protocol.application.ticket.useCases;
 
-import com.github.jvondoellinger.agp_protocol.application.shared.UseCase;
-import com.github.jvondoellinger.agp_protocol.application.ticket.CreateTicketRequestDTO;
-import com.github.jvondoellinger.agp_protocol.application.ticket.QueryTicketRequestDTO;
-import com.github.jvondoellinger.agp_protocol.application.ticket.QueryTicketResponseDTO;
+import com.github.jvondoellinger.agp_protocol.application.shared.QueryUseCase;
+import com.github.jvondoellinger.agp_protocol.application.ticket.TicketQueryResponseDTO;
 
-import java.util.List;
-
-public interface QueryTicketUseCases extends UseCase<QueryTicketRequestDTO, List<QueryTicketResponseDTO>> {
+public interface QueryTicketUseCases extends QueryUseCase<TicketQueryResponseDTO> {
 }

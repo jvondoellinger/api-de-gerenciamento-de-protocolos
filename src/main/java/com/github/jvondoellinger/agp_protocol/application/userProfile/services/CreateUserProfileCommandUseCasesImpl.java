@@ -3,14 +3,14 @@ package com.github.jvondoellinger.agp_protocol.application.userProfile.services;
 import com.github.jvondoellinger.agp_protocol.application.userProfile.CreateUserProfileRequestDTO;
 import com.github.jvondoellinger.agp_protocol.application.userProfile.CreateUserProfileResponseDTO;
 import com.github.jvondoellinger.agp_protocol.application.userProfile.UserProfileMapper;
-import com.github.jvondoellinger.agp_protocol.application.userProfile.useCases.CreateUserProfileUseCase;
+import com.github.jvondoellinger.agp_protocol.application.userProfile.useCases.CreateUserProfileCommandUseCase;
 import com.github.jvondoellinger.agp_protocol.domain.profile.UserProfileRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class CreateUserProfileUseCasesImpl implements CreateUserProfileUseCase {
+public class CreateUserProfileCommandUseCasesImpl implements CreateUserProfileCommandUseCase {
 	private final UserProfileRepository repository;
 	private final UserProfileMapper mapper;
 

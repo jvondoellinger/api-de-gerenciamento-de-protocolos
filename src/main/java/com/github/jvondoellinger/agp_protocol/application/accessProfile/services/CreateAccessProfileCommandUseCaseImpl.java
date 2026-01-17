@@ -3,14 +3,14 @@ package com.github.jvondoellinger.agp_protocol.application.accessProfile.service
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.AccessProfileMapper;
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.CreateAccessProfileRequestDTO;
 import com.github.jvondoellinger.agp_protocol.application.accessProfile.CreateAccessProfileResponseDTO;
-import com.github.jvondoellinger.agp_protocol.application.accessProfile.useCases.CreateAccessProfileUseCase;
+import com.github.jvondoellinger.agp_protocol.application.accessProfile.useCases.CreateAccessProfileCommandUseCase;
 import com.github.jvondoellinger.agp_protocol.domain.profile.AccessProfileRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class CreateAccessProfileUseCaseImpl implements CreateAccessProfileUseCase {
+public class CreateAccessProfileCommandUseCaseImpl implements CreateAccessProfileCommandUseCase {
 	private final AccessProfileRepository repository;
 	private final AccessProfileMapper mapper;
 

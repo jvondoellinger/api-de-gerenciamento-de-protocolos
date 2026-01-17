@@ -2,7 +2,7 @@ package com.github.jvondoellinger.agp_protocol.adapters.inbound;
 
 import com.github.jvondoellinger.agp_protocol.application.queue.CreateQueueRequestDTO;
 import com.github.jvondoellinger.agp_protocol.application.queue.CreateQueueResponseDTO;
-import com.github.jvondoellinger.agp_protocol.application.queue.useCases.CreateQueueUseCase;
+import com.github.jvondoellinger.agp_protocol.application.queue.useCases.CreateQueueCommandUseCase;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/queue")
 @AllArgsConstructor
 public class QueueController {
-	private final CreateQueueUseCase useCase;
+	private final CreateQueueCommandUseCase useCase;
 
 	@PostMapping
 	public CreateQueueResponseDTO create(@RequestBody CreateQueueRequestDTO requestDTO) {

@@ -2,10 +2,11 @@ package com.github.jvondoellinger.agp_protocol.adapters.inbound;
 
 import com.github.jvondoellinger.agp_protocol.application.ticket.CreateTicketRequestDTO;
 import com.github.jvondoellinger.agp_protocol.application.ticket.CreateTicketResponseDTO;
-import com.github.jvondoellinger.agp_protocol.application.ticket.QueryTicketRequestDTO;
-import com.github.jvondoellinger.agp_protocol.application.ticket.QueryTicketResponseDTO;
-import com.github.jvondoellinger.agp_protocol.application.ticket.useCases.CreateTicketUseCases;
+import com.github.jvondoellinger.agp_protocol.application.ticket.TicketQueryRequestDTO;
+import com.github.jvondoellinger.agp_protocol.application.ticket.TicketQueryResponseDTO;
+import com.github.jvondoellinger.agp_protocol.application.ticket.useCases.CreateTicketCommandUseCases;
 import com.github.jvondoellinger.agp_protocol.application.ticket.useCases.QueryTicketUseCases;
+import com.github.jvondoellinger.agp_protocol.domain.shared.QueryFilter;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +16,12 @@ import java.util.List;
 @RequestMapping("/api/ticket")
 @AllArgsConstructor
 public class TicketController {
-	private final CreateTicketUseCases createTicketUseCases;
+	private final CreateTicketCommandUseCases createTicketUseCases;
 	private final QueryTicketUseCases queryTicketUseCases;
 
 	@GetMapping
-	public List<QueryTicketResponseDTO> get() {
-		return queryTicketUseCases.execute(new QueryTicketRequestDTO());
+	public List<TicketQueryResponseDTO> get() {
+		return queryTicketUseCases.queryByPagination(QueryFilter.of(0, 100));
 	}
 
 	@PostMapping
