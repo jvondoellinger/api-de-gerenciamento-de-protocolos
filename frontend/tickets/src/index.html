@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
-    <title>Tickets</title>
+    <title>Rising HelpDesk</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
@@ -12,9 +12,21 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <!--
+      Variáveis de ambiente injetadas em runtime pelo servidor (SSR / Docker).
+      Sobrescreva os valores abaixo via env-config.js gerado no entrypoint,
+      ou configure window.__env diretamente no servidor Express (server.ts).
+
+      Para desenvolvimento local, edite os valores abaixo:
+    -->
+    <script>
+      window.__env = {
+        API_URL: 'http://localhost:8080',
+        JWT_TOKEN: ''   // deixe vazio para usar o token hardcoded do environment.ts
+      };
+    </script>
   </head>
   <body>
-    <app-root> </app-root>
+    <app-root></app-root>
   </body>
 </html>

@@ -1,0 +1,133 @@
+<app-navbar (openCreateTicket)="openCreateTicket()"></app-navbar>
+
+<div class="container py-4">
+
+  @if (loading) {
+    <div class="d-flex justify-content-center py-5">
+      <div class="spinner-border text-primary"></div>
+    </div>
+  }
+
+  @if (error) {
+    <div class="alert alert-danger">{{ error }}</div>
+  }
+
+  @if (ticket && !loading) {
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/">Tickets</a></li>
+        <li class="breadcrumb-item active">{{ ticket.ticketNumber }}</li>
+      </ol>
+    </nav>
+
+    <div class="row g-4">
+
+      <!-- Coluna principal -->
+      <div class="col-12 col-lg-8">
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+
+          <!-- Cabeçalho -->
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <span class="badge bg-dark font-monospace mb-2">{{ ticket.ticketNumber }}</span>
+              <h4 class="fw-bold mb-1">{{ ticket.title }}</h4>
+              <small class="text-muted">
+                Aberto em {{ ticket.openedOn | date:'dd/MM/yyyy HH:mm' }}
+              </small>
+            </div>
+            <span class="badge fs-6 {{ (ticket.status | statusBadge).css }}">
+              {{ (ticket.status | statusBadge).label }}
+            </span>
+          </div>
+
+          <!-- Metadados -->
+          <div class="row g-2 mb-4">
+            <div class="col-6">
+              <p class="text-muted small mb-0">Fila</p>
+              <p class="fw-semibold mb-0">{{ ticket.queue.area }} / {{ ticket.queue.subarea }}</p>
+            </div>
+            <div class="col-6">
+              <p class="text-muted small mb-0">Prazo</p>
+              <p class="fw-semibold mb-0" [class.text-danger]="deadlinePassed">
+                {{ ticket.deadline | date:'dd/MM/yyyy HH:mm' }}
+                @if (deadlinePassed) { <span class="badge bg-danger ms-1">Vencido</span> }
+              </p>
+            </div>
+            <div class="col-6">
+              <p class="text-muted small mb-0">Aberto por</p>
+              <p class="fw-semibold font-monospace small mb-0">{{ ticket.openedBy }}</p>
+            </div>
+            <div class="col-6">
+              <p class="text-muted small mb-0">Última atualização</p>
+              <p class="fw-semibold mb-0">{{ ticket.lastUpdatedOn | date:'dd/MM/yyyy HH:mm' }}</p>
+            </div>
+          </div>
+
+          <!-- Ações -->
+          @if (!isClosed) {
+            <div class="d-flex flex-wrap gap-2">
+              <button class="btn btn-outline-primary btn-sm" (click)="openAddInteraction()">
+                💬 Interação
+              </button>
+              <button class="btn btn-outline-secondary btn-sm" (click)="openAddMention()">
+                👤 Mencionar
+              </button>
+              <button class="btn btn-outline-warning btn-sm" (click)="openChangeQueue()">
+                🔀 Mudar fila
+              </button>
+              <button
+                class="btn btn-outline-danger btn-sm ms-auto"
+                (click)="closeTicket()"
+                [disabled]="closeLoading"
+              >
+                @if (closeLoading) { <span class="spinner-border spinner-border-sm me-1"></span> }
+                Fechar ticket
+              </button>
+            </div>
+          }
+
+          @if (closeError) {
+            <div class="alert alert-danger mt-3 mb-0 py-2">{{ closeError }}</div>
+          }
+
+        </div>
+      </div>
+
+      <!-- Coluna lateral — Menções -->
+      <div class="col-12 col-lg-4">
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-bold mb-0">Menções</h6>
+            @if (!isClosed) {
+              <button class="btn btn-sm btn-outline-secondary" (click)="openAddMention()">+ Adicionar</button>
+            }
+          </div>
+
+          @if (ticket.mentions.length === 0) {
+            <p class="text-muted small mb-0">Nenhuma menção.</p>
+          } @else {
+            <ul class="list-group list-group-flush">
+              @for (mention of ticket.mentions; track mention.id) {
+                <li class="list-group-item px-0 d-flex justify-content-between align-items-center">
+                  <span class="font-monospace small text-truncate me-2" style="max-width:160px">
+                    {{ mention.userId }}
+                  </span>
+                  @if (!isClosed) {
+                    <button
+                      class="btn btn-sm btn-outline-danger py-0 px-1"
+                      (click)="removeMention(mention.id)"
+                      title="Remover menção"
+                    >✕</button>
+                  }
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      </div>
+
+    </div>
+  }
+
+</div>

@@ -1,30 +1,55 @@
-import { Component, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import ICreateTicketService from '../../features/create-ticket-service/ICreateTicketService';
-import CreateTicketRequest from '../../features/create-ticket-service/CreateTicketRequest';
+import { ApiService } from '../../services/api.service';
+import { QueueDetails } from '../../models/api.models';
 
 @Component({
-  selector: 'create-ticket-modal',
+  selector: 'app-create-ticket-modal',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, FormsModule],
   templateUrl: './create-ticket-modal.html',
-  styleUrls: ['./create-ticket-modal.css'],
 })
-export class CreateTicketModal {
-  private model: CreateTicketRequest | null = null;
-  constructor(public activeModal: NgbActiveModal, public service: ICreateTicketService) {}
+export class CreateTicketModal implements OnInit {
+  title = '';
+  queueId = '';
+  deadline = '';
+  queues: QueueDetails[] = [];
+  loading = false;
+  error = '';
 
-  create() {
-    if (this.model === null) return;
-    if (!this.model.title) return; // validação simples
+  constructor(
+    public activeModal: NgbActiveModal,
+    private api: ApiService
+  ) {}
 
-    this.activeModal.close({
-      titulo: this.model.title,
-      descricao: "TEST",
+  ngOnInit() {
+    this.api.getQueuesPaginated(0, 100).subscribe({
+      next: (res) => (this.queues = res.items),
+      error: () => (this.error = 'Não foi possível carregar as filas.'),
     });
   }
 
-  close() {
-    this.activeModal.dismiss();
+  get valid(): boolean {
+    return this.title.trim().length > 0 && this.queueId.length > 0 && this.deadline.length > 0;
+  }
+
+  submit() {
+    if (!this.valid) return;
+    this.loading = true;
+    this.error = '';
+
+    this.api.createTicket({
+      title: this.title.trim(),
+      queueId: this.queueId,
+      deadline: new Date(this.deadline).toISOString(),
+    }).subscribe({
+      next: () => this.activeModal.close('created'),
+      error: (err) => {
+        this.loading = false;
+        this.error = err?.error ?? 'Erro ao criar ticket.';
+      },
+    });
   }
 }

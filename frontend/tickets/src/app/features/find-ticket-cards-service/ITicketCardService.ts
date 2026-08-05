@@ -1,9 +1,8 @@
-import { Card } from '../../components/card/card';
 import { InjectionToken } from '@angular/core';
-import { Ticket } from './model/ticket-model';
+import { TicketDetails } from '../../models/api.models';
 
 export interface ITicketCardService {
-  fetchTickets(): Promise<Ticket[]>;
+  fetchTickets(): Promise<TicketDetails[]>;
 }
 
 export const TICKET_CARD_SERVICE = new InjectionToken<ITicketCardService>('TICKET_CARD_SERVICE');

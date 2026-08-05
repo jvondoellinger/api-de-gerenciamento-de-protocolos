@@ -1,32 +1,24 @@
-import { ITicketCardService } from './ITicketCardService';
 import { Injectable } from '@angular/core';
-import { Queue, Ticket } from './model/ticket-model';
+import { ITicketCardService } from './ITicketCardService';
+import { TicketDetails } from '../../models/api.models';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class TicketCardsMockService implements ITicketCardService {
-  fetchTickets(): Promise<Ticket[]> {
-    return Promise.resolve(this.factory());
-  }
-  public factory(): Ticket[] {
-    var tickets: Ticket[] = [];
-
-    for (var i = 0; i < 105; i++) {
-      const queue = new Queue(crypto.randomUUID(), 'Suporte', 'TI');
-
-      const ticket = new Ticket(
-        crypto.randomUUID(),
-        '2384729384',
-        'Erro ao fazer login',
-        queue,
-        new Date(Date.now() + 99999999999), // deadline +1 dia
-        ['João', 'Maria'],
-        'OPEN',
-        new Date(2026, 0, 5),
-        new Date(2026, 4, 18),
-      );
-      tickets.push(ticket);
-    }
-
-    return tickets;
+  async fetchTickets(): Promise<TicketDetails[]> {
+    return [
+      {
+        id: '00000000-0000-0000-0000-000000000001',
+        ticketNumber: 'MOCK-001',
+        title: 'Ticket de exemplo (mock)',
+        queue: { id: 'q1', area: 'TI', subarea: 'Suporte', createdAt: '', createdBy: '', updatedAt: '', lastUpdatedBy: '' },
+        mentions: [],
+        status: 'PENDING',
+        deadline: new Date(Date.now() + 86400000 * 3).toISOString(),
+        openedBy: '00000000-0000-0000-0000-000000000001',
+        openedOn: new Date().toISOString(),
+        lastUpdatedBy: '00000000-0000-0000-0000-000000000001',
+        lastUpdatedOn: new Date().toISOString(),
+      },
+    ];
   }
 }

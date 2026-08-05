@@ -1,8 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
 
-  <!-- Brand -->
-  <a class="navbar-brand fw-bold" href="#">
-    Rising-Systems
+  <a class="navbar-brand fw-bold" routerLink="/">
+    🎫 Rising HelpDesk
   </a>
 
   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
@@ -11,68 +10,33 @@
 
   <div class="collapse navbar-collapse" id="navbarContent">
 
-    <!-- LEFT SIDE -->
     <ul class="navbar-nav me-auto align-items-center gap-2">
-
       <li class="nav-item">
-        <a class="nav-link active" href="#">Início</a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" href="#">Perfil</a>
-      </li>
-
-      <!-- Abrir incidente (discreto) -->
-      <li class="nav-item">
-        <a
-          class="nav-link incident-btn"
-          href="#"
-          open="#app-ticket-modal"
-          (click)="openModal()"
-        >
-          <span class="plus-icon">+</span>
-          Abrir incidente
+        <a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          Tickets
         </a>
       </li>
-
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/queues" routerLinkActive="active">
+          Filas
+        </a>
+      </li>
+      <li class="nav-item">
+        <button class="btn btn-sm btn-outline-light ms-2" (click)="openCreateTicket.emit()">
+          + Novo ticket
+        </button>
+      </li>
     </ul>
 
-    <!-- SEARCH -->
-    <form class="d-flex me-3">
-      <input class="form-control form-control-sm me-2" type="search" placeholder="Buscar...">
-      <button class="btn btn-outline-light btn-sm" type="button">
-        Buscar
-      </button>
-    </form>
-
-    <!-- RIGHT SIDE -->
     <div class="d-flex align-items-center gap-3">
-
-      <!-- Status -->
-      <div class="d-flex gap-2">
-        <span class="badge bg-success">12</span>
-        <span class="badge bg-warning text-dark">5</span>
-        <span class="badge bg-danger">2</span>
-      </div>
-
-      <!-- Bell -->
-      <button class="btn btn-outline-light position-relative">
-        🔔
-        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-          7
-        </span>
-      </button>
-
-      <!-- Avatar -->
       <img
-        src="https://i.pravatar.cc/40"
+        src="https://i.pravatar.cc/36"
         class="rounded-circle"
-        width="40"
-        height="40"
-      >
-
+        width="36"
+        height="36"
+        alt="Avatar"
+      />
     </div>
 
   </div>
-
 </nav>

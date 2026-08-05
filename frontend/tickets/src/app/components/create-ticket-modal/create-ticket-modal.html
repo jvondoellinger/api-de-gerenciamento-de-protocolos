@@ -1,59 +1,45 @@
-<div class="modal-overlay d-flex justify-content-center align-items-center p-3">
+<div class="modal-header">
+  <h5 class="modal-title fw-bold">Novo Ticket</h5>
+  <button class="btn-close" (click)="activeModal.dismiss()"></button>
+</div>
 
-  <div class="modal-card bg-white shadow-lg rounded-4 w-100">
+<div class="modal-body">
+  @if (error) {
+    <div class="alert alert-danger py-2">{{ error }}</div>
+  }
 
-    <!-- HEADER -->
-    <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom">
-
-      <div>
-        <h5 class="fw-bold mb-0">Criar Incidente</h5>
-        <small class="text-muted">Descreva o problema com detalhes</small>
-      </div>
-
-      <button class="btn-close" (click)="close()"></button>
-    </div>
-
-    <!-- BODY -->
-    <div class="px-4 py-4">
-
-      <div class="mb-4">
-        <label class="form-label fw-semibold">Título</label>
-        <input type="text"
-               class="form-control rounded-3"
-               placeholder="Ex: Problema no login">
-      </div>
-
-      <div class="mb-4">
-        <label class="form-label fw-semibold">Descrição</label>
-        <textarea class="form-control rounded-3"
-                  rows="6"
-                  placeholder="Explique o que aconteceu..."></textarea>
-      </div>
-
-    </div>
-
-    <!-- FOOTER -->
-    <div class="d-flex justify-content-between align-items-center px-4 py-3 border-top">
-
-      <small class="text-muted">
-        ESC para fechar
-      </small>
-
-      <div class="d-flex gap-2">
-
-        <button class="btn btn-outline-secondary rounded-3 px-4"
-                (click)="close()">
-          Cancelar
-        </button>
-
-        <button class="btn btn-primary rounded-3 px-4 fw-semibold"
-                (click)="create()">
-          Criar incidente
-        </button>
-
-      </div>
-    </div>
-
+  <div class="mb-3">
+    <label class="form-label fw-semibold">Título <span class="text-danger">*</span></label>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Ex: Erro ao acessar o sistema de RH"
+      [(ngModel)]="title"
+      maxlength="200"
+    />
   </div>
 
+  <div class="mb-3">
+    <label class="form-label fw-semibold">Fila <span class="text-danger">*</span></label>
+    <select class="form-select" [(ngModel)]="queueId">
+      <option value="">Selecione uma fila...</option>
+      @for (q of queues; track q.id) {
+        <option [value]="q.id">{{ q.area }} / {{ q.subarea }}</option>
+      }
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label fw-semibold">Prazo <span class="text-danger">*</span></label>
+    <input type="datetime-local" class="form-control" [(ngModel)]="deadline" />
+    <small class="text-muted">Mínimo: amanhã</small>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-outline-secondary" (click)="activeModal.dismiss()">Cancelar</button>
+  <button class="btn btn-primary fw-semibold" (click)="submit()" [disabled]="!valid || loading">
+    @if (loading) { <span class="spinner-border spinner-border-sm me-1"></span> }
+    Criar ticket
+  </button>
 </div>

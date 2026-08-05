@@ -1,45 +1,56 @@
-<div class="card p-4 shadow-sm rounded-4">
+<div class="card h-100 shadow-sm border-0 rounded-4">
+  <div class="card-body d-flex flex-column p-4">
 
-  <div class="d-flex justify-content-between align-items-center mb-3">
+    <!-- Header: número + tempo aberto -->
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <span class="badge bg-dark font-monospace">
+        {{ ticket.ticketNumber }}
+      </span>
+      <small class="text-muted">
+        {{ durationDays }} {{ durationDays === 1 ? 'dia' : 'dias' }}
+      </small>
+    </div>
 
-    <p class="m-0 fw-bold text-decoration-underline small">
-      # {{ ticket.protocol }}
-    </p>
+    <!-- Título -->
+    <h6 class="card-title fw-bold mb-3 flex-grow-1">{{ ticket.title }}</h6>
 
-    <p class="m-0 text-secondary small">
-      {{ ticket.getDurationText() }}
-    </p>
+    <!-- Fila -->
+    <div class="d-flex gap-1 align-items-center mb-2">
+      <span class="text-muted small">Fila:</span>
+      <span class="small fw-semibold">{{ ticket.queue.area }} / {{ ticket.queue.subarea }}</span>
+    </div>
+
+    <!-- Status -->
+    <div class="mb-2">
+      <span class="badge {{ (ticket.status | statusBadge).css }}">
+        {{ (ticket.status | statusBadge).label }}
+      </span>
+    </div>
+
+    <!-- Prazo -->
+    <div class="d-flex gap-1 align-items-center mb-3">
+      <span class="text-muted small">Prazo:</span>
+      <span class="small" [class.text-danger]="deadlinePassed" [class.fw-semibold]="deadlinePassed">
+        {{ ticket.deadline | date:'dd/MM/yyyy' }}
+        @if (deadlinePassed) { <span class="badge bg-danger ms-1">Vencido</span> }
+      </span>
+    </div>
+
+    <!-- Menções -->
+    @if (ticket.mentions.length > 0) {
+      <div class="mb-3">
+        <span class="text-muted small">Menções: </span>
+        <span class="small">{{ ticket.mentions.length }}</span>
+      </div>
+    }
+
+    <!-- Ação -->
+    <button
+      class="btn btn-outline-primary btn-sm w-100 mt-auto rounded-3"
+      (click)="viewDetail.emit(ticket.id)"
+    >
+      Ver detalhes
+    </button>
 
   </div>
-
-  <h3 class="mb-4">
-    {{ ticket.title }}
-  </h3>
-
-  <div class="d-flex gap-2 mb-2">
-    <span class="fw-semibold">Fila:</span>
-    <p class="m-0"> {{ ticket.queue.area }}</p>
-  </div>
-
-  <div class="d-flex gap-2 mb-2">
-    <span class="fw-semibold">Menções:</span>
-    <p class="m-0"> {{ ticket.getMentionsText() }}</p>
-  </div>
-
-  <div class="d-flex gap-2 mb-2">
-    <span class="fw-semibold">Status:</span>
-    <span class="badge bg-warning text-dark">
-      {{ ticket.state }}
-    </span>
-  </div>
-
-  <div class="d-flex gap-2 mb-4">
-    <span class="fw-semibold">Última atualização:</span>
-    <p class="m-0"> {{ ticket.getLastUpdatedOnText() }}</p>
-  </div>
-
-  <button class="btn btn-primary w-100">
-    Ver detalhes
-  </button>
-
 </div>

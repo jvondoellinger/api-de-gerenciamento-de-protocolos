@@ -1,3 +1,65 @@
-<app-navbar></app-navbar>
-<app-card-grid></app-card-grid>
-<router-outlet></router-outlet>
+<app-navbar (openCreateTicket)="openCreateTicket()"></app-navbar>
+
+<div class="container-fluid py-4 px-4">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h4 class="fw-bold mb-0">Tickets</h4>
+      <small class="text-muted">Acompanhe todos os chamados abertos</small>
+    </div>
+    <button class="btn btn-primary" (click)="openCreateTicket()">
+      + Novo ticket
+    </button>
+  </div>
+
+  <!-- Erro -->
+  @if (error) {
+    <div class="alert alert-danger">{{ error }}</div>
+  }
+
+  <!-- Loading -->
+  @if (loading) {
+    <div class="d-flex justify-content-center py-5">
+      <div class="spinner-border text-primary"></div>
+    </div>
+  }
+
+  <!-- Grid -->
+  @if (!loading) {
+    @if (tickets.length === 0) {
+      <div class="text-center py-5 text-muted">
+        <p class="fs-5">Nenhum ticket encontrado.</p>
+        <button class="btn btn-outline-primary" (click)="openCreateTicket()">Criar o primeiro ticket</button>
+      </div>
+    } @else {
+      <div class="row g-3">
+        @for (ticket of tickets; track ticket.id) {
+          <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
+            <app-card [ticket]="ticket" (viewDetail)="viewDetail($event)"></app-card>
+          </div>
+        }
+      </div>
+    }
+  }
+
+  <!-- Paginação -->
+  @if (totalPages > 1) {
+    <nav class="mt-4 d-flex justify-content-center">
+      <ul class="pagination">
+        <li class="page-item" [class.disabled]="page === 0">
+          <button class="page-link" (click)="goTo(page - 1)">‹</button>
+        </li>
+        @for (p of pages; track p) {
+          <li class="page-item" [class.active]="p === page">
+            <button class="page-link" (click)="goTo(p)">{{ p + 1 }}</button>
+          </li>
+        }
+        <li class="page-item" [class.disabled]="page === totalPages - 1">
+          <button class="page-link" (click)="goTo(page + 1)">›</button>
+        </li>
+      </ul>
+    </nav>
+  }
+
+</div>
