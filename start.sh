@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# =============================================================================
 # Rising HelpDesk — Script de inicialização via Docker Compose
 # =============================================================================
 set -euo pipefail
@@ -14,53 +15,47 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-log()    { echo -e "${CYAN}[Rising HelpDesk]${NC} $*"; }
-ok()     { echo -e "${GREEN}[OK]${NC} $*"; }
-warn()   { echo -e "${YELLOW}[WARN]${NC} $*"; }
-error()  { echo -e "${RED}[ERROR]${NC} $*" >&2; }
+log()   { echo -e "${CYAN}[Rising HelpDesk]${NC} $*"; }
+ok()    { echo -e "${GREEN}[OK]${NC} $*"; }
+warn()  { echo -e "${YELLOW}[WARN]${NC} $*"; }
+error() { echo -e "${RED}[ERROR]${NC} $*" >&2; }
 
 # -----------------------------------------------------------------------------
 # Verificar dependências
 # -----------------------------------------------------------------------------
 check_deps() {
   log "Verificando dependências..."
-  for cmd in docker docker-compose; do
-    if ! command -v "$cmd" &>/dev/null; then
-      # docker compose v2 (plugin)
-      if [ "$cmd" = "docker-compose" ] && docker compose version &>/dev/null 2>&1; then
-        ok "docker compose (plugin v2) encontrado."
-      else
-        error "Dependência não encontrada: $cmd"
-        error "Instale o Docker: https://docs.docker.com/get-docker/"
-        exit 1
-      fi
-    else
-      ok "$cmd encontrado."
-    fi
-  done
+
+  if ! command -v docker &>/dev/null; then
+    error "Docker não encontrado. Instale em: https://docs.docker.com/get-docker/"
+    exit 1
+  fi
+  ok "docker encontrado."
+
+  if docker compose version &>/dev/null 2>&1; then
+    ok "docker compose (plugin v2) encontrado."
+  elif command -v docker-compose &>/dev/null; then
+    ok "docker-compose (v1) encontrado."
+  else
+    error "Docker Compose não encontrado. Instale em: https://docs.docker.com/compose/install/"
+    exit 1
+  fi
 }
 
 # -----------------------------------------------------------------------------
-# Verificar / criar .env
+# Verificar .env — apenas avisa, nunca cria
 # -----------------------------------------------------------------------------
-setup_env() {
+check_env() {
   if [ ! -f "$ENV_FILE" ]; then
-    warn "Arquivo .env não encontrado. Criando a partir de .env.example..."
-    if [ -f "$ROOT_DIR/.env.example" ]; then
-      cp "$ROOT_DIR/.env.example" "$ENV_FILE"
-      warn "Arquivo .env criado. Edite-o com suas configurações antes de continuar:"
-      warn "  nano $ENV_FILE"
-      echo ""
-      read -r -p "Pressione ENTER após editar o .env para continuar, ou Ctrl+C para cancelar..."
-    else
-      error ".env.example não encontrado. Abortando."
-      exit 1
-    fi
-  else
-    ok "Arquivo .env encontrado."
+    error "Arquivo .env não encontrado em: $ENV_FILE"
+    error "Crie-o a partir do exemplo antes de continuar:"
+    error "  cp .env.example .env"
+    error "  nano .env"
+    exit 1
   fi
+  ok "Arquivo .env encontrado."
 }
 
 # -----------------------------------------------------------------------------
@@ -97,9 +92,6 @@ start_services() {
   echo -e "${CYAN}│${NC}  MySQL            →  localhost:3306                 ${CYAN}│${NC}"
   echo -e "${CYAN}│${NC}  Redis            →  localhost:6379                 ${CYAN}│${NC}"
   echo -e "${CYAN}└─────────────────────────────────────────────────────┘${NC}"
-  echo ""
-  log "Para acompanhar os logs: $compose -f $COMPOSE_FILE logs -f"
-  log "Para parar os serviços: $compose -f $COMPOSE_FILE down"
 }
 
 # -----------------------------------------------------------------------------
@@ -110,28 +102,29 @@ ACTION="${1:-start}"
 case "$ACTION" in
   start)
     check_deps
-    setup_env
+    check_env
     start_services
     ;;
   stop)
+    compose=$(compose_cmd)
     log "Parando todos os serviços..."
-    compose_cmd=$(compose_cmd)
-    $compose_cmd -f "$COMPOSE_FILE" down
+    $compose -f "$COMPOSE_FILE" down
     ok "Serviços parados."
     ;;
   restart)
+    compose=$(compose_cmd)
     log "Reiniciando todos os serviços..."
-    compose_cmd=$(compose_cmd)
-    $compose_cmd -f "$COMPOSE_FILE" down
+    $compose -f "$COMPOSE_FILE" down
+    check_env
     start_services
     ;;
   logs)
-    compose_cmd=$(compose_cmd)
-    $compose_cmd -f "$COMPOSE_FILE" logs -f
+    compose=$(compose_cmd)
+    $compose -f "$COMPOSE_FILE" logs -f
     ;;
   status)
-    compose_cmd=$(compose_cmd)
-    $compose_cmd -f "$COMPOSE_FILE" ps
+    compose=$(compose_cmd)
+    $compose -f "$COMPOSE_FILE" ps
     ;;
   *)
     echo "Uso: $0 [start|stop|restart|logs|status]"
