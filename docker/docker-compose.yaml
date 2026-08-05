@@ -79,11 +79,11 @@ services:
     ports:
       - "${API_PORT:-8001}:${API_PORT:-8001}"
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:${API_PORT:-8001}/actuator/health || exit 1"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:${API_PORT:-8001}/actuator/health | grep -q '\"status\":\"UP\"' || exit 1"]
       interval: 15s
       timeout: 5s
       retries: 10
-      start_period: 30s
+      start_period: 40s
     networks:
       - rising_helpdesk
 
