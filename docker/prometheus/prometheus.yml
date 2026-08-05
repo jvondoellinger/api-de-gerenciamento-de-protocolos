@@ -1,10 +1,11 @@
 global:
-  scrape_interval: 5ms
+  scrape_interval: 5s
+  evaluation_interval: 5s
 
 scrape_configs:
-  - job_name: "apis_rising_helpdesk"
-    metrics_path: 'actuator/prometheus'
+  - job_name: "rising_helpdesk_api"
+    metrics_path: "/actuator/prometheus"
     static_configs:
-      - targets: ["172.17.0.1:8001"]
+      - targets: ["api:8001"]
         labels:
           application: "rising_helpdesk"
