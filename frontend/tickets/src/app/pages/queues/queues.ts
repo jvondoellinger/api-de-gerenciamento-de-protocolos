@@ -19,6 +19,7 @@ export class Queues implements OnInit {
   page = 0;
   size = 20;
   totalPages = 0;
+  pages: number[] = [];
   loading = false;
   error = '';
 
@@ -39,7 +40,12 @@ export class Queues implements OnInit {
     this.loading = true;
     this.error = '';
     this.api.getQueuesPaginated(this.page, this.size).subscribe({
-      next: (res) => { this.queues = res.items; this.totalPages = res.totalPages; this.loading = false; },
+      next: (res) => {
+        this.queues = res.items;
+        this.totalPages = res.totalPages;
+        this.pages = Array.from({ length: res.totalPages }, (_, i) => i);
+        this.loading = false;
+      },
       error: () => { this.error = 'Não foi possível carregar as filas.'; this.loading = false; },
     });
   }
@@ -105,9 +111,5 @@ export class Queues implements OnInit {
       next: () => this.load(),
       error: () => alert('Não foi possível remover a fila.'),
     });
-  }
-
-  get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i);
   }
 }

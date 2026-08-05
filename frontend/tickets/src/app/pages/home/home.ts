@@ -20,6 +20,7 @@ export class Home implements OnInit {
   page = 0;
   size = 12;
   totalPages = 0;
+  pages: number[] = [];
   loading = false;
   error = '';
   search = '';
@@ -41,6 +42,7 @@ export class Home implements OnInit {
       next: (res) => {
         this.tickets = res.items;
         this.totalPages = res.totalPages;
+        this.pages = Array.from({ length: res.totalPages }, (_, i) => i);
         this.loading = false;
       },
       error: () => {
@@ -66,9 +68,5 @@ export class Home implements OnInit {
 
   viewDetail(id: string) {
     this.router.navigate(['/ticket', id]);
-  }
-
-  get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i);
   }
 }
