@@ -40,7 +40,7 @@ export class AddInteractionModal {
   submit() {
     if (!this.text.trim()) return;
     this.loading = true;
-    this.api.addInteraction(this.ticketId, { text: this.text.trim(), ticketId: this.ticketId }).subscribe({
+    this.api.addInteraction({ text: this.text.trim(), ticketId: this.ticketId }).subscribe({
       next: () => this.activeModal.close('added'),
       error: (err) => { this.loading = false; this.error = err?.error ?? 'Erro ao adicionar interação.'; },
     });

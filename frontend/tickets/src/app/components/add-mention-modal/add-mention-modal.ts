@@ -46,7 +46,7 @@ export class AddMentionModal {
   submit() {
     if (!this.userId.trim()) return;
     this.loading = true;
-    this.api.addMention(this.ticketId, { userId: this.userId.trim(), ticketId: this.ticketId }).subscribe({
+    this.api.addMention({ userId: this.userId.trim(), ticketId: this.ticketId }).subscribe({
       next: () => this.activeModal.close('added'),
       error: (err) => { this.loading = false; this.error = err?.error ?? 'Erro ao mencionar usuário.'; },
     });

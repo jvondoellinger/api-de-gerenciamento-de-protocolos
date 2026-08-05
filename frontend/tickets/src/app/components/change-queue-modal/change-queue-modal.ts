@@ -57,7 +57,7 @@ export class ChangeQueueModal implements OnInit {
   submit() {
     if (!this.newQueueId) return;
     this.loading = true;
-    this.api.changeQueue(this.ticketId, { ticketId: this.ticketId, queueId: this.newQueueId }).subscribe({
+    this.api.changeQueue({ ticketId: this.ticketId, queueId: this.newQueueId }).subscribe({
       next: () => this.activeModal.close('changed'),
       error: (err) => { this.loading = false; this.error = err?.error ?? 'Erro ao mudar fila.'; },
     });
